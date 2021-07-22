@@ -7,7 +7,7 @@ function Header() {
   return (
     <header className="header">
       <Link to={'/'}>
-        <Button color="primary"><HomeIcon />Home</Button>
+        <Button variant="contained" color="primary"><HomeIcon />Home</Button>
       </Link>
       <Link to={'/about'}>
         <Button>About Us</Button>
