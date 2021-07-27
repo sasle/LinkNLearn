@@ -23,4 +23,10 @@ body {
 
 a {
     text-decoration: none;
+    color: #4c86d3;
+    font-weight: 500;
+}
+
+a:hover {
+    opacity: 0.9;
 }

@@ -1,0 +1,19 @@
+.header {
+    padding: 1em;
+}
+
+img {
+    max-width: 13vw;
+}
+
+.searchBar {
+    width: 100%;
+}
+
+.button {
+    width: 75%;
+    height: 3em;
+    float: right;
+}
+
+
