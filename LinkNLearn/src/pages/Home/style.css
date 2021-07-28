@@ -1,0 +1,41 @@
+.container {
+    background: url(../../assets/images/bg1home.png) no-repeat;
+}
+
+#containerPadding {
+    padding: 10%;
+}
+
+.textBox {
+    background-color: rgb(213 206 200 / 60%);  
+    width: 75%;
+    margin: 0 auto;
+    text-align: center;
+    padding: 4.5em 0px;
+}
+
+#headerEncontre {
+    font-weight: 500;
+    letter-spacing: .1em;
+    font-size: 2.5em;
+    line-height: 2em;
+}
+
+.vantagens {
+    font-weight: 500;
+    font-size: 1.5em;
+    line-height: 2em;
+}
+
+.cardContainer {
+    place-content: center;
+}
+
+.card {
+    margin: 0 1em;
+    margin-top: 1em;
+    width: max-content;
+    text-align: center;
+    line-height: 4em;
+    padding: 1em;
+}
