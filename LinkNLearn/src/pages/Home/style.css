@@ -2,6 +2,10 @@
     background: url(../../assets/images/bg1home.png) no-repeat;
 }
 
+.container2 {
+    background: url(../../assets/images/bg2home.png) no-repeat;
+}
+
 #containerPadding {
     padding: 10%;
 }
@@ -38,4 +42,22 @@
     text-align: center;
     line-height: 4em;
     padding: 1em;
+}
+
+#headerCursosDestaque {
+    text-align: center;
+    font-weight: 500;
+    letter-spacing: .1em;
+    font-size: 2em;
+    line-height: 2em;
+    margin-bottom: 1em;
+}
+
+#headerPrincipaisCategorias {
+    text-align: center;
+    font-weight: 500;
+    letter-spacing: .1em;
+    font-size: 2em;
+    line-height: 2em;
+    margin-top: 1em;
 }

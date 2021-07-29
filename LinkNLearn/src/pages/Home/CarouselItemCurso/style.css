@@ -1,0 +1,38 @@
+#container {
+    display: flex;
+}
+
+.paper {
+    width: 44%;
+    margin: 0 auto;
+}
+
+img {
+    height:100%;
+}
+
+span {
+    display: flex;
+    align-items: center;
+    gap: .1em;
+}
+
+h3 {
+    font-weight: 700!important;
+}
+
+.professor {
+    margin-top: .5em;
+    font-size: .8em;
+    font-weight: 500;
+}
+
+.Carousel-root-5  {
+    width: 60%;
+    margin: 0 auto;
+    padding-top: 1em;
+}
+
+.Carousel-button-14 {
+    margin: 0;
+}
