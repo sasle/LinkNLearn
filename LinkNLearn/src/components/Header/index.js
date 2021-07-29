@@ -15,7 +15,9 @@ function Header() {
     <header className="header">
       <Grid container alignItems="center" justifyContent="space-between">
         <Grid item container xs={12} sm={4} md={2} alignItems="flex-start">
-          <img src={Logo} alt="Link & Learn logo" />
+          <Link to='/'>
+            <img src={Logo} alt="Link & Learn logo" />
+          </Link>
         </Grid>
         <Grid item xs={false} sm={4} md={5}>
           <TextField
@@ -48,7 +50,7 @@ function Header() {
                 <p>Aluno</p>
               </Link>
               <p style={{ padding: '0 .3em' }}>|</p>
-              <Link>
+              <Link to='/home/professor'>
                 <p>Professor</p>
               </Link>
             </span>

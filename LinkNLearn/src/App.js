@@ -4,6 +4,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import About from './pages/About';
+import HomeProfessor from './pages/HomeProfessor';
 import './assets/custom.css';
 
 
@@ -23,6 +24,7 @@ function App() {
       <Router>
         <Switch>
           <Route exact path='/' component={Home} />
+          <Route exact path='/home/professor' component={HomeProfessor} />
           <Route exact path='/about' component={About} />
         </Switch>
       </Router>

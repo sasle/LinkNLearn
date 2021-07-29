@@ -1,9 +1,9 @@
-.container {
-    background: url(../../assets/images/Home/bg1.png) no-repeat;
+.containerProfessor {
+    background: url(../../assets/images/HomeProfessor/bg1.png) no-repeat;
 }
 
-.container2 {
-    background: url(../../assets/images/Home/bg2.png) no-repeat;
+.containerProfessor2 {
+    background: url(../../assets/images/HomeProfessor/bg2.png) no-repeat;
 }
 
 #containerPadding {
@@ -60,4 +60,29 @@
     font-size: 2em;
     line-height: 2em;
     margin-top: 1em;
+}
+
+#sectionComecarProf {
+    padding: 2em 0;
+    background-color: rgb(215 196 183 / 20%);  
+    text-align: center;
+}
+
+#header1Prof{
+    font-weight: 700;
+    letter-spacing: .1em;
+    font-size: 2em;
+    margin-bottom: 1em;
+}
+
+#header2Prof{
+    font-weight: 500;
+    letter-spacing: .1em;
+    font-size: 1.5em;
+    margin-bottom: 1.5em;
+}
+
+#btnComecar{
+    width: 15%;
+    height: 3em;
 }

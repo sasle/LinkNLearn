@@ -12,7 +12,9 @@ function Footer() {
     <footer className="footer">
       <Grid container alignItems="flex-start" justifyContent="space-between">
         <Grid item container md={2} alignItems="flex-start">
-          <img src={Logo} alt="Link & Learn logo" />
+          <Link to='/'>
+            <img src={Logo} alt="Link & Learn logo" />
+          </Link>
         </Grid>
         <Grid item container md={6}>
           <Grid item container md={3} spacing={1} direction="column">
@@ -30,7 +32,7 @@ function Footer() {
               </Link>
             </Grid>
             <Grid item>
-              <Link>
+              <Link to='/home/professor'>
                 <p className="navigationOptions">Professor</p>
               </Link>
             </Grid>
@@ -47,8 +49,8 @@ function Footer() {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item md={4} style={{alignSelf: 'flex-end'}}>
-          <span style={{display: 'flex',alignItems: 'center', gap: '.4em', float: 'right', paddingRight: '3em'}}>
+        <Grid item md={4} style={{ alignSelf: 'flex-end' }}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: '.4em', float: 'right', paddingRight: '3em' }}>
             <CopyrightIcon fontSize="small" />
             <p className="navigationOptions">2021 Link&Learn, Inc.</p>
           </span>
