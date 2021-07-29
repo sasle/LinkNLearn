@@ -28,6 +28,24 @@ function Home() {
       professor: "Vitor",
       preco: 1000000,
       nota: 4.8
+    },
+    {
+      titulo: "Android",
+      professor: "Freddy",
+      preco: 1000000,
+      nota: 4.8
+    },
+    {
+      titulo: "Backend",
+      professor: "Djeison",
+      preco: 1000000,
+      nota: 4.8
+    },
+    {
+      titulo: "Backend",
+      professor: "Djeison",
+      preco: 1000000,
+      nota: 4.8
     }
   ]
 

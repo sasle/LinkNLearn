@@ -1,13 +1,11 @@
-#container {
-    display: flex;
-}
-
-.paper {
-    width: 44%!important;
+#gridCurso {
+    width: max-content;
+    background-color: #FFF000;
     margin: 0 auto;
 }
 
 img {
+    float:right;
     height:100%;
 }
 
@@ -18,21 +16,13 @@ span {
 }
 
 h3 {
+    line-break: anywhere;
     font-weight: 700!important;
 }
 
 .professor {
+    line-break: anywhere;
     margin-top: .5em;
     font-size: .8em;
     font-weight: 500;
-}
-
-.Carousel-root-5  {
-    max-width: 60%!important;
-    margin: 0 auto;
-    padding-top: 1em;
-}
-
-.Carousel-button-14 {
-    margin: 0;
 }
