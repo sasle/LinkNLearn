@@ -4,9 +4,9 @@ import { Card, CardContent } from '@material-ui/core';
 import { Grid } from '@material-ui/core';
 
 
-function CarouselItemCategoria(props) {
+function CarouselItemCategoriaDuasLinhas(props) {
   return (
-    <Grid container alignContent="center" justifyContent="center" spacing={3}>
+    <Grid container alignContent="center" justifyContent="center" spacing={2}>
       {props.categorias.length >= 1 &&
       //colocar id como key
         props.categorias.map(categoria => (
@@ -23,4 +23,4 @@ function CarouselItemCategoria(props) {
   )
 }
 
-export default CarouselItemCategoria;
+export default CarouselItemCategoriaDuasLinhas;

@@ -22,7 +22,7 @@ function Footer() {
               <h2 className="title">Navegação</h2>
             </Grid>
             <Grid item>
-              <Link>
+              <Link to='/nossos-cursos'>
                 <p className="navigationOptions">Veja todos os cursos</p>
               </Link>
             </Grid>

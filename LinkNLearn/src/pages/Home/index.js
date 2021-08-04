@@ -1,9 +1,11 @@
 import React from 'react';
 import './style.css';
-import CarouselItemCurso from './CarouselItemCurso';
-import CarouselItemCategoria from './CarouselItemCategoria';
+
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import CarouselItemCurso from '../../components/CarouselItemCurso';
+import CarouselItemCategoriaUmaLinha from '../../components/CarouselItemCategoriaUmaLinha';
+
 import Boleto from '../../assets/images/boleto.png'
 
 import { Grid } from '@material-ui/core';
@@ -147,7 +149,7 @@ function Home() {
           <h1 id="headerPrincipaisCategorias">Principais Categorias</h1>
           <Carousel indicators={false} navButtonsAlwaysVisible>
             {
-              quarteto.map((arrayQuarteto, i) => <CarouselItemCategoria key={i} categorias={arrayQuarteto} />)
+              quarteto.map((arrayQuarteto, i) => <CarouselItemCategoriaUmaLinha key={i} categorias={arrayQuarteto} />)
             }
           </Carousel>
           <h1 id="headerPrincipaisCategorias">Formas de pagamento</h1>

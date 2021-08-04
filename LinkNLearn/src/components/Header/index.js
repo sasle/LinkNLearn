@@ -35,7 +35,7 @@ function Header() {
         </Grid>
         <Grid item container md={3} spacing={5} justifyContent="flex-end">
           <Grid item md={"auto"}>
-            <Link>
+            <Link to='/nossos-cursos'>
               <p>Veja todos os cursos</p>
             </Link>
           </Grid>

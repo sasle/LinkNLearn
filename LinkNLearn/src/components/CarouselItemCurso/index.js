@@ -2,7 +2,7 @@ import React from 'react';
 import './style.css'
 import { Grid } from '@material-ui/core';
 
-import ComingSoon from '../../../assets/images/comingsoon.png';
+import ComingSoon from '../../assets/images/comingsoon.png';
 
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 
@@ -25,7 +25,7 @@ function CarouselItemCurso(props) {
             </Grid>
           </Grid>
           <Grid item md={4}>
-            <img src={ComingSoon} alt="Coming soon" />
+            <img src={ComingSoon} alt="Coming soon" className="comingsoon" />
           </Grid>
         </Grid>
       }
@@ -46,7 +46,7 @@ function CarouselItemCurso(props) {
             </Grid>
           </Grid>
           <Grid item md={4}>
-            <img src={ComingSoon} alt="Coming soon" />
+            <img src={ComingSoon} alt="Coming soon" className="comingsoon" />
           </Grid>
         </Grid>
       }
