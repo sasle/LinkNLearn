@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import NossosCursos from './pages/NossosCursos';
 import HomeProfessor from './pages/HomeProfessor';
+import Cursos from './pages/Cursos';
 import './assets/custom.css';
 
 
@@ -26,6 +27,7 @@ function App() {
           <Route exact path='/' component={Home} />
           <Route exact path='/home/professor' component={HomeProfessor} />
           <Route exact path='/nossos-cursos' component={NossosCursos} />
+          <Route exact path='/cursos' component={Cursos} />
         </Switch>
       </Router>
     </ThemeProvider>

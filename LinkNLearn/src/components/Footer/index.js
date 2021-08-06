@@ -27,7 +27,7 @@ function Footer() {
               </Link>
             </Grid>
             <Grid item>
-              <Link>
+              <Link to='/'>
                 <p className="navigationOptions">Aluno</p>
               </Link>
             </Grid>

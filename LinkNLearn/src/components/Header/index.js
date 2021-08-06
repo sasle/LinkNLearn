@@ -1,16 +1,26 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import Logo from '../../assets/images/logo.png';
 import './style.css';
 
+import { Button, Grid } from '@material-ui/core';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Search from '@material-ui/icons/Search';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import { Button, Grid } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField'
 
 
 function Header() {
+  const history = useHistory();
+  const [searchBarText, setSearchBarText] = useState('');
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if(searchBarText) {
+      history.push(`/cursos?q=${searchBarText}`);
+    }
+  }
+
   return (
     <header className="header">
       <Grid container alignItems="center" justifyContent="space-between">
@@ -20,18 +30,22 @@ function Header() {
           </Link>
         </Grid>
         <Grid item xs={false} sm={4} md={5}>
-          <TextField
-            variant="outlined"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Search />
-                </InputAdornment>
-              ),
-              placeholder: 'O que você procura?',
-            }}
-            className="searchBar"
-          />
+          <form onSubmit={handleSubmit}>
+            <TextField
+              variant="outlined"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Search />
+                  </InputAdornment>
+                ),
+                placeholder: 'O que você procura?',
+              }}
+              className="searchBar"
+              value={searchBarText}
+              onInput={e => setSearchBarText(e.target.value)}
+            />
+          </form>
         </Grid>
         <Grid item container md={3} spacing={5} justifyContent="flex-end">
           <Grid item md={"auto"}>
@@ -46,7 +60,7 @@ function Header() {
           </Grid>
           <Grid item md={"auto"}>
             <span style={{ display: 'flex' }}>
-              <Link>
+              <Link  to='/'>
                 <p>Aluno</p>
               </Link>
               <p style={{ padding: '0 .3em' }}>|</p>
