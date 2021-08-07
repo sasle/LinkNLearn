@@ -32,7 +32,7 @@ function Footer() {
               </Link>
             </Grid>
             <Grid item>
-              <Link to='/home/professor'>
+              <Link to='/professor'>
                 <p className="navigationOptions">Professor</p>
               </Link>
             </Grid>

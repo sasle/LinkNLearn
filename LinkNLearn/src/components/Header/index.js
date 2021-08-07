@@ -64,7 +64,7 @@ function Header() {
                 <p>Aluno</p>
               </Link>
               <p style={{ padding: '0 .3em' }}>|</p>
-              <Link to='/home/professor'>
+              <Link to='/professor'>
                 <p>Professor</p>
               </Link>
             </span>
