@@ -63,7 +63,7 @@ export const Section = styled.section`
     .container2 {
         margin-top: 8vw;
         background: url(${bg2}) no-repeat;
-        padding: 10%;   
+        padding: 8%;   
 
         .headerCursosDestaque {
             text-align: center;
@@ -97,7 +97,7 @@ export const Section = styled.section`
             margin-top: 2em;
 
             img {
-                min-width: 20%;
+                max-width: 20%;
             }
         }
     }

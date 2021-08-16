@@ -94,7 +94,7 @@ export const Section = styled.section`
             margin-top: 2em;
 
             img {
-                min-width: 20%;
+                max-width: 20%;
             }
         }
     }

@@ -43,6 +43,7 @@ function Header() {
               }}
               value={searchBarText}
               onInput={e => setSearchBarText(e.target.value)}
+              className="input"
             />
           </form>
         </Grid>

@@ -4,7 +4,7 @@ export const HeaderComponent = styled.header`
     background-color: white;
     padding: 1em;
 
-    input {
+    .input {
         width: 100%;
     }
 
@@ -12,6 +12,10 @@ export const HeaderComponent = styled.header`
         width: 75%;
         height: 3em;
         float: right;
+    }
+
+    img {
+        width: 70%;
     }
 `;
 
