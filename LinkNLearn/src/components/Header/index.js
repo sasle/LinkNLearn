@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import Logo from '../../assets/images/logo.png';
-import './style.css';
+import { HeaderComponent } from './style.js';
 
 import { Button, Grid } from '@material-ui/core';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -16,13 +16,13 @@ function Header() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    if(searchBarText) {
+    if (searchBarText) {
       history.push(`/cursos?q=${searchBarText}`);
     }
   }
 
   return (
-    <header className="header">
+    <HeaderComponent>
       <Grid container alignItems="center" justifyContent="space-between">
         <Grid item container xs={12} sm={4} md={2} alignItems="flex-start">
           <Link to='/'>
@@ -41,7 +41,6 @@ function Header() {
                 ),
                 placeholder: 'O que você procura?',
               }}
-              className="searchBar"
               value={searchBarText}
               onInput={e => setSearchBarText(e.target.value)}
             />
@@ -60,7 +59,7 @@ function Header() {
           </Grid>
           <Grid item md={"auto"}>
             <span style={{ display: 'flex' }}>
-              <Link  to='/'>
+              <Link to='/'>
                 <p>Aluno</p>
               </Link>
               <p style={{ padding: '0 .3em' }}>|</p>
@@ -72,10 +71,10 @@ function Header() {
 
         </Grid>
         <Grid item xs={false} sm={4} md={2}>
-          <Button color="primary" variant="contained" className="button">Login</Button>
+          <Button color="primary" variant="contained">Login</Button>
         </Grid>
       </Grid>
-    </header>
+    </HeaderComponent>
   );
 }
 
