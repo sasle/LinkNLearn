@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../../assets/images/logo.png';
-import './style.css';
+import { FooterComponent } from './style.js';
 
 import CopyrightIcon from '@material-ui/icons/Copyright';
 import { Grid } from '@material-ui/core';
@@ -9,11 +9,11 @@ import { Grid } from '@material-ui/core';
 
 function Footer() {
   return (
-    <footer className="footer">
+    <FooterComponent>
       <Grid container alignItems="flex-start" justifyContent="space-between">
-        <Grid item container md={2} alignItems="flex-start">
+        <Grid item container md={2}>
           <Link to='/'>
-            <img src={Logo} alt="Link & Learn logo" />
+            <img src={Logo} alt="Link&amp;Learn logo" />
           </Link>
         </Grid>
         <Grid item container md={6}>
@@ -42,21 +42,21 @@ function Footer() {
               <h2 className="title">Fale conosco</h2>
             </Grid>
             <Grid item>
-              <p className="navigationOptions">link&learn@hotmail.com</p>
+              <p>link&amp;learn@hotmail.com</p>
             </Grid>
             <Grid item>
-              <p className="navigationOptions">Telefone: xxxx-xxxx</p>
+              <p>Telefone: xxxx-xxxx</p>
             </Grid>
           </Grid>
         </Grid>
-        <Grid item md={4} style={{ alignSelf: 'flex-end' }}>
-          <span style={{ display: 'flex', alignItems: 'center', gap: '.4em', float: 'right', paddingRight: '3em' }}>
+        <Grid item container md={4} justifyContent="flex-end" className="copyrightDiv">
+          <span>
             <CopyrightIcon fontSize="small" />
-            <p className="navigationOptions">2021 Link&Learn, Inc.</p>
+            <p>2021 Link&amp;Learn, Inc.</p>
           </span>
         </Grid>
       </Grid>
-    </footer>
+    </FooterComponent>
   );
 }
 
