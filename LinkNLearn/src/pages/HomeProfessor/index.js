@@ -1,5 +1,5 @@
 import React from 'react';
-import './style.css';
+import { Section } from './style.js';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Boleto from '../../assets/images/boleto.png'
@@ -16,17 +16,17 @@ function HomeProfessor() {
   return (
     <div>
       <Header />
-      <section>
-        <div className="containerProfessor" id="containerPadding">
+      <Section>
+        <div className="container">
           <div className="textBox">
-            <h1 id="headerEncontre">Divulgue seu curso e encontre turmas<br />para ministrar online</h1>
+            <h1 className="headerEncontre">Divulgue seu curso e encontre turmas<br />para ministrar online</h1>
           </div>
         </div>
-      </section>
-      <section>
+      </Section>
+      <Section>
         <Grid container direction="column" alignItems="center">
           <Grid item>
-            <h1 className="vantagens">Vantagens de divulgar aulas na Link&Learn</h1>
+            <h1 className="vantagens">Vantagens de divulgar aulas na Link&amp;Learn</h1>
           </Grid>
           <Grid item container>
             <Grid item md={3}>
@@ -67,31 +67,32 @@ function HomeProfessor() {
             </Grid>
           </Grid>
         </Grid>
-      </section>
-      <section>
-        <div className="containerProfessor2" id="containerPadding" style={{ marginTop: '2em', paddingBottom: 0 }}>
-          <h1 id="headerCursosDestaque">Por onde começar</h1>
+      </Section>
+      <Section>
+        <div className="container2">
+          <h1>Por onde começar</h1>
           <div className="divComecar">
-            <h3 style={{ fontSize: '1.5em' }}>1 - Registre-se na nossa plataforma</h3>
+            <h3>1 - Registre-se na nossa plataforma</h3>
           </div>
           <div className="divComecar">
-            <h3 style={{ fontSize: '1.5em' }}>2 - Publique seus cursos</h3>
+            <h3>2 - Publique seus cursos</h3>
           </div>
           <div className="divComecar">
-            <h3 style={{ fontSize: '1.5em' }}>3 - Receba seu dinheiro no fim de cada curso</h3>
+            <h3>3 - Receba seu dinheiro no fim de cada curso</h3>
           </div>
-          <h1 id="headerPrincipaisCategorias">Formas de pagamento</h1>
-          <div style={{ textAlign: 'center', marginTop: '2em', paddingBottom: '2em' }}>
+          <h1>Formas de pagamento</h1>
+          <div className="boleto">
             <img src={Boleto} alt="Boleto" />
           </div>
         </div>
-      </section>
-      <section id="sectionComecarProf">
-        <h1 id="header1Prof">Cadastre-se na nossa plataforma</h1>
-
-        <h1 id="header2Prof">Encontre seus alunos e monte sua turma</h1>
-        <Button color="primary" variant="contained" id="btnComecar">Começar</Button>
-      </section>
+      </Section>
+      <Section>
+        <div className="sectionComecarProf">
+          <h1> Cadastre-se na nossa plataforma</h1>
+          <h2>Encontre seus alunos e monte sua turma</h2>
+          <Button color="primary" variant="contained">Começar</Button>
+        </div>
+      </Section>
       <Footer />
     </div>
   );
