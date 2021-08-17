@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import NossosCursos from './pages/NossosCursos';
 import HomeProfessor from './pages/HomeProfessor';
 import Cursos from './pages/Cursos';
+import CursoView from './pages/CursoView';
 import './assets/custom.css';
 
 
@@ -28,6 +29,7 @@ function App() {
           <Route exact path='/professor' component={HomeProfessor} />
           <Route exact path='/nossos-cursos' component={NossosCursos} />
           <Route exact path='/cursos' component={Cursos} />
+          <Route exact path='/curso/:id' component={CursoView} />
         </Switch>
       </Router>
     </ThemeProvider>

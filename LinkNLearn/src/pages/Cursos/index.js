@@ -22,8 +22,6 @@ function Cursos(props) {
   const [dificuldade, setDificuldade] = useState(0);
   const [preco, setPreco] = useState(0);
 
-  console.log(classificacao)
-
   return (
     <Container>
       <Header />
@@ -70,7 +68,7 @@ function Cursos(props) {
             </Grid>
             <Grid item container direction="column" md={8}>
               <Grid item className="card">
-                <CardCurso titulo="Título Maior" resumo="Descrição do curso resumido" professor="Nome professor" preco="00,00" nivel="Iniciante" nota="4.8" />
+                <CardCurso id={99999} titulo="A Mégica do React" resumo="Descrição do curso resumido" professor="Nome professor" preco="00,00" nivel="Iniciante" nota="4.8" />
               </Grid>
               <Grid item className="card">
                 <CardCurso titulo="Título Maior" resumo="Descrição do curso resumido" professor="Nome professor" preco="00,00" nivel="Iniciante" nota="4.8" />

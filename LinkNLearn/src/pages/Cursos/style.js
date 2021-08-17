@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-    background-color: white;
-
     .main {
         margin-top: 1em;
 
@@ -16,7 +14,6 @@ export const Container = styled.div`
 `;
 
 export const Section = styled.section`
-    max-height: 73vh;
     margin-top: 1em;
     background-color: rgb(215, 196, 183, .2);
     padding: 5em;

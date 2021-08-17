@@ -1,23 +1,24 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-    cursor: pointer;
     text-align: left;
     line-height: 2em;
     
     .cardContainer {
-        background-color: #FFF000;
+        background-color: rgba(215, 196, 183, 0.6);
+
+        .imgCustomContainer {
+            padding: 0;
+            width: auto;
+            width: 20%;
+            max-width: 20%;
+        }
     }
 
     h1 {
         font-weight: 700;
     }
     
-    .professor {
-        margin-top: 0;
-        font-size: .8em;
-    }
-
     span {
         display: flex;
         align-items: center;
@@ -27,14 +28,12 @@ export const Container = styled.div`
         }
     }
     
-    .preco, .nivel, .nota {
+
+    .nota {
         font-weight: 700;
     }
 
     img {
         min-width: fit-content;
-    }
-    .MuiCardContent-root:last-child {
-        padding-bottom: 16px;
     }
 `;
