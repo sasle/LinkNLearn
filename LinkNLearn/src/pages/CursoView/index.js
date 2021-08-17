@@ -4,15 +4,18 @@ import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 
 import { useHistory } from 'react-router-dom';
-import { Button, Grid, Divider } from '@material-ui/core';
+import { Button, Dialog, Grid, DialogTitle, DialogContent } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
+import CloseIcon from '@material-ui/icons/Close';
 import Sasuke from '../../assets/images/Sasukereup.jpg';
 import CardAlunoFeedback from '../../components/CardAlunoFeedback/index.js';
 
 function CursoView() {
   const history = useHistory();
-  const [cursoInfo, setCursoInfo] = useState(history.location.state.cursoInfo);
+  const [cursoInfo] = useState(history.location.state.cursoInfo);
+
+  const [open, setOpen] = useState(false);
 
   return (
     <Container>
@@ -30,7 +33,7 @@ function CursoView() {
                   <img src={Sasuke} alt="Sasuke" className="sasuke" />
                 </Grid>
                 <Grid item md={9}>
-                  <div style={{minHeight: '65%', height:'65%'}}>
+                  <div style={{ minHeight: '65%', height: '65%' }}>
                     <span className="courseDesc">
                       <p>Descrição do curso</p>
                       <p>Descrição do curso resumidamente Descrição do curso resumidamente Descrição do curso resumidamente Descrição do curso resumidamente Descrição do curso resumidamente.</p>
@@ -41,8 +44,8 @@ function CursoView() {
               <Grid item container justifyContent="space-between">
                 <Grid item md={3}>
                   <Grid item container direction="column">
-                    <Grid item container justifyContent="space-between" style={{marginTop: '1em', marginBottom: '1em'}}>
-                      <p style={{fontWeight: 700}}>R$ 00,00</p>
+                    <Grid item container justifyContent="space-between" style={{ marginTop: '1em', marginBottom: '1em' }}>
+                      <p style={{ fontWeight: 700 }}>R$ 00,00</p>
                       <span className="nota">
                         <StarBorderIcon />
                         <p>4.8</p>
@@ -57,7 +60,7 @@ function CursoView() {
                   </Grid>
                 </Grid>
                 <Grid item md={3}>
-                  <Button color="primary" variant="contained" className="actionButtons">Adicionar ao carrinho</Button>
+                  <Button color="primary" variant="contained" className="actionButtons" onClick={() => setOpen(true)}>Adicionar ao carrinho</Button>
                 </Grid>
                 <Grid item md={3}>
                   <Button color="primary" variant="contained" className="actionButtons">Finalizar Compra</Button>
@@ -129,6 +132,14 @@ function CursoView() {
         </Section>
       </main>
       <Footer />
+      <Dialog open={open} fullWidth maxWidth="lg" className="dialog">
+        <DialogTitle><CloseIcon onClick={() => setOpen(false)} style={{float: 'right', cursor:'pointer'}}/></DialogTitle>
+        <DialogContent style={{textAlign: 'center', paddingBottom: '3em'}}> 
+          <h1 style={{fontSize: '1.5em', color: '#4c86d3', fontWeight: 700}}>
+            Curso adicionado ao carrinho!
+          </h1>
+        </DialogContent>
+      </Dialog>
     </Container>
   );
 }

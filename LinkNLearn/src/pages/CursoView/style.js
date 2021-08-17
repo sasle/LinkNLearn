@@ -11,6 +11,7 @@ export const Container = styled.div`
             color: #4c86d3;
         }
     }
+
 `;
 
 export const Section = styled.section`
@@ -140,5 +141,4 @@ export const Section = styled.section`
             text-align: center;
         }
     }
-
 `;
