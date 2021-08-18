@@ -132,7 +132,7 @@ function CursoView() {
         </Section>
       </main>
       <Footer />
-      <Dialog open={open} fullWidth maxWidth="lg" className="dialog">
+      <Dialog open={open} fullWidth maxWidth="lg">
         <DialogTitle><CloseIcon onClick={() => setOpen(false)} style={{float: 'right', cursor:'pointer'}}/></DialogTitle>
         <DialogContent style={{textAlign: 'center', paddingBottom: '3em'}}> 
           <h1 style={{fontSize: '1.5em', color: '#4c86d3', fontWeight: 700}}>
