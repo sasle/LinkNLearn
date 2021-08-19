@@ -4,7 +4,7 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Boleto from '../../assets/images/boleto.png'
 
-import { Button, Grid, Paper } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import { CardContent } from '@material-ui/core';
 import LooksOneIcon from '@material-ui/icons/LooksOne';
