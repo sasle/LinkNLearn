@@ -26,8 +26,8 @@ export const Container = styled.div`
 
         img {
             border-top-right-radius: 5px;
-            min-width: 13vw;
-            width: 13vw;
+            min-width: 14vw;
+            width: 14vw;
             height: 100%;
         }
 
