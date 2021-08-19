@@ -8,6 +8,7 @@ import HomeProfessor from './pages/HomeProfessor';
 import Cursos from './pages/Cursos';
 import CursosPorCategoria from './pages/CursosPorCategoria';
 import CursoView from './pages/CursoView';
+import Carrinho from './pages/Carrinho';
 import './assets/custom.css';
 
 
@@ -18,7 +19,7 @@ function App() {
         main: '#3577CC',
       },
       secondary: {
-        main: '#fff',
+        main: 'rgba(255, 71, 51, 0.97)',
       },
     },
   });
@@ -32,6 +33,7 @@ function App() {
           <Route exact path='/cursos' component={Cursos} />
           <Route exact path='/categoria' component={CursosPorCategoria} />
           <Route exact path='/curso/:id' component={CursoView} />
+          <Route exact path='/carrinho' component={Carrinho} />
         </Switch>
       </Router>
     </ThemeProvider>

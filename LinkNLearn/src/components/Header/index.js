@@ -58,7 +58,7 @@ function Header() {
             </Link>
           </Grid>
           <Grid item md={"auto"}>
-            <Link>
+            <Link to='/carrinho'>
               <ShoppingCartIcon />
             </Link>
           </Grid>
