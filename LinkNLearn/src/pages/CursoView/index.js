@@ -3,7 +3,7 @@ import { Container, Section } from './style.js';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Button, Dialog, Grid, DialogTitle, DialogContent } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
@@ -54,7 +54,10 @@ function CursoView() {
                     <Grid item>
                       <span className="professorInfo">
                         <p>Professor(a):</p>
-                        <p>Leonardo Junior</p>
+                        {/* Dinamizar */}
+                        <Link to="/professor/1"> 
+                          <p>Leonardo Junior</p>
+                        </Link>
                       </span>
                     </Grid>
                   </Grid>
@@ -133,9 +136,9 @@ function CursoView() {
       </main>
       <Footer />
       <Dialog open={open} fullWidth maxWidth="lg">
-        <DialogTitle><CloseIcon onClick={() => setOpen(false)} style={{float: 'right', cursor:'pointer'}}/></DialogTitle>
-        <DialogContent style={{textAlign: 'center', paddingBottom: '3em'}}> 
-          <h1 style={{fontSize: '1.5em', color: '#4c86d3', fontWeight: 700}}>
+        <DialogTitle><CloseIcon onClick={() => setOpen(false)} style={{ float: 'right', cursor: 'pointer' }} /></DialogTitle>
+        <DialogContent style={{ textAlign: 'center', paddingBottom: '3em' }}>
+          <h1 style={{ fontSize: '1.5em', color: '#4c86d3', fontWeight: 700 }}>
             Curso adicionado ao carrinho!
           </h1>
         </DialogContent>
