@@ -15,7 +15,8 @@ export const Container = styled.div`
     
     .professor {
         margin-top: 0;
-        font-size: .8em;
+        font-size: .9em;
+        font-weight: 500;
     }
 
     span {
@@ -32,7 +33,8 @@ export const Container = styled.div`
     }
 
     img {
-        min-width: fit-content;
+        width: 100%;
+        height: fit-content;
     }
     .MuiCardContent-root:last-child {
         padding-bottom: 16px;
