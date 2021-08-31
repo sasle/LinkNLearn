@@ -10,6 +10,7 @@ import CursosPorCategoria from './pages/CursosPorCategoria';
 import CursoView from './pages/CursoView';
 import ProfessorPublicView from './pages/ProfessorPublicView';
 import Carrinho from './pages/Carrinho';
+import Perfil from './pages/Perfil';
 import './assets/custom.css';
 
 
@@ -36,6 +37,7 @@ function App() {
           <Route exact path='/curso/:id' component={CursoView} />
           <Route exact path='/professor/:id' component={ProfessorPublicView} />
           <Route exact path='/carrinho' component={Carrinho} />
+          <Route exact path='/perfil' component={Perfil} />
         </Switch>
       </Router>
     </ThemeProvider>

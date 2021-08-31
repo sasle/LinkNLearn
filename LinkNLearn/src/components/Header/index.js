@@ -88,7 +88,7 @@ function Header() {
         </DialogTitle>
         <DialogContent>
           <img src={Logo} alt="Link&amp;Learn logo" style={{width: '40%', maxWidth: '40%', paddingBottom: '2em', marginLeft: '30%'}}/>
-          <form style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1em' }}>
+          <form style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1em' }} onSubmit={() => history.push('/perfil', history.location.pathname === '/' ? 'aluno' : 'professor')}>
             <TextField label="Email" variant="outlined" color="primary" required style={{ width: '50%' }} type="email" />
             <TextField label="Senha" variant="outlined" color="primary" required style={{ width: '50%' }} type="password" />
             {
