@@ -13,7 +13,6 @@ export const Container = styled.div`
     }
 
 `;
-
 export const Section = styled.section`
     margin-top: 1em;
     background-color: rgb(215, 196, 183, .2);
@@ -91,6 +90,13 @@ export const Section = styled.section`
         }
 
         .infosDoCurso {
+
+            span {
+                gap: .3em;
+                p:nth-child(2) {
+                    font-weight: 500;
+                }
+            }
             p {
                 margin: 1em 0;
                 font-weight: 700;

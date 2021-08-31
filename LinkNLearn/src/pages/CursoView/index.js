@@ -75,21 +75,31 @@ function CursoView() {
                 <h1>Informações do Curso</h1>
                 <span>
                   <p>Data do curso:</p>
+                  <p>10/09/2021</p>
                 </span>
                 <span>
                   <p>Plataforma:</p>
+                  <p>Zoom</p>
                 </span>
                 <span>
                   <p>Período:</p>
+                  <p>Matutino</p>
                 </span>
                 <span>
                   <p>Horário:</p>
+                  <p>10:00 às 18:00</p>
                 </span>
                 <span>
                   <p>Número de vagas:</p>
+                  <p>10 vagas</p>
                 </span>
                 <span>
                   <p>Nível:</p>
+                  <p>Avançado</p>
+                </span>
+                <span>
+                  <p>Total de Horas:</p>
+                  <p>200 horas</p>
                 </span>
               </Grid>
             </Grid>
