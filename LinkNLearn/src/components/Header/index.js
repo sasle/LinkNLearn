@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { Link, useHistory } from 'react-router-dom';
 import Logo from '../../assets/images/logo.png';
 import { HeaderComponent } from './style.js';
@@ -15,6 +16,9 @@ function Header() {
   const history = useHistory();
   const [open, setOpen] = useState(false);
   const [isNew, setIsNew] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [hidden, setHidden] = useState(true);
 
   const [searchBarText, setSearchBarText] = useState('');
 
@@ -23,6 +27,17 @@ function Header() {
     if (searchBarText) {
       history.push(`/cursos?q=${searchBarText}`);
     }
+  }
+
+  async function handleLogin(e) {
+    e.preventDefault();
+    await axios.post("http://localhost:3333/teacher/auth", {
+      email: email,
+      password: password
+    }).then(response => {
+      localStorage.setItem('token', response.data.token);
+      history.push('/perfil', history.location.pathname === '/' ? 'aluno' : 'professor');
+    }).catch(err => setHidden(false));
   }
 
   return (
@@ -76,7 +91,7 @@ function Header() {
 
         </Grid>
         <Grid item xs={false} sm={4} md={2}>
-          <Button color="primary" variant="contained" onClick={() => setOpen(true)}>Login</Button>
+          <Button color="primary" hidden={hidden} variant="contained" onClick={() => setOpen(true)}>Login</Button>
         </Grid>
       </Grid>
       <Dialog open={open} fullWidth maxWidth="sm" className="dialog">
@@ -87,10 +102,11 @@ function Header() {
           </Grid>
         </DialogTitle>
         <DialogContent>
-          <img src={Logo} alt="Link&amp;Learn logo" style={{width: '40%', maxWidth: '40%', paddingBottom: '2em', marginLeft: '30%'}}/>
-          <form style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1em' }} onSubmit={() => history.push('/perfil', history.location.pathname === '/' ? 'aluno' : 'professor')}>
-            <TextField label="Email" variant="outlined" color="primary" required style={{ width: '50%' }} type="email" />
-            <TextField label="Senha" variant="outlined" color="primary" required style={{ width: '50%' }} type="password" />
+          <img src={Logo} alt="Link&amp;Learn logo" style={{ width: '40%', maxWidth: '40%', paddingBottom: '2em', marginLeft: '30%' }} />
+          <form style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1em' }} onSubmit={handleLogin}>
+            <TextField label="Email" variant="outlined" color="primary" required style={{ width: '50%' }} type="email" onChange={e => setEmail(e.target.value)} />
+            <TextField label="Senha" variant="outlined" color="primary" required style={{ width: '50%' }} type="password" onChange={e => setPassword(e.target.value)} />
+            {!hidden && <p style={{ color: 'red', fontSize: '1.2em' }}>Email ou senha incorretos</p>}
             {
               isNew &&
               <TextField label="Confirmar senha" variant="outlined" color="primary" required style={{ width: '50%' }} type="password" />
@@ -106,7 +122,7 @@ function Header() {
           </form>
         </DialogContent>
       </Dialog>
-    </HeaderComponent>
+    </HeaderComponent >
   );
 }
 

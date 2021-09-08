@@ -3,11 +3,17 @@ import { Container, Section } from './style.js';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 import { Button, Grid } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import CardCurso from '../../components/CardCurso/index.js';
 
-
 function Perfil(props) {
+
+  const history = useHistory();
+
+  function handleLogout() {
+    localStorage.setItem('token', '');
+    history.push('/');
+  }
 
   return (
     <Container>
@@ -25,9 +31,7 @@ function Perfil(props) {
                   <Button color="primary" variant="contained">Meus cursos</Button>
                 </Grid>
                 <Grid item>
-                  <Link to='/'>
-                    <Button color="primary" variant="contained">Log out</Button>
-                  </Link>
+                  <Button color="primary" variant="contained" onClick={handleLogout}>Log out</Button>
                 </Grid>
               </Grid>
             </header>

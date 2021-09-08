@@ -1,7 +1,8 @@
 import React from 'react';
 import { createTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect, useHistory } from 'react-router-dom';
+import { PrivateRoute } from './components/PrivateRoute';
 import Home from './pages/Home';
 import NossosCursos from './pages/NossosCursos';
 import HomeProfessor from './pages/HomeProfessor';
@@ -12,7 +13,6 @@ import ProfessorPublicView from './pages/ProfessorPublicView';
 import Carrinho from './pages/Carrinho';
 import Perfil from './pages/Perfil';
 import './assets/custom.css';
-
 
 function App() {
   const theme = createTheme({
@@ -25,6 +25,7 @@ function App() {
       },
     },
   });
+
   return (
     <ThemeProvider theme={theme}>
       <Router>
@@ -37,7 +38,7 @@ function App() {
           <Route exact path='/curso/:id' component={CursoView} />
           <Route exact path='/professor/:id' component={ProfessorPublicView} />
           <Route exact path='/carrinho' component={Carrinho} />
-          <Route exact path='/perfil' component={Perfil} />
+          <PrivateRoute exact path='/perfil' component={Perfil} />
         </Switch>
       </Router>
     </ThemeProvider>
