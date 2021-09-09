@@ -16,6 +16,11 @@ export const HeaderComponent = styled.header`
     img {
         width: 70%;
     }
+
+    .MuiIconButton-root {
+        width: 100%;
+        height: 100%;
+    }
 `;
 
 

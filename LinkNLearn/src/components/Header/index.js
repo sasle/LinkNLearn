@@ -4,12 +4,13 @@ import { Link, useHistory } from 'react-router-dom';
 import Logo from '../../assets/images/logo.png';
 import { HeaderComponent } from './style.js';
 
-import { Button, Dialog, Grid, DialogTitle, DialogContent } from '@material-ui/core';
+import { Button, Dialog, Grid, DialogTitle, DialogContent, RadioGroup, FormControlLabel, Radio, Tooltip, IconButton } from '@material-ui/core';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Search from '@material-ui/icons/Search';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import CloseIcon from '@material-ui/icons/Close';
 import TextField from '@material-ui/core/TextField'
+import { AccountCircle, ExitToApp } from '@material-ui/icons';
 
 
 function Header() {
@@ -18,9 +19,12 @@ function Header() {
   const [isNew, setIsNew] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [hidden, setHidden] = useState(true);
+  const [userType, setUserType] = useState('');
+  const [hiddenError, setHiddenError] = useState(true);
+  const [isLogged] = useState(localStorage.getItem('token') !== '' ? true : false);
 
   const [searchBarText, setSearchBarText] = useState('');
+
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -31,13 +35,30 @@ function Header() {
 
   async function handleLogin(e) {
     e.preventDefault();
-    await axios.post("http://localhost:3333/teacher/auth", {
-      email: email,
-      password: password
-    }).then(response => {
-      localStorage.setItem('token', response.data.token);
-      history.push('/perfil', history.location.pathname === '/' ? 'aluno' : 'professor');
-    }).catch(err => setHidden(false));
+    if (userType === 'aluno') {
+      await axios.post("http://localhost:3333/student/auth", {
+        email: email,
+        password: password
+      }).then(response => {
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('type', 'aluno');
+        history.push('/perfil');
+      }).catch(err => setHiddenError(false));
+    } else {
+      await axios.post("http://localhost:3333/teacher/auth", {
+        email: email,
+        password: password
+      }).then(response => {
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('type', 'professor');
+        history.push('/perfil');
+      }).catch(err => setHiddenError(false));
+    }
+  }
+
+  function handleLogout() {
+    localStorage.setItem('token', '');
+    history.push('/');
   }
 
   return (
@@ -91,14 +112,33 @@ function Header() {
 
         </Grid>
         <Grid item xs={false} sm={4} md={2}>
-          <Button color="primary" hidden={hidden} variant="contained" onClick={() => setOpen(true)}>Login</Button>
+          {!isLogged &&
+            <Button color="primary" variant="contained" onClick={() => setOpen(true)}>Login</Button>
+          }
+          {isLogged &&
+            <Grid container justifyContent="center" spacing={3}>
+              <Grid item>
+                <Tooltip title="Perfil">
+                  <IconButton color="primary" onClick={() => history.push('perfil')}>
+                    <AccountCircle />
+                  </IconButton>
+                </Tooltip>
+              </Grid>
+              <Grid item>
+                <Tooltip title="Sair">
+                  <IconButton color="primary" onClick={handleLogout}>
+                    <ExitToApp />
+                  </IconButton>
+                </Tooltip>
+              </Grid>
+            </Grid>
+          }
         </Grid>
       </Grid>
       <Dialog open={open} fullWidth maxWidth="sm" className="dialog">
         <DialogTitle>
-          <Grid container alignItems="center" justifyContent="space-between">
-            <p style={{ fontWeight: 700, color: '#4c86d3' }}>{history.location.pathname === '/' ? 'Aluno' : 'Professor'}</p>
-            <CloseIcon onClick={() => setOpen(false)} style={{ float: 'right', cursor: 'pointer' }} />
+          <Grid container justifyContent="flex-end">
+            <CloseIcon onClick={() => setOpen(false)} style={{ cursor: 'pointer' }} />
           </Grid>
         </DialogTitle>
         <DialogContent>
@@ -106,11 +146,15 @@ function Header() {
           <form style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1em' }} onSubmit={handleLogin}>
             <TextField label="Email" variant="outlined" color="primary" required style={{ width: '50%' }} type="email" onChange={e => setEmail(e.target.value)} />
             <TextField label="Senha" variant="outlined" color="primary" required style={{ width: '50%' }} type="password" onChange={e => setPassword(e.target.value)} />
-            {!hidden && <p style={{ color: 'red', fontSize: '1.2em' }}>Email ou senha incorretos</p>}
+            {!hiddenError && <p style={{ color: 'red', fontSize: '1.2em' }}>Email ou senha incorretos</p>}
             {
               isNew &&
               <TextField label="Confirmar senha" variant="outlined" color="primary" required style={{ width: '50%' }} type="password" />
             }
+            <RadioGroup style={{ width: '50%' }} onChange={e => setUserType(e.target.value)}>
+              <FormControlLabel value="aluno" control={<Radio color="primary" />} label="Sou aluno" />
+              <FormControlLabel value="professor" control={<Radio color="primary" />} label="Sou professor" />
+            </RadioGroup>
             <Grid container direction="column" alignItems="center" style={{ width: '50%', paddingTop: '1em', margin: '0 auto' }}>
               <Link to={'/'}>Esqueceu a senha?</Link>
               <span style={{ display: 'flex', justifyContent: 'center', marginTop: '1em', gap: '5px' }}>
