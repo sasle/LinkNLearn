@@ -2,11 +2,11 @@ import React from 'react';
 import { Container, Section } from './style.js';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
-import { Button, Grid } from '@material-ui/core';
+import { Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
 import { Link, useHistory } from 'react-router-dom';
-import CardCurso from '../../components/CardCurso/index.js';
+import Sasuke from '../../assets/images/Sasukereup.jpg';
 
-function Perfil() {
+function PerfilDados() {
 
   const history = useHistory();
 
@@ -22,7 +22,7 @@ function Perfil() {
         localStorage.getItem('type') === 'aluno' ?
           <main className="mainAluno">
             <header>
-              <h1>Meu Perfil</h1>
+              <h1>Meus Dados</h1>
               <Grid container justifyContent="center" spacing={3}>
                 <Grid item>
                   <Link to='/perfil/dados'>
@@ -40,29 +40,52 @@ function Perfil() {
               </Grid>
             </header>
             <Section>
-              <Grid container className="cursos" direction="column">
-                <h1 className="title">Meus Cursos</h1>
-                <Grid item container className="box" spacing={3}>
-                  <Grid item className="card">
-                    <CardCurso />
-                  </Grid>
-                  <Grid item className="card">
-                    <CardCurso />
-                  </Grid>
-                  <Grid item className="card">
-                    <CardCurso />
-                  </Grid>
-                  <Grid item className="card">
-                    <CardCurso />
-                  </Grid>
+              <div>
+                <img src={Sasuke} alt="foto de perfil" />
+              </div>
+              <Grid container spacing={5} className="grid">
+                <Grid item>
+                  <TextField label="Nome" />
+                </Grid>
+                <Grid item>
+                  <TextField label="Sobrenome" />
+                </Grid>
+              </Grid>
+              <Grid container spacing={5} className="grid">
+                <Grid item>
+                  <TextField label="Email" type="email" />
+                </Grid>
+                <Grid item>
+                  <TextField label="Telefone" />
+                </Grid>
+              </Grid>
+              <Grid container spacing={5} className="grid">
+                <Grid item>
+                  <TextField label="Sexo" />
+                </Grid>
+                <Grid item>
+                  <TextField label="Data de Nascimento" />
+                </Grid>
+              </Grid>
+              <Grid container spacing={5} className="grid">
+                <Grid item>
+                  <TextField label="RG" />
+                </Grid>
+                <Grid item>
+                  <TextField label="CPF" />
+                </Grid>
+              </Grid>
+              <Grid container className="grid">
+                <Grid item md={12}>
+                  <Button color="primary" variant="contained">Salvar dados</Button>
                 </Grid>
               </Grid>
             </Section>
           </main>
           :
-          <main className="mainProfessor">
+          <main className="mainAluno">
             <header>
-              <h1>Meu Perfil</h1>
+              <h1>Meus Dados</h1>
               <Grid container justifyContent="center" spacing={3}>
                 <Grid item>
                   <Link to='/perfil/dados'>
@@ -80,30 +103,16 @@ function Perfil() {
               </Grid>
             </header>
             <Section>
-              <Grid container className="cursos" direction="column">
-                <h1 className="title">Meus Cursos</h1>
-                <Grid item container className="box" spacing={3}>
-                  <Grid item className="card">
-                    <CardCurso />
-                  </Grid>
-                  <Grid item className="card">
-                    <CardCurso />
-                  </Grid>
-                  <Grid item className="card">
-                    <CardCurso />
-                  </Grid>
-                  <Grid item className="card">
-                    <CardCurso />
-                  </Grid>
-                </Grid>
-              </Grid>
+              <div>
+                <img src={Sasuke} alt="foto de perfil" />
+              </div>
             </Section>
           </main>
       }
 
       <Footer />
-    </Container >
+    </Container>
   );
 }
 
-export default Perfil;
+export default PerfilDados;

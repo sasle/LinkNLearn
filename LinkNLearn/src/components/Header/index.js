@@ -4,7 +4,7 @@ import { Link, useHistory } from 'react-router-dom';
 import Logo from '../../assets/images/logo.png';
 import { HeaderComponent } from './style.js';
 
-import { Button, Dialog, Grid, DialogTitle, DialogContent, RadioGroup, FormControlLabel, Radio, Tooltip, IconButton } from '@material-ui/core';
+import { Button, Dialog, Grid, DialogTitle, DialogContent, RadioGroup, FormControlLabel, Radio, Tooltip, IconButton, CircularProgress } from '@material-ui/core';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Search from '@material-ui/icons/Search';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
@@ -15,8 +15,12 @@ import { AccountCircle, ExitToApp } from '@material-ui/icons';
 
 function Header() {
   const history = useHistory();
+  const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [isNew, setIsNew] = useState(false);
+
+  const [name, setName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [userType, setUserType] = useState('');
@@ -35,25 +39,78 @@ function Header() {
 
   async function handleLogin(e) {
     e.preventDefault();
-    if (userType === 'aluno') {
-      await axios.post("http://localhost:3333/student/auth", {
-        email: email,
-        password: password
-      }).then(response => {
-        localStorage.setItem('token', response.data.token);
-        localStorage.setItem('type', 'aluno');
-        history.push('/perfil');
-      }).catch(err => setHiddenError(false));
+
+    if (!isNew) {
+      if (userType === 'aluno') {
+        setLoading(true);
+        await axios.post("http://localhost:3333/student/auth", {
+          email: email,
+          password: password
+        }).then(response => {
+          setLoading(false);
+          localStorage.setItem('token', response.data.token);
+          localStorage.setItem('type', 'aluno');
+          history.push('/perfil');
+        }).catch(err => setHiddenError(false));
+      } else {
+        setLoading(true);
+        await axios.post("http://localhost:3333/teacher/auth", {
+          email: email,
+          password: password
+        }).then(response => {
+          setLoading(false);
+          localStorage.setItem('token', response.data.token);
+          localStorage.setItem('type', 'professor');
+          history.push('/perfil');
+        }).catch(err => setHiddenError(false));
+      }
     } else {
-      await axios.post("http://localhost:3333/teacher/auth", {
-        email: email,
-        password: password
-      }).then(response => {
-        localStorage.setItem('token', response.data.token);
-        localStorage.setItem('type', 'professor');
-        history.push('/perfil');
-      }).catch(err => setHiddenError(false));
+      if (userType === 'aluno') {
+        setLoading(true);
+        await axios.post("http://localhost:3333/student/create", {
+          name: name,
+          last_name: lastName,
+          email: email,
+          password: password,
+          cpf: "",
+          birthDate: "",
+          gender: "",
+          pictureProfile: "",
+          educationLevel: "",
+          studentsCourses: [],
+          feedback: []
+        }).then(response => {
+          setLoading(false);
+          localStorage.setItem('token', response.data.token);
+          localStorage.setItem('type', 'aluno');
+          history.push('/perfil');
+        }).catch();
+      } else {
+        setLoading(true);
+        await axios.post("http://localhost:3333/teacher/create", {
+          name: name,
+          last_name: lastName,
+          email: email,
+          password: password,
+          cpf: "",
+          birthDate: "",
+          gender: "",
+          pictureProfile: "",
+          biography: "",
+          linkedin: "",
+          portifolio: "",
+          contact: "",
+          pix: "",
+          plan: ""
+        }).then(response => {
+          setLoading(false);
+          localStorage.setItem('token', response.data.token);
+          localStorage.setItem('type', 'aluno');
+          history.push('/perfil');
+        }).catch();
+      }
     }
+
   }
 
   function handleLogout() {
@@ -144,6 +201,13 @@ function Header() {
         <DialogContent>
           <img src={Logo} alt="Link&amp;Learn logo" style={{ width: '40%', maxWidth: '40%', paddingBottom: '2em', marginLeft: '30%' }} />
           <form style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1em' }} onSubmit={handleLogin}>
+            {
+              isNew &&
+              <>
+                <TextField label="Nome" variant="outlined" color="primary" required style={{ width: '50%' }} onChange={e => setName(e.target.value)} />
+                <TextField label="Sobrenome" variant="outlined" color="primary" required style={{ width: '50%' }} onChange={e => setLastName(e.target.value)} />
+              </>
+            }
             <TextField label="Email" variant="outlined" color="primary" required style={{ width: '50%' }} type="email" onChange={e => setEmail(e.target.value)} />
             <TextField label="Senha" variant="outlined" color="primary" required style={{ width: '50%' }} type="password" onChange={e => setPassword(e.target.value)} />
             {!hiddenError && <p style={{ color: 'red', fontSize: '1.2em' }}>Email ou senha incorretos</p>}
@@ -161,7 +225,7 @@ function Header() {
                 <p style={{ fontSize: '.8em', fontWeight: 500 }}>Novo por aqui?</p>
                 <p style={{ fontSize: '.8em', fontWeight: 500, color: '#4c86d3', cursor: 'pointer' }} onClick={() => setIsNew(true)}>Cadastre-se!</p>
               </span>
-              <Button color="primary" variant="contained" style={{ width: '100%', margin: '1em 0' }} type="submit">ENTRAR</Button>
+              <Button color="primary" variant="contained" style={{ width: '100%', margin: '1em 0' }} type="submit">{isNew ? 'CADASTRAR' : 'ENTRAR'}{loading && <CircularProgress style={{ marginLeft: '1em', color: 'white' }} />}</Button>
             </Grid>
           </form>
         </DialogContent>

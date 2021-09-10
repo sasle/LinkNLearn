@@ -12,6 +12,7 @@ import CursoView from './pages/CursoView';
 import ProfessorPublicView from './pages/ProfessorPublicView';
 import Carrinho from './pages/Carrinho';
 import Perfil from './pages/Perfil';
+import PerfilDados from './pages/PerfilDados';
 import './assets/custom.css';
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
           <Route exact path='/professor/:id' component={ProfessorPublicView} />
           <Route exact path='/carrinho' component={Carrinho} />
           <PrivateRoute exact path='/perfil' component={Perfil} />
+          <PrivateRoute exact path='/perfil/dados' component={PerfilDados} />
         </Switch>
       </Router>
     </ThemeProvider>
