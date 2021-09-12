@@ -13,6 +13,8 @@ function CadastrarCurso() {
   const history = useHistory();
   const [openEmenta, setOpenEmenta] = useState(false);
   const [openEmentaFinish, setOpenEmentaFinish] = useState(false);
+  const [openRequisitos, setOpenRequisitos] = useState(false);
+  const [openRequisitosFinish, setOpenRequisitosFinish] = useState(false);
 
   function handleLogout() {
     localStorage.setItem('token', '');
@@ -100,7 +102,7 @@ function CadastrarCurso() {
           </Grid>
           <Grid container spacing={5} className="grid">
             <Grid item>
-              <Button color="primary" variant="contained">Adicionar Requisitos</Button>
+              <Button color="primary" variant="contained" onClick={() => setOpenRequisitos(true)}>Adicionar Requisitos</Button>
             </Grid>
             <Grid item>
               <Button color="primary" variant="contained" onClick={() => setOpenEmenta(true)}>Adicionar Ementa</Button>
@@ -153,6 +155,49 @@ function CadastrarCurso() {
             A ementa do curso foi cadastrada com sucesso!
           </h1>
           <Button color="primary" variant="contained" style={{ width: '25%', marginTop: '2em' }} onClick={() => { setOpenEmenta(false); setOpenEmentaFinish(false) }}>Voltar ao cadastro</Button>
+        </DialogContent>
+      </Dialog>
+
+
+      <Dialog open={openRequisitos} fullWidth maxWidth="lg">
+        <DialogTitle>
+          <Grid container justifyContent="flex-end">
+            <CloseIcon onClick={() => setOpenRequisitos(false)} style={{ cursor: 'pointer' }} />
+          </Grid>
+        </DialogTitle>
+        <DialogContent style={{ textAlign: 'center', paddingBottom: '3em', overflow: 'hidden' }}>
+          <h1 style={{ width: '50%', fontSize: '1.5em', color: '#4c86d3', margin: '0 auto', padding: '2em 0', fontWeight: 600 }}>
+            Cadastro dos Requisitos
+          </h1>
+          <Grid container spacing={3} className="grdizin" justifyContent="center" alignItems="center">
+            <Grid item md={9}>
+              <TextField label="Digite os requisitos do curso em tópicos" variant="outlined" style={{ width: '100%' }} />
+            </Grid>
+            <Grid item md={3}>
+              <Button color="primary" variant="contained" style={{ width: '100%' }}>Adicionar</Button>
+            </Grid>
+          </Grid>
+          <div style={{ border: '1px solid black', marginTop: '1em', padding: '1.5em' }}>
+            <ul style={{ textAlign: 'left' }}>
+              <li style={{ padding: '.7em 0' }}>Tópico 1</li>
+              <li style={{ padding: '.7em 0' }}>Tópico 2</li>
+              <li style={{ padding: '.7em 0' }}>Tópico 3</li>
+            </ul>
+          </div>
+          <Button color="primary" variant="contained" style={{ width: '25%', marginTop: '2em' }} onClick={() => setOpenRequisitosFinish(true)}>Salvar</Button>
+        </DialogContent>
+      </Dialog>
+      <Dialog open={openRequisitosFinish} fullWidth maxWidth="md">
+        <DialogTitle>
+          <Grid container justifyContent="flex-end">
+            <CloseIcon onClick={() => { setOpenRequisitosFinish(false) }} style={{ cursor: 'pointer' }} />
+          </Grid>
+        </DialogTitle>
+        <DialogContent style={{ textAlign: 'center', paddingBottom: '3em', overflow: 'hidden' }}>
+          <h1 style={{ width: '50%', fontSize: '1.5em', color: '#4c86d3', margin: '0 auto', padding: '2em 0', fontWeight: 600 }}>
+            Os requisitos do curso foram cadastrados com sucesso!
+          </h1>
+          <Button color="primary" variant="contained" style={{ width: '25%', marginTop: '2em' }} onClick={() => { setOpenRequisitos(false); setOpenRequisitosFinish(false) }}>Voltar ao cadastro</Button>
         </DialogContent>
       </Dialog>
     </Container>
