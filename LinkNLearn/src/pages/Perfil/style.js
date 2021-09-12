@@ -101,6 +101,11 @@ export const Section = styled.section`
                     font-weight: 500;
                 }
             }
+
+            .MuiCard-root:hover{
+                box-shadow: 0px 0px 15px 0px rgb(0 0 0 / 50%);
+                cursor: pointer;
+            }
         }
     }
 
