@@ -52,6 +52,12 @@ export const Section = styled.section`
                 font-size: 1.3em;
             }
 
+            h2 {
+                text-align: center;
+                font-size: x-large;
+                font-weight: 700;
+            }
+
             span {
                 margin-top: 1em;
                 display: flex;
@@ -64,6 +70,36 @@ export const Section = styled.section`
 
             .card {
                 width: 95%;
+            }
+        }
+
+        .plansGrid {
+            width: 75%;
+            margin: 0 auto;
+            margin-top: 1em;
+            margin-bottom: 1em;
+            
+            .MuiCard-root {
+                min-height: 100%;
+                h1 {
+                    font-size: 1.5em;
+                    text-align: center;
+                    font-weight: 500;
+                    padding-bottom: .2em;
+                }
+                
+                h3 {
+                    color: #3577CC;
+                    font-size: 1em;
+                    text-align: center;
+                    font-weight: 600;
+                    padding-bottom: .4em;
+                }
+
+                p {
+                    text-align: center;
+                    font-weight: 500;
+                }
             }
         }
     }
