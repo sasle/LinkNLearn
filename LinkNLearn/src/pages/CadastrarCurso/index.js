@@ -2,14 +2,17 @@ import React, { useState } from 'react';
 import { Container, Section } from './style.js';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
-import { Button, Dialog, DialogContent, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
+import { Button, Dialog, DialogContent, DialogTitle, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
 import { Link, useHistory } from 'react-router-dom';
 import Sasuke from '../../assets/images/Sasukereup.jpg';
+import CloseIcon from '@material-ui/icons/Close';
+
 
 function CadastrarCurso() {
 
   const history = useHistory();
   const [openEmenta, setOpenEmenta] = useState(false);
+  const [openEmentaFinish, setOpenEmentaFinish] = useState(false);
 
   function handleLogout() {
     localStorage.setItem('token', '');
@@ -112,6 +115,11 @@ function CadastrarCurso() {
       </main>
       <Footer />
       <Dialog open={openEmenta} fullWidth maxWidth="lg">
+        <DialogTitle>
+          <Grid container justifyContent="flex-end">
+            <CloseIcon onClick={() => setOpenEmenta(false)} style={{ cursor: 'pointer' }} />
+          </Grid>
+        </DialogTitle>
         <DialogContent style={{ textAlign: 'center', paddingBottom: '3em', overflow: 'hidden' }}>
           <h1 style={{ width: '50%', fontSize: '1.5em', color: '#4c86d3', margin: '0 auto', padding: '2em 0', fontWeight: 600 }}>
             Cadastro da Ementa
@@ -131,7 +139,20 @@ function CadastrarCurso() {
               <li style={{ padding: '.7em 0' }}>Tópico 3</li>
             </ul>
           </div>
-          <Button color="primary" variant="contained" style={{ width: '25%', marginTop: '2em' }}>Salvar</Button>
+          <Button color="primary" variant="contained" style={{ width: '25%', marginTop: '2em' }} onClick={() => setOpenEmentaFinish(true)}>Salvar</Button>
+        </DialogContent>
+      </Dialog>
+      <Dialog open={openEmentaFinish} fullWidth maxWidth="md">
+        <DialogTitle>
+          <Grid container justifyContent="flex-end">
+            <CloseIcon onClick={() => { setOpenEmentaFinish(false) }} style={{ cursor: 'pointer' }} />
+          </Grid>
+        </DialogTitle>
+        <DialogContent style={{ textAlign: 'center', paddingBottom: '3em', overflow: 'hidden' }}>
+          <h1 style={{ width: '50%', fontSize: '1.5em', color: '#4c86d3', margin: '0 auto', padding: '2em 0', fontWeight: 600 }}>
+            A ementa do curso foi cadastrada com sucesso!
+          </h1>
+          <Button color="primary" variant="contained" style={{ width: '25%', marginTop: '2em' }} onClick={() => { setOpenEmenta(false); setOpenEmentaFinish(false) }}>Voltar ao cadastro</Button>
         </DialogContent>
       </Dialog>
     </Container>
