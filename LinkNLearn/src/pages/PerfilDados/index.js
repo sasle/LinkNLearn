@@ -98,6 +98,11 @@ function PerfilDados() {
                   </Link>
                 </Grid>
                 <Grid item>
+                  <Link to='/cadastrar-curso'>
+                    <Button color="primary" variant="contained">Cadastrar curso</Button>
+                  </Link>
+                </Grid>
+                <Grid item>
                   <Button color="primary" variant="contained" onClick={handleLogout}>Log out</Button>
                 </Grid>
               </Grid>
@@ -106,6 +111,51 @@ function PerfilDados() {
               <div>
                 <img src={Sasuke} alt="foto de perfil" />
               </div>
+              <Grid container spacing={5} className="grid">
+                <Grid item>
+                  <TextField label="Nome" />
+                </Grid>
+                <Grid item>
+                  <TextField label="Sobrenome" />
+                </Grid>
+              </Grid>
+              <Grid container spacing={5} className="grid">
+                <Grid item>
+                  <TextField label="Email" type="email" />
+                </Grid>
+                <Grid item>
+                  <TextField label="Telefone" />
+                </Grid>
+              </Grid>
+              <Grid container spacing={5} className="grid">
+                <Grid item>
+                  <TextField label="Sexo" />
+                </Grid>
+                <Grid item>
+                  <TextField label="Data de Nascimento" />
+                </Grid>
+              </Grid>
+              <Grid container spacing={5} className="grid">
+                <Grid item>
+                  <TextField label="LinkedIn" />
+                </Grid>
+                <Grid item>
+                  <TextField label="PIX" />
+                </Grid>
+              </Grid>
+              <Grid container spacing={5} className="grid">
+                <Grid item>
+                  <TextField label="Portfólio (opcional)" />
+                </Grid>
+                <Grid item>
+                  <TextField label="CPF" />
+                </Grid>
+              </Grid>
+              <Grid container className="grid">
+                <Grid item md={12}>
+                  <Button color="primary" variant="contained">Salvar dados</Button>
+                </Grid>
+              </Grid>
             </Section>
           </main>
       }

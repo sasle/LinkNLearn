@@ -176,7 +176,7 @@ function Header() {
             <Grid container justifyContent="center" spacing={3}>
               <Grid item>
                 <Tooltip title="Perfil">
-                  <IconButton color="primary" onClick={() => history.push('perfil')}>
+                  <IconButton color="primary" onClick={() => history.push('/perfil')}>
                     <AccountCircle />
                   </IconButton>
                 </Tooltip>
