@@ -77,8 +77,6 @@ function Header() {
           gender: "",
           pictureProfile: "",
           educationLevel: "",
-          studentsCourses: [],
-          feedback: []
         }).then(response => {
           setLoading(false);
           localStorage.setItem('token', response.data.token);
