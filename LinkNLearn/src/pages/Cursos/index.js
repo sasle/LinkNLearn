@@ -4,13 +4,15 @@ import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 
 import { useHistory } from 'react-router-dom';
-import { FormControl, FormControlLabel, Grid } from '@material-ui/core';
+import { Button, FormControl, FormControlLabel, Grid } from '@material-ui/core';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Pagination from '@material-ui/lab/Pagination';
 
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
+import ClearIcon from '@material-ui/icons/Clear';
+
 import CardCurso from '../../components/CardCurso/index.js';
 
 
@@ -22,7 +24,6 @@ function Cursos(props) {
   const [dificuldade, setDificuldade] = useState("Iniciante");
   const [preco, setPreco] = useState(1);
   const [page, setPage] = useState(1);
-  const [arrayFiltered] = useState([]);
 
   var cursos = [
     {
@@ -172,6 +173,12 @@ function Cursos(props) {
                   </RadioGroup>
                 </FormControl>
                 <hr />
+              </Grid>
+              <Grid item style={{ alignSelf: 'center', marginTop: '2em' }} onClick={() => setTrios(cursos.reduce(function (rows, key, index) {
+                return (index % 3 === 0 ? rows.push([key])
+                  : rows[rows.length - 1].push(key)) && rows;
+              }, []))}>
+                <Button variant="contained" color="primary"><ClearIcon />Limpar filtros</Button>
               </Grid>
             </Grid>
 
