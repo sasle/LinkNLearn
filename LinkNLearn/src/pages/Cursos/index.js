@@ -19,8 +19,86 @@ function Cursos(props) {
   const query = decodeURI(history.location.search.split('=')[1]); //usar pra pesquisar no back
 
   const [classificacao, setClassificacao] = useState(0);
-  const [dificuldade, setDificuldade] = useState(0);
-  const [preco, setPreco] = useState(0);
+  const [dificuldade, setDificuldade] = useState("Iniciante");
+  const [preco, setPreco] = useState(1);
+  const [page, setPage] = useState(1);
+  const [arrayFiltered] = useState([]);
+
+  var cursos = [
+    {
+      titulo: "React",
+      resumo: "Resumo",
+      professor: "Alexandre",
+      preco: 150,
+      nivel: "Intermediário",
+      nota: 4.8
+    },
+    {
+      titulo: "UX",
+      resumo: "Resumo",
+      professor: "Vitor",
+      preco: 1000000,
+      nivel: "Avançado",
+      nota: 4.8
+    },
+    {
+      titulo: "Android",
+      resumo: "Resumo",
+      professor: "Freddy",
+      preco: 1000000,
+      nivel: "Avançado",
+      nota: 4.8
+    },
+    {
+      titulo: "Android",
+      resumo: "Resumo",
+      professor: "Freddy",
+      preco: 1000000,
+      nivel: "Avançado",
+      nota: 4.8
+    }
+    ,
+    {
+      titulo: "Android",
+      resumo: "Resumo",
+      professor: "Freddy",
+      preco: 1000000,
+      nivel: "Avançado",
+      nota: 3.2
+    },
+    {
+      titulo: "Android",
+      resumo: "Resumo",
+      professor: "Freddy",
+      preco: 1000000,
+      nivel: "Avançado",
+      nota: 4.8
+    },
+    {
+      titulo: "fsdafdsafsdfs",
+      resumo: "Resumo",
+      professor: "Freddy",
+      preco: 1000000,
+      nivel: "Avançado",
+      nota: 4.8
+    }
+    ,
+    {
+      titulo: "teste",
+      resumo: "Resumo",
+      professor: "Freddy",
+      preco: 250,
+      nivel: "Intermediário",
+      nota: 2
+    }
+
+  ]
+
+  const [trios, setTrios] = useState(cursos.reduce(function (rows, key, index) {
+    return (index % 3 === 0 ? rows.push([key])
+      : rows[rows.length - 1].push(key)) && rows;
+  }, []));
+
 
   return (
     <Container>
@@ -33,7 +111,13 @@ function Cursos(props) {
               <Grid item>
                 <FormControl style={{ width: '100%' }}>
                   <label>Classificação</label>
-                  <RadioGroup row aria-label="classificacao" value={classificacao} onClick={e => setClassificacao(e.target.value)}>
+                  <RadioGroup row aria-label="classificacao" value={classificacao} onClick={e => {
+                    setClassificacao(e.target.value);
+                    setTrios(cursos.filter(curso => Math.round(curso.nota) == e.target.value && curso.nivel == dificuldade && curso.preco == preco).reduce(function (rows, key, index) {
+                      return (index % 3 === 0 ? rows.push([key])
+                        : rows[rows.length - 1].push(key)) && rows;
+                    }, []));
+                  }}>
                     <FormControlLabel value="1" checked={classificacao > 0} control={<Radio icon={<StarBorderIcon fontSize="large" color="primary" />} checkedIcon={<StarIcon fontSize="large" color="primary" />} />} />
                     <FormControlLabel value="2" checked={classificacao > 1} control={<Radio icon={<StarBorderIcon fontSize="large" color="primary" />} checkedIcon={<StarIcon fontSize="large" color="primary" />} />} />
                     <FormControlLabel value="3" checked={classificacao > 2} control={<Radio icon={<StarBorderIcon fontSize="large" color="primary" />} checkedIcon={<StarIcon fontSize="large" color="primary" />} />} />
@@ -46,10 +130,16 @@ function Cursos(props) {
               <Grid item>
                 <FormControl style={{ width: '100%' }}>
                   <label>Nível</label>
-                  <RadioGroup aria-label="dificuldade" value={dificuldade} onChange={e => setDificuldade(e.target.value)}>
-                    <FormControlLabel value="1" control={<Radio color="primary" />} label="Iniciante" />
-                    <FormControlLabel value="2" control={<Radio color="primary" />} label="Intermediário" />
-                    <FormControlLabel value="3" control={<Radio color="primary" />} label="Avançado" />
+                  <RadioGroup aria-label="dificuldade" value={dificuldade} onChange={e => {
+                    setDificuldade(e.target.value)
+                    setTrios(cursos.filter(curso => curso.nivel == e.target.value && Math.round(curso.nota) == classificacao && curso.preco == preco).reduce(function (rows, key, index) {
+                      return (index % 3 === 0 ? rows.push([key])
+                        : rows[rows.length - 1].push(key)) && rows;
+                    }, []));
+                  }}>
+                    <FormControlLabel value="Iniciante" control={<Radio color="primary" />} label="Iniciante" />
+                    <FormControlLabel value="Intermediário" control={<Radio color="primary" />} label="Intermediário" />
+                    <FormControlLabel value="Avançado" control={<Radio color="primary" />} label="Avançado" />
                   </RadioGroup>
                 </FormControl>
                 <hr />
@@ -57,7 +147,25 @@ function Cursos(props) {
               <Grid item>
                 <FormControl style={{ width: '100%' }}>
                   <label>Preço</label>
-                  <RadioGroup aria-label="preço" value={preco} onChange={e => setPreco(e.target.value)}>
+                  <RadioGroup aria-label="preço" value={preco} onChange={e => {
+                    setPreco(e.target.value)
+                    if (e.target.value == "1") {
+                      setTrios(cursos.filter(curso => curso.preco <= 200 && Math.round(curso.nota) == classificacao && curso.nivel == dificuldade).reduce(function (rows, key, index) {
+                        return (index % 3 === 0 ? rows.push([key])
+                          : rows[rows.length - 1].push(key)) && rows;
+                      }, []));
+                    } else if (e.target.value == "2") {
+                      setTrios(cursos.filter(curso => curso.preco <= 500 && Math.round(curso.nota) == classificacao && curso.nivel == dificuldade).reduce(function (rows, key, index) {
+                        return (index % 3 === 0 ? rows.push([key])
+                          : rows[rows.length - 1].push(key)) && rows;
+                      }, []));
+                    } else {
+                      setTrios(cursos.filter(curso => curso.preco > 500 && Math.round(curso.nota) == classificacao && curso.nivel == dificuldade).reduce(function (rows, key, index) {
+                        return (index % 3 === 0 ? rows.push([key])
+                          : rows[rows.length - 1].push(key)) && rows;
+                      }, []));
+                    }
+                  }}>
                     <FormControlLabel value="1" control={<Radio color="primary" />} label="Até R$200" />
                     <FormControlLabel value="2" control={<Radio color="primary" />} label="Até R$500" />
                     <FormControlLabel value="3" control={<Radio color="primary" />} label="Mais de R$500" />
@@ -66,25 +174,31 @@ function Cursos(props) {
                 <hr />
               </Grid>
             </Grid>
+
             <Grid item container direction="column" md={8}>
-              <Grid item className="card">
-                <CardCurso id={99999} titulo="A Mégica do React" resumo="Descrição do curso resumido" professor="Nome professor" preco="00,00" nivel="Iniciante" nota="4.8" />
-              </Grid>
-              <Grid item className="card">
-                <CardCurso titulo="Título Maior" resumo="Descrição do curso resumido" professor="Nome professor" preco="00,00" nivel="Iniciante" nota="4.8" />
-              </Grid>
-              <Grid item className="card">
-                <CardCurso titulo="Título Maior" resumo="Descrição do curso resumido" professor="Nome professor" preco="00,00" nivel="Iniciante" nota="4.8" />
-              </Grid>
-              <Grid item className="paginator">
-                <Pagination count={20} />
-              </Grid>
+
+              {
+                trios.length > 0 ?
+                  trios[page - 1].map(trio => (
+                    <Grid item className="card">
+                      <CardCurso id={99999} titulo={trio.titulo} resumo={trio.resumo} professor={trio.professor} preco={trio.preco} nivel={trio.nivel} nota={trio.nota} />
+                    </Grid>
+                  ))
+                  :
+                  <p style={{ textAlign: "center", fontWeight: 700, marginTop: "15%" }}>Nenhum curso encontrado com estes filtros.</p>
+              }
+              {
+                trios.length > 0 &&
+                <Grid item className="paginator">
+                  <Pagination count={trios.length.toFixed(0)} onChange={(e, page) => setPage(page)} />
+                </Grid>
+              }
             </Grid>
           </Grid>
         </Section>
       </main>
       <Footer />
-    </Container>
+    </Container >
   );
 }
 
