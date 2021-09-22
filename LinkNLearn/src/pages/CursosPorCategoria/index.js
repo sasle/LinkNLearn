@@ -27,6 +27,7 @@ function CursosPorCategoria(props) {
 
   var cursos = [
     {
+      id: 1,
       titulo: "React",
       resumo: "Resumo",
       professor: "Alexandre",
@@ -35,64 +36,68 @@ function CursosPorCategoria(props) {
       nota: 4.8
     },
     {
+      id: 2,
       titulo: "UX",
       resumo: "Resumo",
       professor: "Vitor",
-      preco: 1000000,
+      preco: 300,
       nivel: "Avançado",
       nota: 4.8
     },
     {
+      id: 3,
       titulo: "Android",
       resumo: "Resumo",
       professor: "Freddy",
-      preco: 1000000,
+      preco: 220,
       nivel: "Avançado",
       nota: 4.8
     },
     {
+      id: 4,
       titulo: "Android",
       resumo: "Resumo",
       professor: "Freddy",
-      preco: 1000000,
+      preco: 900,
       nivel: "Avançado",
       nota: 4.8
-    }
-    ,
+    },
     {
+      id: 5,
       titulo: "Android",
       resumo: "Resumo",
       professor: "Freddy",
-      preco: 1000000,
+      preco: 140,
       nivel: "Avançado",
       nota: 3.2
     },
     {
+      id: 6,
       titulo: "Android",
       resumo: "Resumo",
       professor: "Freddy",
-      preco: 1000000,
+      preco: 650,
       nivel: "Avançado",
       nota: 4.8
     },
     {
+      id: 7,
       titulo: "fsdafdsafsdfs",
       resumo: "Resumo",
       professor: "Freddy",
-      preco: 1000000,
+      preco: 310,
       nivel: "Avançado",
       nota: 4.8
-    }
-    ,
+    },
     {
+      id: 8,
       titulo: "teste",
       resumo: "Resumo",
       professor: "Freddy",
-      preco: 250,
+      preco: 500,
       nivel: "Intermediário",
       nota: 2
     }
-
   ]
 
   const [trios, setTrios] = useState(cursos.reduce(function (rows, key, index) {
@@ -188,7 +193,7 @@ function CursosPorCategoria(props) {
                 trios.length > 0 ?
                   trios[page - 1].map(trio => (
                     <Grid item className="card">
-                      <CardCurso id={99999} titulo={trio.titulo} resumo={trio.resumo} professor={trio.professor} preco={trio.preco} nivel={trio.nivel} nota={trio.nota} />
+                      <CardCurso id={trio.id} titulo={trio.titulo} resumo={trio.resumo} professor={trio.professor} preco={trio.preco} nivel={trio.nivel} nota={trio.nota} />
                     </Grid>
                   ))
                   :

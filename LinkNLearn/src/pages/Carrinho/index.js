@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Section } from './style.js';
+import { CartContext } from '../../context/CartContext';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 
@@ -15,6 +16,12 @@ function Carrinho(props) {
   const history = useHistory();
 
   const [open, setOpen] = useState(false);
+  const [cart, setCart] = useState([CartContext._currentValue]);
+
+  var price = 0;
+  cart[0].map(item => {
+    price += item.preco;
+  })
 
   function handleFinish() {
     //gerar boleto etc.
@@ -30,42 +37,40 @@ function Carrinho(props) {
           Carrinho
         </Grid>
         <Section>
-          <Grid container className="box">
-            <Grid item container direction="column" spacing={3}>
-              <Grid item container alignItems="center" spacing={5}>
-                <Grid item md={2} style={{ textAlign: 'center' }}>
-                  <Button color="secondary" variant="contained"><DeleteIcon />Remover</Button>
-                </Grid>
-                <Grid item md={10}>
-                  <CardCurso id={99999} titulo="A Mégica do React" resumo="Descrição do curso resumido" professor="Nome professor" preco="00,00" nivel="Iniciante" nota="4.8" />
-                </Grid>
-              </Grid>
-              <Grid item container alignItems="center" spacing={5}>
-                <Grid item md={2} style={{ textAlign: 'center' }}>
-                  <Button color="secondary" variant="contained"><DeleteIcon />Remover</Button>
-                </Grid>
-                <Grid item md={10}>
-                  <CardCurso id={99999} titulo="A Mégica do React" resumo="Descrição do curso resumido" professor="Nome professor" preco="00,00" nivel="Iniciante" nota="4.8" />
-                </Grid>
-              </Grid>
-              <Grid item container alignItems="center" spacing={5}>
-                <Grid item md={2} style={{ textAlign: 'center' }}>
-                  <Button color="secondary" variant="contained"><DeleteIcon />Remover</Button>
-                </Grid>
-                <Grid item md={10}>
-                  <CardCurso id={99999} titulo="A Mégica do React" resumo="Descrição do curso resumido" professor="Nome professor" preco="00,00" nivel="Iniciante" nota="4.8" />
+          {
+            cart[0].length === 0 && <p style={{ fontWeight: 700, color: "#4c86d3", textAlign: 'center', fontSize: 'larger', marginTop: '10%' }}>Não há nenhum curso no carrinho ainda.</p>
+          }
+          {cart[0].length > 0 &&
+            <>
+              <Grid container className="box">
+                <Grid item container direction="column" spacing={3}>
+                  {
+                    cart[0].map(item => (
+                      <Grid item container alignItems="center" spacing={5}>
+                        <Grid item md={2} style={{ textAlign: 'center' }}>
+                          <Button color="secondary" variant="contained" onClick={() => {
+                            cart[0].splice(cart[0].findIndex(x => x.id === item.id), 1);
+                            setCart([CartContext._currentValue])
+                          }}><DeleteIcon />Remover</Button>
+                        </Grid>
+                        <Grid item md={10}>
+                          <CardCurso id={item.id} titulo={item.titulo} resumo={item.resumo} professor={item.professor} preco={item.preco} nivel={item.nivel} nota={item.nota} />
+                        </Grid>
+                      </Grid>
+                    ))
+                  }
                 </Grid>
               </Grid>
-            </Grid>
-          </Grid>
-          <Grid container className="box padding" justify="space-between" alignItems="center">
-            <Grid item>
-              <h1 className="total">Total: R$ 00,00</h1>
-            </Grid>
-            <Grid item>
-              <Button color="primary" variant="contained" className="finish" onClick={handleFinish}>Finalizar Pedido</Button>
-            </Grid>
-          </Grid>
+              <Grid container className="box padding" justify="space-between" alignItems="center">
+                <Grid item>
+                  <h1 className="total">Total: R${price}</h1>
+                </Grid>
+                <Grid item>
+                  <Button color="primary" variant="contained" className="finish" onClick={handleFinish}>Finalizar Pedido</Button>
+                </Grid>
+              </Grid>
+            </>
+          }
         </Section>
       </main>
       <Footer />
@@ -80,7 +85,7 @@ function Carrinho(props) {
           </Link>
         </DialogContent>
       </Dialog>
-    </Container>
+    </Container >
   );
 }
 

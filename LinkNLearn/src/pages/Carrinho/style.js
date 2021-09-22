@@ -18,6 +18,7 @@ export const Section = styled.section`
     margin-top: 1em;
     background-color: rgb(215, 196, 183, .2);
     padding: 5em;
+    min-height: 50vh;
 
     .box {
         padding: 1em;

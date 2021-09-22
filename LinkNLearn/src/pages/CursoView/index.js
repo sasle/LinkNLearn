@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { CartContext } from '../../context/CartContext';
 import { Container, Section } from './style.js';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
@@ -55,7 +56,7 @@ function CursoView() {
                       <span className="professorInfo">
                         <p>Professor(a):</p>
                         {/* Dinamizar */}
-                        <Link to="/professor/1"> 
+                        <Link to="/professor/1">
                           <p>Leonardo Junior</p>
                         </Link>
                       </span>
@@ -63,7 +64,12 @@ function CursoView() {
                   </Grid>
                 </Grid>
                 <Grid item md={3}>
-                  <Button color="primary" variant="contained" className="actionButtons" onClick={() => setOpen(true)}>Adicionar ao carrinho</Button>
+                  <Button color="primary" variant="contained" className="actionButtons" onClick={() => {
+                    setOpen(true);
+                    let cart = CartContext._currentValue;
+                    cart.push(cursoInfo);
+                  }
+                  }>Adicionar ao carrinho</Button>
                 </Grid>
                 <Grid item md={3}>
                   <Button color="primary" variant="contained" className="actionButtons">Finalizar Compra</Button>

@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { CartContext } from '../../context/CartContext';
 import axios from 'axios';
 import { Link, useHistory } from 'react-router-dom';
 import Logo from '../../assets/images/logo.png';
 import { HeaderComponent } from './style.js';
 
-import { Button, Dialog, Grid, DialogTitle, DialogContent, RadioGroup, FormControlLabel, Radio, Tooltip, IconButton, CircularProgress } from '@material-ui/core';
+import { Button, Dialog, Grid, DialogTitle, DialogContent, RadioGroup, FormControlLabel, Radio, Tooltip, IconButton, CircularProgress, Badge } from '@material-ui/core';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Search from '@material-ui/icons/Search';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
@@ -15,6 +16,9 @@ import { AccountCircle, ExitToApp } from '@material-ui/icons';
 
 function Header() {
   const history = useHistory();
+
+  const cart = CartContext._currentValue;
+
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [isNew, setIsNew] = useState(false);
@@ -150,7 +154,9 @@ function Header() {
           </Grid>
           <Grid item md={"auto"}>
             <Link to='/carrinho'>
-              <ShoppingCartIcon />
+              <Badge badgeContent={cart.length} color="primary">
+                <ShoppingCartIcon />
+              </Badge>
             </Link>
           </Grid>
           <Grid item md={"auto"}>
