@@ -48,6 +48,7 @@ export const Section = styled.section`
 
         .nota {
             align-items: center;
+            margin-right: 5%;
 
             p {
                 font-weight: 700;  
@@ -66,7 +67,7 @@ export const Section = styled.section`
         }
 
         .actionButtons {
-            width: 100%;
+            width: 20vw;
             height: 100%;
         }
 

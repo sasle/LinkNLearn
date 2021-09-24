@@ -4,7 +4,7 @@ import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 import { Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
 import { Link, useHistory } from 'react-router-dom';
-import Sasuke from '../../assets/images/Sasukereup.jpg';
+import Placeholder from '../../assets/images/placeholder.jpg';
 
 function PerfilDados() {
 
@@ -41,7 +41,7 @@ function PerfilDados() {
             </header>
             <Section>
               <div>
-                <img src={Sasuke} alt="foto de perfil" />
+                <img src={Placeholder} alt="foto de perfil" />
               </div>
               <Grid container spacing={5} className="grid">
                 <Grid item>
@@ -109,7 +109,7 @@ function PerfilDados() {
             </header>
             <Section>
               <div>
-                <img src={Sasuke} alt="foto de perfil" />
+                <img src={Placeholder} alt="foto de perfil" />
               </div>
               <Grid container spacing={5} className="grid">
                 <Grid item>

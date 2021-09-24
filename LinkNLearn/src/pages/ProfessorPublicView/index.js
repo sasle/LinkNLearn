@@ -8,7 +8,7 @@ import { Button, Dialog, Grid, DialogTitle, DialogContent } from '@material-ui/c
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import CloseIcon from '@material-ui/icons/Close';
-import Sasuke from '../../assets/images/Sasukereup.jpg';
+import Placeholder from '../../assets/images/placeholder.jpg';
 import CardAlunoFeedback from '../../components/CardAlunoFeedback/index.js';
 import CardCurso from '../../components/CardCurso';
 
@@ -31,7 +31,7 @@ function ProfessorPublicView() {
         </Grid>
         <Section>
           <Grid container justifyContent="center">
-            <img src={Sasuke} alt="Imagem professor" />
+            <img src={Placeholder} alt="Imagem professor" />
           </Grid>
           <Grid container className="box" direction="column">
             <h1>Informações do professor:</h1>

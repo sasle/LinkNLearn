@@ -4,7 +4,7 @@ import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 import { Button, Dialog, DialogContent, DialogTitle, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
 import { Link, useHistory } from 'react-router-dom';
-import Sasuke from '../../assets/images/Sasukereup.jpg';
+import Placeholder from '../../assets/images/placeholder.jpg';
 import CloseIcon from '@material-ui/icons/Close';
 
 
@@ -26,7 +26,7 @@ function CadastrarCurso() {
       <Header />
       <main className="mainAluno">
         <header>
-          <h1>Meus Dados</h1>
+          <h1>Cadastrar Curso</h1>
           <Grid container justifyContent="center" spacing={3}>
             <Grid item>
               <Link to='/perfil/dados'>
@@ -50,7 +50,7 @@ function CadastrarCurso() {
         </header>
         <Section>
           <div>
-            <img src={Sasuke} alt="foto de perfil" />
+            <img src={Placeholder} alt="foto de perfil" />
           </div>
           <Grid container spacing={5} className="grid">
             <Grid item>

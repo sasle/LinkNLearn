@@ -9,7 +9,7 @@ import { Button, Dialog, Grid, DialogTitle, DialogContent } from '@material-ui/c
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import CloseIcon from '@material-ui/icons/Close';
-import Sasuke from '../../assets/images/Sasukereup.jpg';
+import Placeholder from '../../assets/images/placeholder.jpg';
 import CardAlunoFeedback from '../../components/CardAlunoFeedback/index.js';
 
 function CursoView() {
@@ -31,13 +31,13 @@ function CursoView() {
             <Grid item container className="infoBox" justifyContent="space-evenly">
               <Grid item container spacing={3}>
                 <Grid item md={3}>
-                  <img src={Sasuke} alt="Sasuke" className="sasuke" />
+                  <img src={Placeholder} alt="Placeholder" className="sasuke" />
                 </Grid>
                 <Grid item md={9}>
                   <div style={{ minHeight: '65%', height: '65%' }}>
                     <span className="courseDesc">
                       <p>Descrição do curso</p>
-                      <p>Descrição do curso resumidamente Descrição do curso resumidamente Descrição do curso resumidamente Descrição do curso resumidamente Descrição do curso resumidamente.</p>
+                      <p>{cursoInfo.resumo}</p>
                     </span>
                   </div>
                 </Grid>
@@ -46,33 +46,34 @@ function CursoView() {
                 <Grid item md={3}>
                   <Grid item container direction="column">
                     <Grid item container justifyContent="space-between" style={{ marginTop: '1em', marginBottom: '1em' }}>
-                      <p style={{ fontWeight: 700 }}>R$ 00,00</p>
+                      <p style={{ fontWeight: 700 }}>R$ {cursoInfo.preco}</p>
                       <span className="nota">
                         <StarBorderIcon />
-                        <p>4.8</p>
+                        <p>{cursoInfo.nota}</p>
                       </span>
                     </Grid>
                     <Grid item>
                       <span className="professorInfo">
                         <p>Professor(a):</p>
-                        {/* Dinamizar */}
                         <Link to="/professor/1">
-                          <p>Leonardo Junior</p>
+                          <p>{cursoInfo.professor}</p>
                         </Link>
                       </span>
                     </Grid>
                   </Grid>
                 </Grid>
-                <Grid item md={3}>
-                  <Button color="primary" variant="contained" className="actionButtons" onClick={() => {
-                    setOpen(true);
-                    let cart = CartContext._currentValue;
-                    cart.push(cursoInfo);
-                  }
-                  }>Adicionar ao carrinho</Button>
-                </Grid>
-                <Grid item md={3}>
-                  <Button color="primary" variant="contained" className="actionButtons">Finalizar Compra</Button>
+                <Grid item container md={9} spacing={5} justifyContent="space-evenly">
+                  <Grid item>
+                    <Button color="primary" variant="contained" className="actionButtons" onClick={() => {
+                      setOpen(true);
+                      let cart = CartContext._currentValue;
+                      cart.push(cursoInfo);
+                    }
+                    }>Adicionar ao carrinho</Button>
+                  </Grid>
+                  <Grid item>
+                    <Button color="primary" variant="contained" className="actionButtons">Finalizar Compra</Button>
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>

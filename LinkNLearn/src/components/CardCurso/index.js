@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container } from './styles.js';
-import Sasuke from '../../assets/images/Sasukereup.jpg';
+import Placeholder from '../../assets/images/placeholder.jpg';
 
 import { CardContent } from '@material-ui/core';
 import { Card, Grid } from '@material-ui/core';
@@ -36,7 +36,7 @@ function CardCurso(props) {
               </Grid>
             </Grid>
             <Grid item container md={4} justifyContent="flex-end" style={{ padding: 0 }}>
-              <img src={Sasuke} alt="coming soon" />
+              <img src={Placeholder} alt="coming soon" />
             </Grid>
           </Grid>
         </CardContent>
