@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Section } from './style.js';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
@@ -6,17 +6,29 @@ import { Button, Card, CardContent, Dialog, DialogContent, DialogTitle, Grid } f
 import { Link, useHistory } from 'react-router-dom';
 import CardCurso from '../../components/CardCurso/index.js';
 import CloseIcon from '@material-ui/icons/Close';
+import axios from 'axios';
 
 
 function Perfil() {
 
   const history = useHistory();
   const [open, setOpen] = useState(false);
+  const [planos, setPlanos] = useState([]);
+  const [planoEscolhido, setPlanoEscolhido] = useState({});
 
   function handleLogout() {
     localStorage.setItem('token', '');
     history.push('/');
   }
+
+  async function loadPlanos() {
+    const planosResponse = await axios.get('http://localhost:3333/plan/listAll');
+    setPlanos(planosResponse.data);
+  }
+
+  useEffect(() => {
+    loadPlanos();
+  }, [])
 
   return (
     <Container>
@@ -94,33 +106,19 @@ function Perfil() {
                   <h2>Cursos dos planos a partir do Nível 10, serão os primeiros a serem vistos em suas respectivas categorias                 </h2>
                 </Grid>
                 <Grid item container justifyContent="center" spacing={3} className="plansGrid">
-                  <Grid item md={4}>
-                    <Card onClick={() => setOpen(true)}>
-                      <CardContent>
-                        <h1>Nível 1</h1>
-                        <h3>Gratuito</h3>
-                        <p>Divulgação de 3 cursos na área de destaque</p>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                  <Grid item md={4}>
-                    <Card onClick={() => setOpen(true)}>
-                      <CardContent>
-                        <h1>Nível 10</h1>
-                        <h3>R$10,00/mês</h3>
-                        <p>Divulgue quantos cursos quiser na área de destaque</p>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                  <Grid item md={4}>
-                    <Card onClick={() => setOpen(true)}>
-                      <CardContent>
-                        <h1>Nível 100</h1>
-                        <h3>R$70,00/Ano</h3>
-                        <p>Economize R$50,00 e divulgue quantos cursos quiser na área de destaque</p>
-                      </CardContent>
-                    </Card>
-                  </Grid>
+                  {
+                    planos.map(plano => (
+                      <Grid key={plano.id_plan} item md={4}>
+                        <Card onClick={() => { setOpen(true); setPlanoEscolhido(plano) }}>
+                          <CardContent>
+                            <h1>{plano.title}</h1>
+                            <h3>{plano.price}</h3>
+                            <p>{plano.description}</p>
+                          </CardContent>
+                        </Card>
+                      </Grid>
+                    ))
+                  }
                 </Grid>
                 <Grid item container className="box" spacing={3}>
                   <Grid item className="card">
@@ -150,7 +148,7 @@ function Perfil() {
         </DialogTitle>
         <DialogContent style={{ textAlign: 'center', paddingBottom: '3em' }}>
           <h1 style={{ fontSize: '1.5em', color: '#4c86d3', padding: '2em 0', fontWeight: 700 }}>
-            Confirmação de compra do plano Nível 10
+            Confirmação de compra do plano {planoEscolhido.title}
           </h1>
           <Button color="primary" variant="contained" onClick={() => setOpen(false)} style={{ width: '25%' }}>Comprar</Button>
         </DialogContent>
