@@ -77,7 +77,7 @@ function Header() {
           email: email,
           password: password,
           cpf: "",
-          birthDate: "",
+          birthDate: new Date(),
           gender: "",
           pictureProfile: "",
           educationLevel: "",
