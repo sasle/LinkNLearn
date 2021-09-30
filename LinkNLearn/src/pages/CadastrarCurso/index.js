@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Container, Section } from './style.js';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
-import { Button, Dialog, DialogContent, DialogTitle, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
+import { Button, Dialog, DialogContent, DialogTitle, FormControl, Grid, InputLabel, MenuItem, Select, Snackbar, TextField } from '@material-ui/core';
+
 import { Link, useHistory } from 'react-router-dom';
 import Placeholder from '../../assets/images/placeholder.jpg';
 import CloseIcon from '@material-ui/icons/Close';
+import axios from 'axios';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import { DatePicker, LocalizationProvider } from '@mui/lab';
 
 
 function CadastrarCurso() {
@@ -16,9 +20,52 @@ function CadastrarCurso() {
   const [openRequisitos, setOpenRequisitos] = useState(false);
   const [openRequisitosFinish, setOpenRequisitosFinish] = useState(false);
 
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [level, setLevel] = useState('');
+  const [startDate, setStartDate] = useState(new Date());
+  const [finishdate, setFinishDate] = useState(new Date());
+  const [period, setPeriod] = useState('');
+  const [classdate, setClassDate] = useState('');
+  const [maxStudents, setMaxStudents] = useState(0);
+  const [price, setPrice] = useState(0);
+  const [platform, setPlatform] = useState('');
+  const [logoCourse, setLogoCourse] = useState('logo.png');
+  const [hours, setHours] = useState("");
+
+  const [openSnack, setOpenSnack] = useState(false);
+
   function handleLogout() {
     localStorage.setItem('token', '');
     history.push('/');
+  }
+
+  async function postCurso(e) {
+    e.preventDefault();
+    //ta dando erro -> insert or update on table "courses" violates foreign key constraint "FK_c9ae211023098e9b7bb44f5b473"
+    try {
+      await axios.post('http://localhost:3333/courses/create', {
+        idTeacher: "26538c42-dffe-429f-bde6-5f4902489179",
+        title: title,
+        description: description,
+        level: level.anchor,
+        startDate: startDate,
+        finishDate: finishdate,
+        period: period,
+        classDate: classdate,
+        maxStudent: parseInt(maxStudents),
+        price: parseFloat(price),
+        platform: platform,
+        logoCourse: logoCourse,
+        hours: hours
+      }, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      })
+
+      setOpenSnack(true);
+    }
+    catch (err) {
+    }
   }
 
   return (
@@ -52,67 +99,85 @@ function CadastrarCurso() {
           <div>
             <img src={Placeholder} alt="foto de perfil" />
           </div>
-          <Grid container spacing={5} className="grid">
-            <Grid item>
-              <TextField label="Nome do curso" />
+          <form>
+            <Grid container spacing={5} className="grid">
+              <Grid item>
+                <TextField label="Nome do curso" required onChange={e => setTitle(e.target.value)} />
+              </Grid>
+              <Grid item>
+                <TextField label="Valor" type="number" required onChange={e => setPrice(e.target.value)} />
+              </Grid>
             </Grid>
-            <Grid item>
-              <TextField label="Valor" />
+            <Grid container spacing={5} className="grid">
+              <Grid item>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DatePicker
+                    label="Data do Curso - Início"
+                    onChange={(newValue) => {
+                      setStartDate(newValue);
+                    }}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </LocalizationProvider>
+              </Grid>
+              <Grid item>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DatePicker
+                    label="Data do Curso - Fim"
+                    onChange={(newValue) => {
+                      setFinishDate(newValue);
+                    }}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </LocalizationProvider>
+              </Grid>
             </Grid>
-          </Grid>
-          <Grid container spacing={5} className="grid">
-            <Grid item>
-              <TextField label="Data do curso - Início" />
+            <Grid container spacing={5} className="grid">
+              <Grid item>
+                <TextField label="Nível" required onChange={e => setLevel(e.target.value)} />
+              </Grid>
+              <Grid item>
+                <TextField label="Plataforma" required onChange={e => setPlatform(e.target.value)} />
+              </Grid>
             </Grid>
-            <Grid item>
-              <TextField label="Data do curso - Fim" />
+            <Grid container spacing={5} className="grid">
+              <Grid item>
+                <TextField label="Descrição" required onChange={e => setDescription(e.target.value)} />
+              </Grid>
+              <Grid item>
+                <TextField label="Período" required onChange={e => setPeriod(e.target.value)} />
+              </Grid>
             </Grid>
-          </Grid>
-          <Grid container spacing={5} className="grid">
-            <Grid item>
-              <TextField label="Categoria" />
+            <Grid container spacing={5} className="grid">
+              <Grid item>
+                <TextField label="Total de Horas" type="number" required onChange={e => setHours(e.target.value)} />
+              </Grid>
+              <Grid item>
+                <TextField label="Dias de aula" type="number" required onChange={e => setClassDate(e.target.value)} />
+              </Grid>
             </Grid>
-            <Grid item>
-              <TextField label="Plataforma" />
+            <Grid container spacing={5} className="grid">
+              <Grid item>
+                <TextField label="Número de vagas" type="number" required onChange={e => setMaxStudents(e.target.value)} />
+              </Grid>
+              <Grid item>
+                <TextField label="Total de horas" type="number" required onChange={e => setHours(e.target.value)} />
+              </Grid>
             </Grid>
-          </Grid>
-          <Grid container spacing={5} className="grid">
-            <Grid item>
-              <TextField label="Descrição" />
+            <Grid container spacing={5} className="grid">
+              <Grid item>
+                <Button color="primary" variant="contained" onClick={() => setOpenRequisitos(true)}>Adicionar Requisitos</Button>
+              </Grid>
+              <Grid item>
+                <Button color="primary" variant="contained" onClick={() => setOpenEmenta(true)}>Adicionar Ementa</Button>
+              </Grid>
             </Grid>
-            <Grid item>
-              <TextField label="Período" />
+            <Grid container className="grid">
+              <Grid item md={12}>
+                <Button color="primary" variant="contained" className="cadastrarCurso" type="submit" onClick={postCurso}>Cadastrar curso</Button>
+              </Grid>
             </Grid>
-          </Grid>
-          <Grid container spacing={5} className="grid">
-            <Grid item>
-              <TextField label="Horário" />
-            </Grid>
-            <Grid item>
-              <TextField label="Dias de aula" />
-            </Grid>
-          </Grid>
-          <Grid container spacing={5} className="grid">
-            <Grid item>
-              <TextField label="Número de vagas" />
-            </Grid>
-            <Grid item>
-              <TextField label="Total de horas" />
-            </Grid>
-          </Grid>
-          <Grid container spacing={5} className="grid">
-            <Grid item>
-              <Button color="primary" variant="contained" onClick={() => setOpenRequisitos(true)}>Adicionar Requisitos</Button>
-            </Grid>
-            <Grid item>
-              <Button color="primary" variant="contained" onClick={() => setOpenEmenta(true)}>Adicionar Ementa</Button>
-            </Grid>
-          </Grid>
-          <Grid container className="grid">
-            <Grid item md={12}>
-              <Button color="primary" variant="contained" className="cadastrarCurso">Cadastrar curso</Button>
-            </Grid>
-          </Grid>
+          </form>
         </Section>
       </main>
       <Footer />
@@ -200,6 +265,12 @@ function CadastrarCurso() {
           <Button color="primary" variant="contained" style={{ width: '25%', marginTop: '2em' }} onClick={() => { setOpenRequisitos(false); setOpenRequisitosFinish(false) }}>Voltar ao cadastro</Button>
         </DialogContent>
       </Dialog>
+      <Snackbar
+        open={openSnack}
+        autoHideDuration={3000}
+        onClose={() => setOpenSnack(false)}
+        message="Curso salvo!"
+      />
     </Container>
   );
 }
