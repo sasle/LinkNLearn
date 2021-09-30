@@ -48,7 +48,7 @@ function CadastrarCurso() {
         idTeacher: "26538c42-dffe-429f-bde6-5f4902489179",
         title: title,
         description: description,
-        level: level.anchor,
+        level: level,
         startDate: startDate,
         finishDate: finishdate,
         period: period,
