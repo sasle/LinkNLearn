@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Section } from './style.js';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
@@ -7,84 +7,17 @@ import CarouselItemCategoriaDuasLinhas from '../../components/CarouselItemCatego
 
 
 import Carousel from 'react-material-ui-carousel';
+import axios from 'axios';
 
 
 function NossosCursos() {
 
-  var cursos = [
-    {
-      id: 1,
-      titulo: "React",
-      resumo: "Resumo",
-      professor: "Alexandre",
-      preco: 150,
-      nivel: "Intermediário",
-      nota: 4.8
-    },
-    {
-      id: 2,
-      titulo: "UX",
-      resumo: "Resumo",
-      professor: "Vitor",
-      preco: 300,
-      nivel: "Avançado",
-      nota: 4.8
-    },
-    {
-      id: 3,
-      titulo: "Android",
-      resumo: "Resumo",
-      professor: "Freddy",
-      preco: 220,
-      nivel: "Avançado",
-      nota: 4.8
-    },
-    {
-      id: 4,
-      titulo: "Android",
-      resumo: "Resumo",
-      professor: "Freddy",
-      preco: 900,
-      nivel: "Avançado",
-      nota: 4.8
-    },
-    {
-      id: 5,
-      titulo: "Android",
-      resumo: "Resumo",
-      professor: "Freddy",
-      preco: 140,
-      nivel: "Avançado",
-      nota: 3.2
-    },
-    {
-      id: 6,
-      titulo: "Android",
-      resumo: "Resumo",
-      professor: "Freddy",
-      preco: 650,
-      nivel: "Avançado",
-      nota: 4.8
-    },
-    {
-      id: 7,
-      titulo: "fsdafdsafsdfs",
-      resumo: "Resumo",
-      professor: "Freddy",
-      preco: 310,
-      nivel: "Avançado",
-      nota: 4.8
-    },
-    {
-      id: 8,
-      titulo: "teste",
-      resumo: "Resumo",
-      professor: "Freddy",
-      preco: 500,
-      nivel: "Intermediário",
-      nota: 2
-    }
-  ]
+  const [cursos, setCursos] = useState([]);
+
+  async function loadCursos() {
+    const cursosResponse = await axios.get(`${process.env.REACT_APP_URL}/courses/listAll`);
+    setCursos(cursosResponse.data);
+  }
 
   const dupla = cursos.reduce(function (rows, key, index) {
     return (index % 2 === 0 ? rows.push([key])
@@ -126,6 +59,9 @@ function NossosCursos() {
       : rows[rows.length - 1].push(key)) && rows;
   }, []);
 
+  useEffect(() => {
+    loadCursos();
+  }, [])
 
   return (
     <Container>

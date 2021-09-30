@@ -11,13 +11,13 @@ function CarouselItemCurso(props) {
       <Grid container spacing={5} justifyContent="center">
         <Grid item>
           {props.dupla[0] &&
-            <CardCurso titulo={props.dupla[0].titulo} professor={props.dupla[0].professor} preco={props.dupla[0].preco} nota={props.dupla[0].nota} />
+            <CardCurso titulo={props.dupla[0].title} professor={props.dupla[0].teacher.name} preco={props.dupla[0].price} nota={props.dupla[0].nota} />
           }
         </Grid>
         <Grid item>
           {
             props.dupla[1] &&
-            <CardCurso titulo={props.dupla[1].titulo} professor={props.dupla[1].professor} preco={props.dupla[1].preco} nota={props.dupla[1].nota} />
+            <CardCurso titulo={props.dupla[1].title} professor={props.dupla[1].teacher.name} preco={props.dupla[1].price} nota={props.dupla[1].nota} />
           }
         </Grid>
       </Grid>

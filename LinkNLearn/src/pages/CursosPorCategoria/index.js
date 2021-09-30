@@ -25,6 +25,7 @@ function CursosPorCategoria(props) {
   const [preco, setPreco] = useState(1);
   const [page, setPage] = useState(1);
 
+  //TODO esperar chamada do back de get cursos by categoria
   var cursos = [
     {
       id: 1,
