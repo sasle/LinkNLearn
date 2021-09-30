@@ -16,7 +16,6 @@ function ProfessorPublicView() {
   const history = useHistory();
 
   const professorId = useParams();
-  console.log(professorId); //usar pra pegar infos no banco
 
   const [open, setOpen] = useState(false);
 

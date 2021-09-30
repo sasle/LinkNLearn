@@ -49,12 +49,12 @@ function Carrinho(props) {
                       <Grid item container alignItems="center" spacing={5}>
                         <Grid item md={2} style={{ textAlign: 'center' }}>
                           <Button color="secondary" variant="contained" onClick={() => {
-                            cart[0].splice(cart[0].findIndex(x => x.id === item.id), 1);
+                            cart[0].splice(cart[0].findIndex(x => x.id_course === item.id_course), 1);
                             setCart([CartContext._currentValue])
                           }}><DeleteIcon />Remover</Button>
                         </Grid>
                         <Grid item md={10}>
-                          <CardCurso id={item.id} titulo={item.titulo} resumo={item.resumo} professor={item.professor} preco={item.preco} nivel={item.nivel} nota={item.nota} />
+                          <CardCurso id={item.id_course} titulo={item.title} resumo={item.description} professor={item.teacher.name} preco={item.price} nivel={item.level} nota={item.nota} />
                         </Grid>
                       </Grid>
                     ))

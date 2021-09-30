@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CartContext } from '../../context/CartContext';
 import { Container, Section } from './style.js';
 import Footer from '../../components/Footer';
@@ -11,10 +11,30 @@ import StarBorderIcon from '@material-ui/icons/StarBorder';
 import CloseIcon from '@material-ui/icons/Close';
 import Placeholder from '../../assets/images/placeholder.jpg';
 import CardAlunoFeedback from '../../components/CardAlunoFeedback/index.js';
+import axios from 'axios';
 
 function CursoView() {
   const history = useHistory();
   const [cursoInfo] = useState(history.location.state.cursoInfo);
+
+  const [feedbacks, setFeedbacks] = useState([]);
+
+  async function loadFeedbacks() {
+    //aq precisa mudar pra post, ou pra header params pra funfar.
+    const feedbacksResponse = await axios.get(`${process.env.REACT_APP_URL}/course/feedback`, {
+      data: {
+        course: cursoInfo.id,
+      }
+    });
+
+    setFeedbacks(feedbacksResponse.data);
+  }
+
+  useEffect(() => {
+    loadFeedbacks();
+  }, [])
+
+  console.log(feedbacks);
 
   const [open, setOpen] = useState(false);
 

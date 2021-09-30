@@ -18,6 +18,7 @@ import axios from 'axios';
 
 
 function Cursos(props) {
+
   const history = useHistory();
   const query = decodeURI(history.location.search.split('=')[1]); //usar pra pesquisar no back
 
@@ -128,7 +129,7 @@ function Cursos(props) {
               {
                 trios.length > 0 ?
                   trios[page - 1].map(trio => (
-                    <Grid item className="card">
+                    <Grid key={trio.id_course} item className="card">
                       <CardCurso id={trio.id_course} titulo={trio.title} resumo={trio.description} professor={trio.teacher.name} preco={trio.price} nivel={trio.level} nota={trio.nota} />
                     </Grid>
                   ))
@@ -138,7 +139,7 @@ function Cursos(props) {
               {
                 trios.length > 0 &&
                 <Grid item className="paginator">
-                  <Pagination count={trios.length.toFixed(0)} onChange={(e, page) => setPage(page)} />
+                  <Pagination count={parseInt(trios.length.toFixed(0))} onChange={(e, page) => setPage(page)} />
                 </Grid>
               }
             </Grid>

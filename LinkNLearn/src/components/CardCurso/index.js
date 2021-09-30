@@ -10,7 +10,6 @@ import { useHistory } from 'react-router-dom';
 function CardCurso(props) {
 
   const history = useHistory();
-
   function handleView() {
     history.push({ pathname: `/curso/${props.titulo}-${props.id}`, state: { cursoInfo: props } });
   }
