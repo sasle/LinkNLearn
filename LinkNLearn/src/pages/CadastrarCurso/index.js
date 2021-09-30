@@ -44,7 +44,7 @@ function CadastrarCurso() {
     e.preventDefault();
     //ta dando erro -> insert or update on table "courses" violates foreign key constraint "FK_c9ae211023098e9b7bb44f5b473"
     try {
-      await axios.post('http://localhost:3333/courses/create', {
+      await axios.post(`${process.env.REACT_APP_URL}/courses/create`, {
         idTeacher: "26538c42-dffe-429f-bde6-5f4902489179",
         title: title,
         description: description,

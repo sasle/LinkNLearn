@@ -33,7 +33,6 @@ function Header() {
 
   const [searchBarText, setSearchBarText] = useState('');
 
-
   function handleSubmit(e) {
     e.preventDefault();
     if (searchBarText) {
@@ -47,7 +46,7 @@ function Header() {
     if (!isNew) {
       if (userType === 'aluno') {
         setLoading(true);
-        await axios.post("http://localhost:3333/student/auth", {
+        await axios.post(`${process.env.REACT_APP_URL}/student/auth`, {
           email: email,
           password: password
         }).then(response => {
@@ -58,7 +57,7 @@ function Header() {
         }).catch(err => setHiddenError(false));
       } else {
         setLoading(true);
-        await axios.post("http://localhost:3333/teacher/auth", {
+        await axios.post(`${process.env.REACT_APP_URL}/teacher/auth`, {
           email: email,
           password: password
         }).then(response => {
@@ -71,7 +70,7 @@ function Header() {
     } else {
       if (userType === 'aluno') {
         setLoading(true);
-        await axios.post("http://localhost:3333/student/create", {
+        await axios.post(`${process.env.REACT_APP_URL}/student/create`, {
           name: name,
           last_name: lastName,
           email: email,
@@ -89,25 +88,25 @@ function Header() {
         }).catch();
       } else {
         setLoading(true);
-        await axios.post("http://localhost:3333/teacher/create", {
+        await axios.post(`${process.env.REACT_APP_URL}/teacher/create`, {
           name: name,
           last_name: lastName,
           email: email,
           password: password,
           cpf: "",
-          birthDate: "",
+          birthDate: new Date(),
           gender: "",
           pictureProfile: "",
           biography: "",
           linkedin: "",
           portifolio: "",
           contact: "",
-          pix: "",
-          plan: ""
+          pix: null,
+          plan: null
         }).then(response => {
           setLoading(false);
           localStorage.setItem('token', response.data.token);
-          localStorage.setItem('type', 'aluno');
+          localStorage.setItem('type', 'professor');
           history.push('/perfil');
         }).catch();
       }
@@ -170,7 +169,6 @@ function Header() {
               </Link>
             </span>
           </Grid>
-
         </Grid>
         <Grid item xs={false} sm={4} md={2}>
           {!isLogged &&

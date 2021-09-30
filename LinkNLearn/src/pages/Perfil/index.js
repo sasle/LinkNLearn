@@ -22,7 +22,7 @@ function Perfil() {
   }
 
   async function loadPlanos() {
-    const planosResponse = await axios.get('http://localhost:3333/plan/listAll');
+    const planosResponse = await axios.get(`${process.env.REACT_APP_URL}/plan/listAll`);
     setPlanos(planosResponse.data);
   }
 
