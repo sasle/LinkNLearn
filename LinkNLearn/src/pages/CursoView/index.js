@@ -158,7 +158,7 @@ function CursoView() {
               <Grid item className="feedback">
                 <h1 className="title">Feedback do curso</h1>
                 {feedbacks.map(feedback => (
-                  <CardAlunoFeedback description={feedback.description} grade={feedback.classification} name={feedback.student.name} lastName={feedback.student.last_name} />
+                  <CardAlunoFeedback key={feedback.student.id_student} description={feedback.description} grade={feedback.classification} name={feedback.student.name} lastName={feedback.student.last_name} />
                 ))}
                 {feedbacks.length === 0 && <p>Nenhum feedback</p>}
                 <Button color="primary" variant="contained">
