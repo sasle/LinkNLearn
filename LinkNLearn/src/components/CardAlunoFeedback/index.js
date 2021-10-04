@@ -6,8 +6,7 @@ import { CardContent } from '@material-ui/core';
 import { Card, Grid } from '@material-ui/core';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 
-function CardAlunoFeedback() {
-
+function CardAlunoFeedback(props) {
   return (
     <Container>
       <Card className="cardContainer">
@@ -16,15 +15,15 @@ function CardAlunoFeedback() {
             <Grid item container md={4} className="imgCustomContainer">
               <img src={Aluno1} alt="coming soon" />
             </Grid>
-            <Grid item container md={8} alignItems="baseline" style={{minWidth: '80%'}}>
+            <Grid item container md={8} alignItems="baseline" style={{ minWidth: '80%' }}>
               <Grid item container direction="column">
-                <h1>Curso muito bom!</h1>
-                <p className="professor">Professor atencioso e tirou minhas dúvidas</p>
+                <h1>{props.name} {props.lastName}</h1>
+                <p className="professor">{props.description}</p>
               </Grid>
               <Grid item container justifyContent="flex-end">
                 <span>
-                  <StarBorderIcon fontSize="large"/>
-                  <p className="nota">4.5</p>
+                  <StarBorderIcon fontSize="large" />
+                  <p className="nota">{parseFloat(props.grade).toFixed(1)}</p>
                 </span>
               </Grid>
             </Grid>

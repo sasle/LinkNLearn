@@ -16,15 +16,12 @@ import axios from 'axios';
 function CursoView() {
   const history = useHistory();
   const [cursoInfo] = useState(history.location.state.cursoInfo);
-
   const [feedbacks, setFeedbacks] = useState([]);
 
   async function loadFeedbacks() {
     //aq precisa mudar pra post, ou pra header params pra funfar.
-    const feedbacksResponse = await axios.get(`${process.env.REACT_APP_URL}/course/feedback`, {
-      data: {
-        course: cursoInfo.id,
-      }
+    const feedbacksResponse = await axios.post(`${process.env.REACT_APP_URL}/course/listAllFeedback`, {
+      course: cursoInfo.id,
     });
 
     setFeedbacks(feedbacksResponse.data);
@@ -33,8 +30,6 @@ function CursoView() {
   useEffect(() => {
     loadFeedbacks();
   }, [])
-
-  console.log(feedbacks);
 
   const [open, setOpen] = useState(false);
 
@@ -162,7 +157,10 @@ function CursoView() {
             <Grid item style={{ width: '50%' }}>
               <Grid item className="feedback">
                 <h1 className="title">Feedback do curso</h1>
-                <CardAlunoFeedback />
+                {feedbacks.map(feedback => (
+                  <CardAlunoFeedback description={feedback.description} grade={feedback.classification} name={feedback.student.name} lastName={feedback.student.last_name} />
+                ))}
+                {feedbacks.length === 0 && <p>Nenhum feedback</p>}
                 <Button color="primary" variant="contained">
                   Ver mais resultados
                 </Button>
