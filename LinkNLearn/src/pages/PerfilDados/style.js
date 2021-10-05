@@ -40,6 +40,10 @@ export const Section = styled.section`
     .grid {
         margin: 2em 0;
 
+        .MuiFormControl-root {
+            width: 15vw;
+        }
+
         button {
             width: 20%;
         }
