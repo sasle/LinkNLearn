@@ -52,6 +52,7 @@ function Header() {
         }).then(response => {
           setLoading(false);
           localStorage.setItem('token', response.data.token);
+          localStorage.setItem('idUser', response.data.user.id_student);
           localStorage.setItem('type', 'aluno');
           history.push('/perfil');
         }).catch(err => setHiddenError(false));
@@ -63,6 +64,7 @@ function Header() {
         }).then(response => {
           setLoading(false);
           localStorage.setItem('token', response.data.token);
+          localStorage.setItem('idUser', response.data.user.id_teacher);
           localStorage.setItem('type', 'professor');
           history.push('/perfil');
         }).catch(err => setHiddenError(false));

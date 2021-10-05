@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-    .mainAluno {
+    .mainProfile {
         header {
             text-align: center;
 
@@ -17,10 +17,6 @@ export const Container = styled.div`
                 padding: 1em 5em;
             }
         }
-    }
-
-    .mainProf {
-        
     }
 `;
 
