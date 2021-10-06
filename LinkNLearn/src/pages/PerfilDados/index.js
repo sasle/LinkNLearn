@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Container, Section } from './style.js';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
-import { Button, CircularProgress, Grid, Snackbar, TextField } from '@material-ui/core';
+import { Button, CircularProgress, FormControl, Grid, InputLabel, Select, Snackbar, TextField } from '@material-ui/core';
 import { Link, useHistory } from 'react-router-dom';
 import Placeholder from '../../assets/images/placeholder.jpg';
 import axios from 'axios';
@@ -164,15 +164,24 @@ function PerfilDados() {
                   </Grid>
                   <Grid container spacing={5} className="grid">
                     <Grid item>
-                      <TextField label="Email" type="email" defaultValue={email} onChange={e => setEmail(e.target.value)} />
-                    </Grid>
-                    <Grid item>
-                      <TextField label="Telefone" defaultValue={phone} onChange={e => setPhone(e.target.value)} />
+                      <TextField label="Email" type="email" defaultValue={email} onChange={e => setEmail(e.target.value)} style={{ width: '32vw' }} />
                     </Grid>
                   </Grid>
                   <Grid container spacing={5} className="grid">
                     <Grid item>
-                      <TextField label="Sexo" defaultValue={gender} onChange={e => setGender(e.target.value)} />
+                      <FormControl>
+                        <InputLabel>Sexo</InputLabel>
+                        <Select
+                          native
+                          value={gender}
+                          onChange={e => setGender(e.target.value)}
+                        >
+                          <option aria-label="None" value="" />
+                          <option value="Masculino">Masculino</option>
+                          <option value="Feminino">Feminino</option>
+                          <option value="Neutro">Neutro</option>
+                        </Select>
+                      </FormControl>
                     </Grid>
                     <Grid item>
                       <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -189,15 +198,10 @@ function PerfilDados() {
                   </Grid>
                   <Grid container spacing={5} className="grid">
                     <Grid item>
-                      <TextField label="RG" defaultValue={rg} onChange={e => setRg(e.target.value)} />
+                      <TextField label="Nível de Educação" defaultValue={educationLevel} onChange={e => setEducationLevel(e.target.value)} />
                     </Grid>
                     <Grid item>
                       <TextField label="CPF" defaultValue={cpf} onChange={e => setCpf(e.target.value)} />
-                    </Grid>
-                  </Grid>
-                  <Grid container spacing={5} className="grid">
-                    <Grid item>
-                      <TextField label="Nível de Educação" defaultValue={educationLevel} onChange={e => setEducationLevel(e.target.value)} style={{ width: '32vw' }} />
                     </Grid>
                   </Grid>
                   <Grid container className="grid">
@@ -256,7 +260,19 @@ function PerfilDados() {
                   </Grid>
                   <Grid container spacing={5} className="grid">
                     <Grid item>
-                      <TextField label="Sexo" defaultValue={gender} onChange={e => setGender(e.target.value)} />
+                      <FormControl>
+                        <InputLabel>Sexo</InputLabel>
+                        <Select
+                          native
+                          value={gender}
+                          onChange={e => setGender(e.target.value)}
+                        >
+                          <option aria-label="None" value="" />
+                          <option value="Masculino">Masculino</option>
+                          <option value="Feminino">Feminino</option>
+                          <option value="Neutro">Neutro</option>
+                        </Select>
+                      </FormControl>
                     </Grid>
                     <Grid item>
                       <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -309,7 +325,7 @@ function PerfilDados() {
         onClose={() => setOpenSnack(false)}
         message="Perfil atualizado com sucesso!"
       />
-    </Container>
+    </Container >
   );
 }
 
