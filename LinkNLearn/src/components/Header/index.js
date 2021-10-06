@@ -55,7 +55,10 @@ function Header() {
           localStorage.setItem('idUser', response.data.user.id_student);
           localStorage.setItem('type', 'aluno');
           history.push('/perfil');
-        }).catch(err => setHiddenError(false));
+        }).catch(err => {
+          setHiddenError(false);
+          setLoading(false);
+        });
       } else {
         setLoading(true);
         await axios.post(`${process.env.REACT_APP_URL}/teacher/auth`, {
@@ -67,7 +70,10 @@ function Header() {
           localStorage.setItem('idUser', response.data.user.id_teacher);
           localStorage.setItem('type', 'professor');
           history.push('/perfil');
-        }).catch(err => setHiddenError(false));
+        }).catch(err => {
+          setHiddenError(false);
+          setLoading(false);
+        });
       }
     } else {
       if (userType === 'aluno') {
@@ -87,7 +93,7 @@ function Header() {
           localStorage.setItem('token', response.data.token);
           localStorage.setItem('type', 'aluno');
           history.push('/perfil');
-        }).catch();
+        }).catch(err => setLoading(false));
       } else {
         setLoading(true);
         await axios.post(`${process.env.REACT_APP_URL}/teacher/create`, {
@@ -110,7 +116,7 @@ function Header() {
           localStorage.setItem('token', response.data.token);
           localStorage.setItem('type', 'professor');
           history.push('/perfil');
-        }).catch();
+        }).catch(err => setLoading(false));
       }
     }
 
@@ -224,11 +230,24 @@ function Header() {
               <FormControlLabel value="professor" control={<Radio color="primary" />} label="Sou professor" />
             </RadioGroup>
             <Grid container direction="column" alignItems="center" style={{ width: '50%', paddingTop: '1em', margin: '0 auto' }}>
-              <Link to={'/'}>Esqueceu a senha?</Link>
-              <span style={{ display: 'flex', justifyContent: 'center', marginTop: '1em', gap: '5px' }}>
-                <p style={{ fontSize: '.8em', fontWeight: 500 }}>Novo por aqui?</p>
-                <p style={{ fontSize: '.8em', fontWeight: 500, color: '#4c86d3', cursor: 'pointer' }} onClick={() => setIsNew(true)}>Cadastre-se!</p>
-              </span>
+              {!isNew
+                ?
+                <>
+                  <span style={{ fontWeight: 500, color: '#4c86d3', cursor: 'pointer' }} onClick>Esqueceu a senha?</span>
+                  <span style={{ display: 'flex', justifyContent: 'center', marginTop: '1em', gap: '5px' }}>
+                    <p style={{ fontSize: '.8em', fontWeight: 500 }}>Novo por aqui?</p>
+                    <p style={{ fontSize: '.8em', fontWeight: 500, color: '#4c86d3', cursor: 'pointer' }} onClick={() => setIsNew(true)}>Cadastre-se!</p>
+                  </span>
+                </>
+                :
+                <span style={{ display: 'flex', justifyContent: 'center', marginTop: '1em', gap: '5px' }}>
+                  <p style={{ fontSize: '.8em', fontWeight: 500 }}>Já tem uma conta?</p>
+                  <p style={{ fontSize: '.8em', fontWeight: 500, color: '#4c86d3', cursor: 'pointer' }} onClick={() => {
+                    setIsNew(false);
+                    setLoading(false);
+                  }}>Entrar</p>
+                </span>
+              }
               <Button color="primary" variant="contained" style={{ width: '100%', margin: '1em 0' }} type="submit">{isNew ? 'CADASTRAR' : 'ENTRAR'}{loading && <CircularProgress style={{ marginLeft: '1em', color: 'white' }} />}</Button>
             </Grid>
           </form>
