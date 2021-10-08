@@ -22,7 +22,7 @@ function Cursos(props) {
   const history = useHistory();
   const query = decodeURI(history.location.search.split('=')[1]); //usar pra pesquisar no back
 
-  const [classificacao, setClassificacao] = useState(0);
+  const [classificacao, setClassificacao] = useState(1);
   const [dificuldade, setDificuldade] = useState("Iniciante");
   const [preco, setPreco] = useState(1);
   const [page, setPage] = useState(1);

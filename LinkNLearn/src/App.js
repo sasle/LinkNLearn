@@ -37,9 +37,9 @@ function App() {
           <Route exact path='/nossos-cursos' component={NossosCursos} />
           <Route exact path='/cursos' component={Cursos} />
           <Route exact path='/categoria' component={CursosPorCategoria} />
-          <Route exact path='/curso/:id' component={CursoView} />
-          <Route exact path='/professor/:id' component={ProfessorPublicView} />
-          <Route exact path='/carrinho' component={Carrinho} />
+          <PrivateRoute exact path='/curso/:id' component={CursoView} />
+          <PrivateRoute exact path='/professor/:id' component={ProfessorPublicView} />
+          <PrivateRoute exact path='/carrinho' component={Carrinho} />
           <PrivateRoute exact path='/perfil' component={Perfil} />
           <PrivateRoute exact path='/perfil/dados' component={PerfilDados} />
           <PrivateRoute exact path='/cadastrar-curso' component={CadastrarCurso} />

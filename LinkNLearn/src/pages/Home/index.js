@@ -8,7 +8,7 @@ import CarouselItemCategoriaUmaLinha from '../../components/CarouselItemCategori
 
 import Boleto from '../../assets/images/boleto.png'
 
-import { Grid } from '@material-ui/core';
+import { Grid, Snackbar } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import { CardContent } from '@material-ui/core';
 import LooksOneIcon from '@material-ui/icons/LooksOne';
@@ -17,8 +17,13 @@ import LooksThreeIcon from '@material-ui/icons/Looks3';
 import LooksFourIcon from '@material-ui/icons/Looks4';
 import Carousel from 'react-material-ui-carousel';
 import axios from 'axios';
+import { useLocation } from 'react-router';
+import { Alert } from '@mui/material';
 
 function Home() {
+
+  const location = useLocation();
+  const [snackBar, setSnackBar] = useState((location.state && location.state.snackbar) || false);
 
   const [cursos, setCursos] = useState([]);
 
@@ -74,6 +79,18 @@ function Home() {
   return (
     <div>
       <Header />
+      {snackBar &&
+        <Snackbar
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          open={snackBar}
+          onClose={() => setSnackBar(false)}
+          key={'top,center'}
+          autoHideDuration={4000}
+          sx={{ width: '300%' }}
+        >
+          <Alert severity="info" onClose={() => setSnackBar(false)}>Você precisa estar logado para acessar esta página!</Alert>
+        </Snackbar>
+      }
       <Section>
         <div className="container">
           <div className="textBox">

@@ -1,3 +1,4 @@
+import { Snackbar } from '@mui/material';
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
@@ -15,7 +16,7 @@ export const PrivateRoute = ({ component: Component, ...rest }) => {
                     <Redirect
                         to={{
                             pathname: '/',
-                            state: { from: props.location }
+                            state: { snackbar: true }
                         }}
                     />
                 )

@@ -159,13 +159,15 @@ function Header() {
               <p>Veja todos os cursos</p>
             </Link>
           </Grid>
-          <Grid item md={"auto"}>
-            <Link to='/carrinho'>
-              <Badge badgeContent={cart.length} color="primary">
-                <ShoppingCartIcon />
-              </Badge>
-            </Link>
-          </Grid>
+          {isLogged &&
+            <Grid item md={"auto"}>
+              <Link to='/carrinho'>
+                <Badge badgeContent={cart.length} color="primary">
+                  <ShoppingCartIcon />
+                </Badge>
+              </Link>
+            </Grid>
+          }
           <Grid item md={"auto"}>
             <span style={{ display: 'flex' }}>
               <Link to='/'>
