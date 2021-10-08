@@ -22,9 +22,9 @@ function Cursos(props) {
   const history = useHistory();
   const query = decodeURI(history.location.search.split('=')[1]); //usar pra pesquisar no back
 
-  const [classificacao, setClassificacao] = useState(1);
-  const [dificuldade, setDificuldade] = useState("Iniciante");
-  const [preco, setPreco] = useState(1);
+  const [classificacao, setClassificacao] = useState();
+  const [dificuldade, setDificuldade] = useState();
+  const [preco, setPreco] = useState();
   const [page, setPage] = useState(1);
 
   const [cursos, setCursos] = useState([]);
@@ -33,7 +33,7 @@ function Cursos(props) {
   async function loadCursos() {
     const cursosResponse = await axios.get(`${process.env.REACT_APP_URL}/courses/listAll`);
     setCursos(cursosResponse.data);
-    setTrios(cursos.reduce(function (rows, key, index) {
+    setTrios(cursosResponse.data.reduce(function (rows, key, index) {
       return (index % 3 === 0 ? rows.push([key])
         : rows[rows.length - 1].push(key)) && rows;
     }, []));
