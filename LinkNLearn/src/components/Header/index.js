@@ -5,13 +5,14 @@ import { Link, useHistory } from 'react-router-dom';
 import Logo from '../../assets/images/logo.png';
 import { HeaderComponent } from './style.js';
 
-import { Button, Dialog, Grid, DialogTitle, DialogContent, RadioGroup, FormControlLabel, Radio, Tooltip, IconButton, CircularProgress, Badge } from '@material-ui/core';
+import { Button, Dialog, Grid, DialogTitle, DialogContent, RadioGroup, FormControlLabel, Radio, Tooltip, IconButton, CircularProgress, Badge, Snackbar } from '@material-ui/core';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Search from '@material-ui/icons/Search';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import CloseIcon from '@material-ui/icons/Close';
 import TextField from '@material-ui/core/TextField'
 import { AccountCircle, ExitToApp } from '@material-ui/icons';
+import { Alert } from '@material-ui/lab';
 
 
 function Header() {
@@ -23,6 +24,10 @@ function Header() {
   const [open, setOpen] = useState(false);
   const [differentPasswords, setDifferentPasswords] = useState(false);
   const [isNew, setIsNew] = useState(false);
+  const [forgot, setForgot] = useState(false);
+  const [openSnackBar, setOpenSnackBar] = useState(false);
+  const [snackBarMessage, setSnackBarMessage] = useState('Enviamos um email com instruções para recuperar sua senha.');
+  const [snackBarSeverity, setSnackBarSeverity] = useState('success');
 
   const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -46,89 +51,102 @@ function Header() {
 
     e.preventDefault();
 
-    if (isNew && confirmPassword !== password) {
-      setDifferentPasswords(true);
-      return;
-    }
-
-
-    if (!isNew) {
-      if (userType === 'aluno') {
-        setLoading(true);
-        await axios.post(`${process.env.REACT_APP_URL}/student/auth`, {
+    if (forgot) {
+      try {
+        await axios.post(`${process.env.REACT_APP_URL}/student/forgot-password`, {
           email: email,
-          password: password
-        }).then(response => {
-          setLoading(false);
-          localStorage.setItem('token', response.data.token);
-          localStorage.setItem('idUser', response.data.user.id_student);
-          localStorage.setItem('type', 'aluno');
-          history.push('/perfil');
-        }).catch(err => {
-          setHiddenError(false);
-          setLoading(false);
         });
-      } else {
-        setLoading(true);
-        await axios.post(`${process.env.REACT_APP_URL}/teacher/auth`, {
-          email: email,
-          password: password
-        }).then(response => {
-          setLoading(false);
-          localStorage.setItem('token', response.data.token);
-          localStorage.setItem('idUser', response.data.user.id_teacher);
-          localStorage.setItem('type', 'professor');
-          history.push('/perfil');
-        }).catch(err => {
-          setHiddenError(false);
-          setLoading(false);
-        });
+        setSnackBarMessage('Enviamos um email com instruções para recuperar sua senha.');
+        setSnackBarSeverity('success');
+        setForgot(false);
+        setOpenSnackBar(true);
+      } catch {
+        setSnackBarMessage('Não foi possível enviar o email.');
+        setSnackBarSeverity('error');
+        setOpenSnackBar(true);
       }
     } else {
-      if (userType === 'aluno') {
-        setLoading(true);
-        await axios.post(`${process.env.REACT_APP_URL}/student/create`, {
-          name: name,
-          last_name: lastName,
-          email: email,
-          password: password,
-          cpf: "",
-          birthDate: new Date(),
-          gender: "",
-          pictureProfile: "",
-          educationLevel: "",
-        }).then(response => {
-          setLoading(false);
-          localStorage.setItem('token', response.data.token);
-          localStorage.setItem('type', 'aluno');
-          history.push('/perfil');
-        }).catch(err => setLoading(false));
+      if (isNew && confirmPassword !== password) {
+        setDifferentPasswords(true);
+        return;
+      }
+      if (!isNew) {
+        if (userType === 'aluno') {
+          setLoading(true);
+          await axios.post(`${process.env.REACT_APP_URL}/student/auth`, {
+            email: email,
+            password: password
+          }).then(response => {
+            setLoading(false);
+            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('idUser', response.data.user.id_student);
+            localStorage.setItem('type', 'aluno');
+            history.push('/perfil');
+          }).catch(err => {
+            setHiddenError(false);
+            setLoading(false);
+          });
+        } else {
+          setLoading(true);
+          await axios.post(`${process.env.REACT_APP_URL}/teacher/auth`, {
+            email: email,
+            password: password
+          }).then(response => {
+            setLoading(false);
+            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('idUser', response.data.user.id_teacher);
+            localStorage.setItem('type', 'professor');
+            history.push('/perfil');
+          }).catch(err => {
+            setHiddenError(false);
+            setLoading(false);
+          });
+        }
       } else {
-        setLoading(true);
-        await axios.post(`${process.env.REACT_APP_URL}/teacher/create`, {
-          name: name,
-          last_name: lastName,
-          email: email,
-          password: password,
-          cpf: "",
-          birthDate: new Date(),
-          gender: "",
-          pictureProfile: "",
-          biography: "",
-          linkedin: "",
-          portifolio: "",
-          contact: "",
-          pix: "",
-          plan: null
-        }).then(response => {
-          setLoading(false);
-          localStorage.setItem('token', response.data.token);
-          localStorage.setItem('type', 'professor');
-          history.push('/perfil');
-        }).catch(err => setLoading(false));
+        if (userType === 'aluno') {
+          setLoading(true);
+          await axios.post(`${process.env.REACT_APP_URL}/student/create`, {
+            name: name,
+            last_name: lastName,
+            email: email,
+            password: password,
+            cpf: "",
+            birthDate: new Date(),
+            gender: "",
+            pictureProfile: "",
+            educationLevel: "",
+          }).then(response => {
+            setLoading(false);
+            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('type', 'aluno');
+            history.push('/perfil');
+          }).catch(err => setLoading(false));
+        } else {
+          setLoading(true);
+          await axios.post(`${process.env.REACT_APP_URL}/teacher/create`, {
+            name: name,
+            last_name: lastName,
+            email: email,
+            password: password,
+            cpf: "",
+            birthDate: new Date(),
+            gender: "",
+            pictureProfile: "",
+            biography: "",
+            linkedin: "",
+            portifolio: "",
+            contact: "",
+            pix: "",
+            plan: null
+          }).then(response => {
+            setLoading(false);
+            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('type', 'professor');
+            history.push('/perfil');
+          }).catch(err => setLoading(false));
+        }
       }
     }
-
   }
 
   function handleLogout() {
@@ -216,7 +234,11 @@ function Header() {
       <Dialog open={open} fullWidth maxWidth="sm" className="dialog">
         <DialogTitle>
           <Grid container justifyContent="flex-end">
-            <CloseIcon onClick={() => setOpen(false)} style={{ cursor: 'pointer' }} />
+            <CloseIcon onClick={() => {
+              setOpen(false);
+              setIsNew(false);
+              setForgot(false);
+            }} style={{ cursor: 'pointer' }} />
           </Grid>
         </DialogTitle>
         <DialogContent>
@@ -229,26 +251,38 @@ function Header() {
                 <TextField label="Sobrenome" variant="outlined" color="primary" required style={{ width: '50%' }} onChange={e => setLastName(e.target.value)} />
               </>
             }
+            {forgot && <p>Digite seu email para recuperar sua senha.</p>}
             <TextField label="Email" variant="outlined" color="primary" required style={{ width: '50%' }} type="email" onChange={e => setEmail(e.target.value)} />
-            <TextField label="Senha" variant="outlined" color="primary" required style={{ width: '50%' }} type="password" onChange={e => setPassword(e.target.value)} />
+            {!forgot && <TextField label="Senha" variant="outlined" color="primary" required style={{ width: '50%' }} type="password" onChange={e => setPassword(e.target.value)}
+            />}
             {!hiddenError && <p style={{ color: 'red', fontSize: '1.2em' }}>Email ou senha incorretos</p>}
             {
               isNew &&
               <TextField error={differentPasswords} helperText={differentPasswords && 'As senhas não coincidem.'} label="Confirmar senha" variant="outlined" color="primary" required style={{ width: '50%' }} type="password" onChange={e => setConfirmPassword(e.target.value)} />
             }
-            <RadioGroup style={{ width: '50%' }} onChange={e => setUserType(e.target.value)}>
-              <FormControlLabel value="aluno" control={<Radio color="primary" />} label="Sou aluno" />
-              <FormControlLabel value="professor" control={<Radio color="primary" />} label="Sou professor" />
-            </RadioGroup>
+            {!forgot &&
+              <RadioGroup style={{ width: '50%' }} onChange={e => setUserType(e.target.value)}>
+                <FormControlLabel value="aluno" control={<Radio color="primary" />} label="Sou aluno" />
+                <FormControlLabel value="professor" control={<Radio color="primary" />} label="Sou professor" />
+              </RadioGroup>
+            }
             <Grid container direction="column" alignItems="center" style={{ width: '50%', paddingTop: '1em', margin: '0 auto' }}>
               {!isNew
                 ?
                 <>
-                  <span style={{ fontWeight: 500, color: '#4c86d3', cursor: 'pointer' }} onClick>Esqueceu a senha?</span>
-                  <span style={{ display: 'flex', justifyContent: 'center', marginTop: '1em', gap: '5px' }}>
-                    <p style={{ fontSize: '.8em', fontWeight: 500 }}>Novo por aqui?</p>
-                    <p style={{ fontSize: '.8em', fontWeight: 500, color: '#4c86d3', cursor: 'pointer' }} onClick={() => setIsNew(true)}>Cadastre-se!</p>
-                  </span>
+                  {
+                    !forgot &&
+                    <span style={{ fontWeight: 500, color: '#4c86d3', cursor: 'pointer' }} onClick={() => {
+                      setForgot(true)
+                    }}>Esqueceu a senha?</span>
+                  }
+                  {
+                    !forgot &&
+                    <span style={{ display: 'flex', justifyContent: 'center', marginTop: '1em', gap: '5px' }}>
+                      <p style={{ fontSize: '.8em', fontWeight: 500 }}>Novo por aqui?</p>
+                      <p style={{ fontSize: '.8em', fontWeight: 500, color: '#4c86d3', cursor: 'pointer' }} onClick={() => setIsNew(true)}>Cadastre-se!</p>
+                    </span>
+                  }
                 </>
                 :
                 <span style={{ display: 'flex', justifyContent: 'center', marginTop: '1em', gap: '5px' }}>
@@ -259,11 +293,16 @@ function Header() {
                   }}>Entrar</p>
                 </span>
               }
-              <Button color="primary" variant="contained" style={{ width: '100%', margin: '1em 0' }} type="submit">{isNew ? 'CADASTRAR' : 'ENTRAR'}{loading && <CircularProgress style={{ marginLeft: '1em', color: 'white' }} />}</Button>
+              <Button color="primary" variant="contained" style={{ width: '100%', margin: '1em 0' }} type="submit">{isNew ? 'CADASTRAR' : forgot ? 'ENVIAR ' : 'ENTRAR'}{loading && <CircularProgress style={{ marginLeft: '1em', color: 'white' }} />}</Button>
             </Grid>
           </form>
         </DialogContent>
       </Dialog>
+      <Snackbar open={openSnackBar} autoHideDuration={2500} onClose={() => setOpenSnackBar(false)}>
+        <Alert onClose={() => setOpenSnackBar(false)} severity={snackBarSeverity} sx={{ width: '100%' }}>
+          {snackBarMessage}
+        </Alert>
+      </Snackbar>
     </HeaderComponent >
   );
 }
