@@ -55,7 +55,7 @@ function PerfilDados() {
       setCpf(profileResponse.data[0].cpf);
     } else {
       const profileResponse = await axios.post(`${process.env.REACT_APP_URL}/teacher/getById`, {
-        id_student: localStorage.getItem('idUser')
+        id_teacher: localStorage.getItem('idUser')
       }, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
