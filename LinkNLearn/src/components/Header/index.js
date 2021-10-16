@@ -31,7 +31,7 @@ function Header() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [userType, setUserType] = useState('');
   const [hiddenError, setHiddenError] = useState(true);
-  const [isLogged] = useState(localStorage.getItem('token') !== '' ? true : false);
+  const [isLogged] = useState(localStorage.getItem('token') !== '' && localStorage.getItem('token') !== null ? true : false);
 
   const [searchBarText, setSearchBarText] = useState('');
 
@@ -43,12 +43,14 @@ function Header() {
   }
 
   async function handleLogin(e) {
+
     e.preventDefault();
 
-    if (confirmPassword !== password) {
+    if (isNew && confirmPassword !== password) {
       setDifferentPasswords(true);
       return;
     }
+
 
     if (!isNew) {
       if (userType === 'aluno') {
