@@ -194,7 +194,7 @@ function CursosPorCategoria(props) {
                 trios.length > 0 ?
                   trios[page - 1].map(trio => (
                     <Grid item className="card">
-                      <CardCurso id={trio.id_course} titulo={trio.title} resumo={trio.description} professor={trio.teacher} preco={trio.price} nivel={trio.level} nota={trio.nota} />
+                      <CardCurso info={trio} />
                     </Grid>
                   ))
                   :

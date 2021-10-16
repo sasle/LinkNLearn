@@ -12,16 +12,16 @@ import CloseIcon from '@material-ui/icons/Close';
 import Placeholder from '../../assets/images/placeholder.jpg';
 import CardAlunoFeedback from '../../components/CardAlunoFeedback/index.js';
 import axios from 'axios';
+import { format, parseISO } from 'date-fns';
 
 function CursoView() {
   const history = useHistory();
-  const [cursoInfo] = useState(history.location.state.cursoInfo);
+  const info = useState(history.location.state.info);
   const [feedbacks, setFeedbacks] = useState([]);
 
   async function loadFeedbacks() {
-    //aq precisa mudar pra post, ou pra header params pra funfar.
     const feedbacksResponse = await axios.post(`${process.env.REACT_APP_URL}/course/listAllFeedback`, {
-      course: cursoInfo.id,
+      course: info.id,
     });
 
     setFeedbacks(feedbacksResponse.data);
@@ -39,7 +39,7 @@ function CursoView() {
       <main className="main">
         <Grid container justifyContent="center" className="title">
           <ArrowBackIcon onClick={() => history.goBack()} style={{ cursor: 'pointer' }} fontSize="large" />
-          {cursoInfo.titulo}
+          {info[0].title}
         </Grid>
         <Section>
           <Grid container direction="column" alignItems="center">
@@ -52,7 +52,7 @@ function CursoView() {
                   <div style={{ minHeight: '65%', height: '65%' }}>
                     <span className="courseDesc">
                       <p>Descrição do curso</p>
-                      <p>{cursoInfo.resumo}</p>
+                      <p>{info[0].description}</p>
                     </span>
                   </div>
                 </Grid>
@@ -61,17 +61,17 @@ function CursoView() {
                 <Grid item md={3}>
                   <Grid item container direction="column">
                     <Grid item container justifyContent="space-between" style={{ marginTop: '1em', marginBottom: '1em' }}>
-                      <p style={{ fontWeight: 700 }}>R$ {cursoInfo.preco}</p>
+                      <p style={{ fontWeight: 700 }}>R$ {info[0].price}</p>
                       <span className="nota">
                         <StarBorderIcon />
-                        <p>{cursoInfo.nota}</p>
+                        <p>{info[0].nota}</p>
                       </span>
                     </Grid>
                     <Grid item>
                       <span className="professorInfo">
                         <p>Professor(a):</p>
                         <Link to="/professor/1">
-                          <p>{cursoInfo.professor}</p>
+                          <p>{info[0].teacher.name}</p>
                         </Link>
                       </span>
                     </Grid>
@@ -82,7 +82,7 @@ function CursoView() {
                     <Button color="primary" variant="contained" className="actionButtons" onClick={() => {
                       setOpen(true);
                       let cart = CartContext._currentValue;
-                      cart.push(cursoInfo);
+                      cart.push(info[0]);
                     }
                     }>Adicionar ao carrinho</Button>
                   </Grid>
@@ -97,31 +97,31 @@ function CursoView() {
                 <h1>Informações do Curso</h1>
                 <span>
                   <p>Data do curso:</p>
-                  <p>10/09/2021</p>
+                  <p>{format(parseISO(info[0].startDate), 'dd/MM/yyyy')} até {format(parseISO(info[0].finishDate), 'dd/MM/yyyy')}</p>
                 </span>
                 <span>
                   <p>Plataforma:</p>
-                  <p>Zoom</p>
+                  <p>{info[0].platform}</p>
                 </span>
                 <span>
                   <p>Período:</p>
-                  <p>Matutino</p>
+                  <p>{info[0].period}</p>
                 </span>
                 <span>
                   <p>Horário:</p>
-                  <p>10:00 às 18:00</p>
+                  <p>{info[0].classDate}</p>
                 </span>
                 <span>
                   <p>Número de vagas:</p>
-                  <p>10 vagas</p>
+                  <p>{info[0].maxStudent}</p>
                 </span>
                 <span>
                   <p>Nível:</p>
-                  <p>Avançado</p>
+                  <p>{info[0].level}</p>
                 </span>
                 <span>
                   <p>Total de Horas:</p>
-                  <p>200 horas</p>
+                  <p>{info[0].hours}</p>
                 </span>
               </Grid>
             </Grid>

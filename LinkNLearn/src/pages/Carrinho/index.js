@@ -54,7 +54,7 @@ function Carrinho(props) {
                           }}><DeleteIcon />Remover</Button>
                         </Grid>
                         <Grid item md={10}>
-                          <CardCurso id={item.id_course} titulo={item.title} resumo={item.description} professor={item.teacher.name} preco={item.price} nivel={item.level} nota={item.nota} />
+                          <CardCurso info={item} />
                         </Grid>
                       </Grid>
                     ))

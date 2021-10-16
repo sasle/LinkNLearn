@@ -10,7 +10,7 @@ import { useHistory } from 'react-router-dom';
 function CardCurso(props) {
   const history = useHistory();
   function handleView() {
-    history.push({ pathname: `/curso/${props.titulo}-${props.id}`, state: { cursoInfo: props } });
+    history.push({ pathname: `/curso/${props.info.title}-${props.info.id_course}`, state: { info: props.info } });
   }
 
   return (
@@ -20,16 +20,16 @@ function CardCurso(props) {
           <Grid container spacing={4}>
             <Grid item container md={8} alignItems="baseline">
               <Grid item container direction="column">
-                <h1>{props.titulo}</h1>
-                {props.resumo && <p>{props.resumo}</p>}
-                <p className="professor">{props.professor}</p>
+                <h1>{props.info.title}</h1>
+                <p>{props.info.resumo}</p>
+                <p className="professor">{props.info.teacher.name}</p>
               </Grid>
               <Grid item container justifyContent="space-between">
-                <p className="preco">R${props.preco}</p>
-                {props.nivel && <p className="nivel">Nível: {props.nivel}</p>}
+                <p className="preco">R${props.info.price}</p>
+                <p className="nivel">Nível: {props.info.level}</p>
                 <span>
                   <StarBorderIcon fontSize="large" />
-                  <p className="nota">{props.nota}</p>
+                  <p className="nota">{props.info.nota}</p>
                 </span>
               </Grid>
             </Grid>
