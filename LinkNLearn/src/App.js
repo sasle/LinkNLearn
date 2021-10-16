@@ -1,7 +1,7 @@
 import React from 'react';
 import { createTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
-import { BrowserRouter as Router, Switch, Route, Redirect, useHistory } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { PrivateRoute } from './components/PrivateRoute';
 import Home from './pages/Home';
 import NossosCursos from './pages/NossosCursos';
