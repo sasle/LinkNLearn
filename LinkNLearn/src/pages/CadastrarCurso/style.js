@@ -36,8 +36,9 @@ export const Section = styled.section`
     .grid {
         margin: 2em 0;
 
-        .cadastrarCurso {
-            width: 20%;
+        .MuiFormControl-root {
+            width: 15vw;
         }
+
     }
 `;
