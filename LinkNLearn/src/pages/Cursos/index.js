@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Container, Section } from './style.js';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
@@ -30,18 +30,18 @@ function Cursos(props) {
   const [cursos, setCursos] = useState([]);
   const [trios, setTrios] = useState([]);
 
-  async function loadCursos() {
+  const loadCursos = useCallback(async () => {
     const cursosResponse = await axios.get(`${process.env.REACT_APP_URL}/courses/listAll`);
-    setCursos(cursosResponse.data);
-    setTrios(cursosResponse.data.reduce(function (rows, key, index) {
+    setCursos(cursosResponse.data.filter(c => c.title.toLowerCase() === query.toLowerCase()));
+    setTrios(cursosResponse.data.filter(c => c.title.toLowerCase() === query.toLowerCase()).reduce(function (rows, key, index) {
       return (index % 3 === 0 ? rows.push([key])
         : rows[rows.length - 1].push(key)) && rows;
     }, []));
-  }
+  }, [query]);
 
   useEffect(() => {
     loadCursos();
-  }, [])
+  }, [loadCursos])
 
   return (
     <Container>
