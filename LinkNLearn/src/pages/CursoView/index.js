@@ -70,8 +70,8 @@ function CursoView() {
                     <Grid item>
                       <span className="professorInfo">
                         <p>Professor(a):</p>
-                        <Link to="/professor/1">
-                          <p>{info[0].teacher.name}</p>
+                        <Link to={`/professor/${info[0].teacher.id_teacher}`}>
+                          <p>{info[0].teacher.name} {info[0].teacher.last_name}</p>
                         </Link>
                       </span>
                     </Grid>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Container, Section } from './style.js';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
@@ -11,13 +11,43 @@ import CloseIcon from '@material-ui/icons/Close';
 import Placeholder from '../../assets/images/placeholder.jpg';
 import CardAlunoFeedback from '../../components/CardAlunoFeedback/index.js';
 import CardCurso from '../../components/CardCurso';
+import axios from 'axios';
 
 function ProfessorPublicView() {
   const history = useHistory();
 
-  const professorId = useParams();
+  const params = useParams();
 
-  const [open, setOpen] = useState(false);
+  const [info, setInfo] = useState();
+  const [courses, setCourses] = useState();
+
+  const loadProfile = useCallback(async () => {
+    const profileResponse = await axios.post(`${process.env.REACT_APP_URL}/teacher/getById`, {
+      id_teacher: params.id
+    }, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+    });
+    setInfo(profileResponse.data);
+  }, [params.id]);
+
+  const loadCourses = useCallback(async () => {
+    const coursesResponse = await axios.post(`${process.env.REACT_APP_URL}/teacher/courses`, {
+      teacher: params.id
+    }, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+    });
+    coursesResponse.data.map(course => {
+      course.teacher = (info && info[0]) ? info[0] : {};
+      return course;
+    });
+    setCourses(coursesResponse.data);
+  }, [params.id, info]);
+
+  useEffect(() => {
+    loadProfile();
+    loadCourses();
+  }, [loadProfile, loadCourses]);
+
 
   return (
     <Container>
@@ -25,8 +55,7 @@ function ProfessorPublicView() {
       <main className="main">
         <Grid container justifyContent="center" className="title">
           <ArrowBackIcon onClick={() => history.goBack()} style={{ cursor: 'pointer' }} fontSize="large" />
-          {/* Aqui talvez substituir pelo nome do prof */}
-          <h1>Perfil Público</h1>
+          <h1>Perfil de {info && info[0].name} {info && info[0].last_name}</h1>
         </Grid>
         <Section>
           <Grid container justifyContent="center">
@@ -35,35 +64,30 @@ function ProfessorPublicView() {
           <Grid container className="box" direction="column">
             <h1>Informações do professor:</h1>
             <span>
-              <p>Leonardo Júnior</p>
-              <p>é formado em Ciência da computação pela faculdade X. Tem experiência no ramo de ensino e busca alunos que queiram evoluir. </p>
+              <p>Nome: {info && info[0].name} {info && info[0].last_name}</p>
+              <p>Sobre: {(info && info[0].biography) || '-'}</p>
             </span>
           </Grid>
           <Grid container className="contact">
             <Grid item md={6} container direction="column" alignItems="center">
               <h3>Email</h3>
-              <p>leonardo@email.com</p>
+              <p>{(info && info[0].email) || '-'}</p>
             </Grid>
             <Grid item md={6} container direction="column" alignItems="center">
               <h3>Linkedin</h3>
-              <p>linkedin.com/in/leonardo-junior</p>
+              <p>{(info && info[0].linkedin) || '-'}</p>
             </Grid>
           </Grid>
           <Grid container className="cursos" direction="column">
             <h1 className="title">Cursos do professor</h1>
             <Grid item container className="box" spacing={3}>
-              <Grid item className="card">
-                <CardCurso />
-              </Grid>
-              <Grid item className="card">
-                <CardCurso />
-              </Grid>
-              <Grid item className="card">
-                <CardCurso />
-              </Grid>
-              <Grid item className="card">
-                <CardCurso />
-              </Grid>
+              {
+                courses && courses.map(course => (
+                  <Grid item key={course.id_course} className="card">
+                    <CardCurso info={course} />
+                  </Grid>
+                ))
+              }
             </Grid>
           </Grid>
         </Section>

@@ -39,10 +39,11 @@ export const Section = styled.section`
         span {
             margin-top: 1em;
             display: flex;
-            gap: 5px;
+            flex-direction: column;
+            gap: 1em;
         }
 
-        h1, p:first-child {
+        h1, p {
             font-weight: 700;
         }
     }
