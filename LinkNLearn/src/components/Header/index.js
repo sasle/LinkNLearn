@@ -11,7 +11,7 @@ import Search from '@material-ui/icons/Search';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import CloseIcon from '@material-ui/icons/Close';
 import TextField from '@material-ui/core/TextField'
-import { AccountCircle, ExitToApp } from '@material-ui/icons';
+import { AccountCircle, ArrowBack, ExitToApp } from '@material-ui/icons';
 import { Alert } from '@material-ui/lab';
 
 
@@ -240,6 +240,12 @@ function Header() {
               setForgot(false);
             }} style={{ cursor: 'pointer' }} />
           </Grid>
+          {(forgot || isNew) &&
+            <ArrowBack style={{ cursor: 'pointer' }} onClick={() => {
+              setForgot(false);
+              setIsNew(false);
+            }} />
+          }
         </DialogTitle>
         <DialogContent>
           <img src={Logo} alt="Link&amp;Learn logo" style={{ width: '40%', maxWidth: '40%', paddingBottom: '2em', marginLeft: '30%' }} />
@@ -251,7 +257,7 @@ function Header() {
                 <TextField label="Sobrenome" variant="outlined" color="primary" required style={{ width: '50%' }} onChange={e => setLastName(e.target.value)} />
               </>
             }
-            {forgot && <p>Digite seu email para recuperar sua senha.</p>}
+            {forgot && <p style={{ fontWeight: 500, marginBottom: '.5em' }}>Digite seu email abaixo para recuperar sua senha.</p>}
             <TextField label="Email" variant="outlined" color="primary" required style={{ width: '50%' }} type="email" onChange={e => setEmail(e.target.value)} />
             {!forgot && <TextField label="Senha" variant="outlined" color="primary" required style={{ width: '50%' }} type="password" onChange={e => setPassword(e.target.value)}
             />}
