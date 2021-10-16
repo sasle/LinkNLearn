@@ -21,12 +21,14 @@ function Header() {
 
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [differentPasswords, setDifferentPasswords] = useState(false);
   const [isNew, setIsNew] = useState(false);
 
   const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [userType, setUserType] = useState('');
   const [hiddenError, setHiddenError] = useState(true);
   const [isLogged] = useState(localStorage.getItem('token') !== '' ? true : false);
@@ -42,6 +44,11 @@ function Header() {
 
   async function handleLogin(e) {
     e.preventDefault();
+
+    if (confirmPassword !== password) {
+      setDifferentPasswords(true);
+      return;
+    }
 
     if (!isNew) {
       if (userType === 'aluno') {
@@ -109,7 +116,7 @@ function Header() {
           linkedin: "",
           portifolio: "",
           contact: "",
-          pix: null,
+          pix: "",
           plan: null
         }).then(response => {
           setLoading(false);
@@ -225,7 +232,7 @@ function Header() {
             {!hiddenError && <p style={{ color: 'red', fontSize: '1.2em' }}>Email ou senha incorretos</p>}
             {
               isNew &&
-              <TextField label="Confirmar senha" variant="outlined" color="primary" required style={{ width: '50%' }} type="password" />
+              <TextField error={differentPasswords} helperText={differentPasswords && 'As senhas não coincidem.'} label="Confirmar senha" variant="outlined" color="primary" required style={{ width: '50%' }} type="password" onChange={e => setConfirmPassword(e.target.value)} />
             }
             <RadioGroup style={{ width: '50%' }} onChange={e => setUserType(e.target.value)}>
               <FormControlLabel value="aluno" control={<Radio color="primary" />} label="Sou aluno" />
