@@ -15,6 +15,7 @@ function Perfil() {
   const [open, setOpen] = useState(false);
   const [planos, setPlanos] = useState([]);
   const [planoEscolhido, setPlanoEscolhido] = useState({});
+  const [courses, setCourses] = useState();
 
   function handleLogout() {
     localStorage.setItem('token', '');
@@ -26,8 +27,18 @@ function Perfil() {
     setPlanos(planosResponse.data);
   }
 
+  async function loadCourses() {
+    const coursesResponse = await axios.post(`${process.env.REACT_APP_URL}/student/listCourses`, {
+      userId: localStorage.getItem('idUser')
+    }, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+    });
+    setCourses(coursesResponse.data);
+  }
+
   useEffect(() => {
     loadPlanos();
+    loadCourses();
   }, [])
 
   return (
@@ -58,18 +69,13 @@ function Perfil() {
               <Grid container className="cursos" direction="column">
                 <h1 className="title">Meus Cursos</h1>
                 <Grid item container className="box" spacing={3}>
-                  <Grid item className="card">
-                    <CardCurso id={1} titulo="Título do curso" resumo="Resumo do curso" professor="Alexandre" preco={1200} nivel="Avançado" nota={3.8} />
-                  </Grid>
-                  <Grid item className="card">
-                    <CardCurso id={2} titulo="Título do curso" resumo="Resumo do curso" professor="Freddy" preco={1200} nivel="Avançado" nota={3.8} />
-                  </Grid>
-                  <Grid item className="card">
-                    <CardCurso id={3} titulo="Título do curso" resumo="Resumo do curso" professor="Djeison" preco={1200} nivel="Avançado" nota={3.8} />
-                  </Grid>
-                  <Grid item className="card">
-                    <CardCurso id={4} titulo="Título do curso" resumo="Resumo do curso" professor="Vitor" preco={1200} nivel="Avançado" nota={3.8} />
-                  </Grid>
+                  {courses !== undefined &&
+                    courses.map(course => (
+                      <Grid item key={course.course.id_course} className="card">
+                        <CardCurso info={course.course} />
+                      </Grid>
+                    ))
+                  }
                 </Grid>
               </Grid>
             </Section>
