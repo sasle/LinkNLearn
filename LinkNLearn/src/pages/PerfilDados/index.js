@@ -14,6 +14,7 @@ function PerfilDados() {
   const history = useHistory();
   const [loading, setLoading] = useState(true);
   const [openSnack, setOpenSnack] = useState(false);
+  const [openSnackPhoto, setOpenSnackPhoto] = useState(false);
 
   const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -24,12 +25,12 @@ function PerfilDados() {
   const [lnkdIn, setLnkdIn] = useState('');
   const [pix, setPix] = useState('');
   const [portfolio, setPortfolio] = useState('');
-  const [rg, setRg] = useState('');
   const [educationLevel, setEducationLevel] = useState('');
   const [cpf, setCpf] = useState('');
   const [password, setPassword] = useState('');
   const [biography, setBiography] = useState('');
   const [pictureProfile, setPictureProfile] = useState('');
+  const [src, setSrc] = useState('');
 
   function handleLogout() {
     localStorage.setItem('token', '');
@@ -82,7 +83,6 @@ function PerfilDados() {
       await axios.put(`${process.env.REACT_APP_URL}/student/update`, {
         id_student: localStorage.getItem('idUser'),
         password: password,
-        pictureProfile: pictureProfile,
         name: name,
         last_name: lastName,
         email: email,
@@ -92,7 +92,7 @@ function PerfilDados() {
         cpf: cpf,
         educationLevel: educationLevel
       }, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}`, }
       });
     }
     else {
@@ -100,7 +100,6 @@ function PerfilDados() {
         id_teacher: localStorage.getItem('idUser'),
         password: password,
         biography: biography,
-        pictureProfile: pictureProfile,
         name: name,
         last_name: lastName,
         email: email,
@@ -122,6 +121,24 @@ function PerfilDados() {
   useEffect(() => {
     loadProfile();
   }, [])
+
+  async function handleImageChange(e) {
+    const [file] = e.target.files;
+    if (file && (file.type === 'image/jpeg' || file.type === 'image/png')) {
+
+      const config = { headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${localStorage.getItem('token')}` } };
+      let fd = new FormData();
+      fd.append('photo', file);
+      fd.append('id_student', localStorage.getItem('idUser'));
+      setPictureProfile(fd);
+      setSrc(URL.createObjectURL(file));
+      setOpenSnackPhoto(true);
+      await axios.post(`${process.env.REACT_APP_URL}/student/upload/profile`, fd, config);
+
+    } else {
+      alert('Formato de arquivo inválido');
+    }
+  }
 
 
   return (
@@ -151,9 +168,19 @@ function PerfilDados() {
               </header>
               <form>
                 <Section>
-                  <div>
-                    <img src={Placeholder} alt="foto de perfil" />
-                  </div>
+                  <Grid container className="grid">
+                    <div>
+                      <img src={src || pictureProfile || Placeholder} alt="foto de perfil" />
+                    </div>
+                  </Grid>
+                  <Grid container className="grid">
+                    <label>
+                      <input type="file" accept="image/*" style={{ display: 'none' }} onChange={handleImageChange} />
+                      <Button variant="contained" component="span" color="primary">
+                        Escolher Foto
+                      </Button>
+                    </label>
+                  </Grid>
                   <Grid container spacing={5} className="grid">
                     <Grid item>
                       <TextField label="Nome" defaultValue={name} onChange={e => setName(e.target.value)} />
@@ -305,7 +332,7 @@ function PerfilDados() {
                   </Grid>
                   <Grid container spacing={5} className="grid">
                     <Grid item>
-                      <TextField label="Biografia" defaultValue={biography} onChange={e => setBiography(e.target.value)} style={{ width: '32vw' }} />
+                      <TextField label="Biografia" multiline minRows={2} defaultValue={biography} onChange={e => setBiography(e.target.value)} style={{ width: '32vw' }} />
                     </Grid>
                   </Grid>
                   <Grid container className="grid">
@@ -321,9 +348,15 @@ function PerfilDados() {
       <Footer />
       <Snackbar
         open={openSnack}
-        autoHideDuration={6000}
+        autoHideDuration={2000}
         onClose={() => setOpenSnack(false)}
         message="Perfil atualizado com sucesso!"
+      />
+      <Snackbar
+        open={openSnackPhoto}
+        autoHideDuration={2000}
+        onClose={() => setOpenSnackPhoto(false)}
+        message="Foto de perfil atualizada com sucesso!"
       />
     </Container >
   );
