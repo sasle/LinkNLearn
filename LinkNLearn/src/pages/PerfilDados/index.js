@@ -266,9 +266,19 @@ function PerfilDados() {
               </header>
               <form>
                 <Section>
-                  <div>
-                    <img src={Placeholder} alt="foto de perfil" />
-                  </div>
+                  <Grid container className="grid">
+                    <div>
+                      <img src={src || pictureProfile || Placeholder} alt="foto de perfil" />
+                    </div>
+                  </Grid>
+                  <Grid container className="grid">
+                    <label>
+                      <input type="file" accept="image/jpeg" style={{ display: 'none' }} onChange={handleImageChange} />
+                      <Button variant="contained" component="span" color="primary">
+                        Escolher Foto
+                      </Button>
+                    </label>
+                  </Grid>
                   <Grid container spacing={5} className="grid">
                     <Grid item>
                       <TextField label="Nome" defaultValue={name} onChange={e => setName(e.target.value)} />

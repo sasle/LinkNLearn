@@ -127,18 +127,13 @@ function Perfil() {
                   }
                 </Grid>
                 <Grid item container className="box" spacing={3}>
-                  <Grid item className="card">
-                    <CardCurso id={1} titulo="Título do curso" resumo="Resumo do curso" professor="Alexandre" preco={1200} nivel="Avançado" nota={3.8} />
-                  </Grid>
-                  <Grid item className="card">
-                    <CardCurso id={2} titulo="Título do curso" resumo="Resumo do curso" professor="Alexandre" preco={1200} nivel="Avançado" nota={3.8} />
-                  </Grid>
-                  <Grid item className="card">
-                    <CardCurso id={3} titulo="Título do curso" resumo="Resumo do curso" professor="Alexandre" preco={1200} nivel="Avançado" nota={3.8} />
-                  </Grid>
-                  <Grid item className="card">
-                    <CardCurso id={4} titulo="Título do curso" resumo="Resumo do curso" professor="Alexandre" preco={1200} nivel="Avançado" nota={3.8} />
-                  </Grid>
+                  {courses !== undefined &&
+                    courses.map(course => (
+                      <Grid item key={course.course.id_course} className="card">
+                        <CardCurso info={course.course} />
+                      </Grid>
+                    ))
+                  }
                 </Grid>
               </Grid>
             </Section>
