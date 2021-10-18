@@ -30,6 +30,8 @@ export const Section = styled.section`
         place-content: center;
         img {
             border-radius: 5px;
+            max-width: 300px;
+            max-height: 300px;
         }
     }
 
@@ -37,6 +39,10 @@ export const Section = styled.section`
         margin: 2em 0;
 
         .MuiFormControl-root {
+            width: 15vw;
+        }
+
+        .endButtons {
             width: 15vw;
         }
 

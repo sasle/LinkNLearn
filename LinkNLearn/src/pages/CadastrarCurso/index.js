@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Container, Section } from './style.js';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
-import { Button, Dialog, DialogContent, DialogTitle, FormControl, Grid, InputLabel, MenuItem, Select, Snackbar, TextField } from '@material-ui/core';
+import { Button, Dialog, DialogContent, DialogTitle, Grid, InputLabel, MenuItem, Select, Snackbar, TextField } from '@material-ui/core';
 
 import { Link, useHistory } from 'react-router-dom';
 import Placeholder from '../../assets/images/placeholder.jpg';
@@ -16,6 +16,7 @@ function CadastrarCurso() {
 
   const history = useHistory();
   const [openEmenta, setOpenEmenta] = useState(false);
+  const [openGuia, setOpenGuia] = useState(false);
   const [openEmentaFinish, setOpenEmentaFinish] = useState(false);
   const [openRequisitos, setOpenRequisitos] = useState(false);
   const [openRequisitosFinish, setOpenRequisitosFinish] = useState(false);
@@ -101,7 +102,7 @@ function CadastrarCurso() {
           <div>
             <img src={Placeholder} alt="foto de perfil" />
           </div>
-          <form>
+          <form onSubmit={postCurso}>
             <Grid container spacing={5} className="grid">
               <Grid item>
                 <TextField label="Nome do curso" required onChange={e => setTitle(e.target.value)} />
@@ -115,6 +116,7 @@ function CadastrarCurso() {
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DatePicker
                     label="Data do Curso - Início"
+                    value={startDate}
                     onChange={(newValue) => {
                       setStartDate(newValue);
                     }}
@@ -126,6 +128,7 @@ function CadastrarCurso() {
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DatePicker
                     label="Data do Curso - Fim"
+                    value={finishdate}
                     onChange={(newValue) => {
                       setFinishDate(newValue);
                     }}
@@ -168,15 +171,18 @@ function CadastrarCurso() {
             </Grid>
             <Grid container spacing={5} className="grid">
               <Grid item>
-                <Button color="primary" variant="contained" onClick={() => setOpenRequisitos(true)}>Adicionar Requisitos</Button>
+                <Button color="primary" className="endButtons" variant="contained" onClick={() => setOpenRequisitos(true)}>Adicionar Requisitos</Button>
               </Grid>
               <Grid item>
-                <Button color="primary" variant="contained" onClick={() => setOpenEmenta(true)}>Adicionar Ementa</Button>
+                <Button color="primary" className="endButtons" variant="contained" onClick={() => setOpenEmenta(true)}>Adicionar Ementa</Button>
               </Grid>
             </Grid>
-            <Grid container className="grid">
-              <Grid item md={12}>
-                <Button color="primary" variant="contained" className="cadastrarCurso" type="submit" onClick={postCurso}>Cadastrar curso</Button>
+            <Grid container spacing={5} className="grid">
+              <Grid item>
+                <Button color="primary" className="endButtons" variant="contained" onClick={() => { setOpenGuia(true) }}>Ler guia</Button>
+              </Grid>
+              <Grid item>
+                <Button color="primary" className="endButtons" variant="contained" type="submit">Cadastrar curso</Button>
               </Grid>
             </Grid>
           </form>
@@ -265,6 +271,46 @@ function CadastrarCurso() {
             Os requisitos do curso foram cadastrados com sucesso!
           </h1>
           <Button color="primary" variant="contained" style={{ width: '25%', marginTop: '2em' }} onClick={() => { setOpenRequisitos(false); setOpenRequisitosFinish(false) }}>Voltar ao cadastro</Button>
+        </DialogContent>
+      </Dialog>
+      <Dialog open={openGuia} fullWidth maxWidth="md">
+        <DialogContent style={{ textAlign: 'center', paddingBottom: '3em' }}>
+          <h1 style={{ width: '50%', fontSize: '1.5em', color: '#4c86d3', margin: '0 auto', padding: '2em 0', fontWeight: 600 }}>
+            Guia do curso
+          </h1>
+          <h2 style={{ textAlign: 'left', fontWeight: 600 }}>1 - Defina seu tópico</h2>
+          <p style={{ textAlign: 'left', margin: '1em 0' }}>
+            Ao criar seu curso, apresente um conteúdo que possa agregar o conhecimento de seus alunos, seja profissional ou pessoal.
+            <br />
+            Caso não tenha como foco um material específico do curso, tente começar com conteúdos amplos que atenda um grande número de alunos, assim, aumentando seus ganhos de retorno.
+          </p>
+          <h2 style={{ textAlign: 'left', fontWeight: 600 }}>2 - Defina seu público-alvo</h2>
+          <p style={{ textAlign: 'left', margin: '1em 0' }}>
+            Após definir o tópico, é preciso conhecer seu público-alvo. Com isso em mente, você deve identificar aspectos dos alunos como idade, sexo, classe social e ocupação profissional.
+            <br />
+            Além disso, é interessante focar nos interesses, angústias e desejos dos alunos, quando pensam em comprar um curso.
+          </p>
+          <h2 style={{ textAlign: 'left', fontWeight: 600 }}>3 - Valide seu curso</h2>
+          <p style={{ textAlign: 'left', margin: '1em 0' }}>
+            Com o tópico e seu público-alvo definido, é preciso validar seu curso, para garantir maior segurança e confiabilidade.
+            <br />
+            Nesta etapa, é importante pesquisar se existe demanda para o curso e se ninguém teve a mesma ideia antes, para evitar concorrências e tornar o curso rentável.
+          </p>
+          <h2 style={{ textAlign: 'left', fontWeight: 600 }}>4 - Crie o conteúdo</h2>
+          <p style={{ textAlign: 'left', margin: '1em 0' }}>
+            Após validar o curso, monte seu plano de aulas, definindo os materiais que serão ministrados em cada etapa do curso e se possível defina quais dias da semana terão aulas e seus horários, dessa forma os alunos terão tempo de se preparar para as aulas.
+          </p>
+          <h2 style={{ textAlign: 'left', fontWeight: 600 }}>5 - Defina o preço</h2>
+          <p style={{ textAlign: 'left', margin: '1em 0' }}>
+            Definir o preço é um aspecto que definirá o sucesso do seu curso. Tendo seu público-alvo em mente, estabeleça um valor que seja compatível com o poder aquisitivo.
+            <br />
+            Lembre-se que não adianta definir um preço alto, se o seu público não tiver condição de pagar por ele. Da mesma forma que definir um preço abaixo da média, gerando dúvidas quanto a qualidade do conteúdo.
+          </p>
+          <h2 style={{ textAlign: 'left', fontWeight: 600 }}>6 - Ajude seus clientes a terem sucesso</h2>
+          <p style={{ textAlign: 'left', margin: '1em 0' }}>
+            Acompanhe seus alunos durante e após a jornada do curso, estar presente para ajudar o aluno mesmo após a finalização do curso, pode gerar confiabilidade e fidelidade do cliente para seus futuros cursos, se tornando aos poucos referência no mercado.
+          </p>
+          <Button color="primary" variant="contained" style={{ width: '25%', marginTop: '2em' }} onClick={() => setOpenGuia(false)}>Voltar</Button>
         </DialogContent>
       </Dialog>
       <Snackbar
