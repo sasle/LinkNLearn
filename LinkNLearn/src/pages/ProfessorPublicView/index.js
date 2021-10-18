@@ -65,7 +65,8 @@ function ProfessorPublicView() {
             <h1>Informações do professor:</h1>
             <span>
               <p>Nome: {info && info[0].name} {info && info[0].last_name}</p>
-              <p>Sobre: {(info && info[0].biography) || '-'}</p>
+              <p style={{ marginTop: '1em' }}>Sobre:</p>
+              <p style={{ lineBreak: 'anywhere', fontWeight: 500 }}>{(info && info[0].biography) || '-'}</p>
             </span>
           </Grid>
           <Grid container className="contact">
@@ -75,7 +76,7 @@ function ProfessorPublicView() {
             </Grid>
             <Grid item md={6} container direction="column" alignItems="center">
               <h3>Linkedin</h3>
-              <p>{(info && info[0].linkedin) || '-'}</p>
+              <a href={(info && info[0].linkedin) || '#'} target="_blank" rel="noopener noreferrer">{(info && info[0].linkedin) || '-'}</a>
             </Grid>
           </Grid>
           <Grid container className="cursos" direction="column">

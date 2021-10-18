@@ -42,8 +42,13 @@ export const Section = styled.section`
             width: 15vw;
         }
 
+        p{
+            font-weight: 700;
+        }
+
         .endButtons {
             width: 15vw;
+            max-height: 4vh;
         }
 
     }

@@ -193,7 +193,7 @@ function PerfilDados() {
                   </Grid>
                   <Grid container spacing={5} className="grid">
                     <Grid item>
-                      <TextField label="Email" type="email" defaultValue={email} onChange={e => setEmail(e.target.value)} style={{ width: '32vw' }} />
+                      <TextField label="Email" type="email" disabled defaultValue={email} onChange={e => setEmail(e.target.value)} style={{ width: '32vw' }} />
                     </Grid>
                   </Grid>
                   <Grid container spacing={5} className="grid">
@@ -216,6 +216,8 @@ function PerfilDados() {
                       <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DatePicker
                           label="Data de Nascimento"
+                          inputFormat="dd/MM/yyyy"
+                          maxDate={new Date()}
                           value={birth}
                           onChange={(newValue) => {
                             setBirth(newValue);
@@ -291,7 +293,7 @@ function PerfilDados() {
                   </Grid>
                   <Grid container spacing={5} className="grid">
                     <Grid item>
-                      <TextField label="Email" type="email" defaultValue={email} onChange={e => setEmail(e.target.value)} />
+                      <TextField label="Email" type="email" disabled defaultValue={email} onChange={e => setEmail(e.target.value)} />
                     </Grid>
                     <Grid item>
                       <TextField label="Telefone" defaultValue={phone} onChange={e => setPhone(e.target.value)} />
@@ -317,6 +319,8 @@ function PerfilDados() {
                       <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DatePicker
                           label="Data de Nascimento"
+                          inputFormat="dd/MM/yyyy"
+                          maxDate={new Date()}
                           value={birth}
                           onChange={(newValue) => {
                             setBirth(newValue);

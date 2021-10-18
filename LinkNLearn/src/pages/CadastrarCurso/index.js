@@ -116,6 +116,7 @@ function CadastrarCurso() {
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DatePicker
                     label="Data do Curso - Início"
+                    inputFormat="dd/MM/yyyy"
                     value={startDate}
                     onChange={(newValue) => {
                       setStartDate(newValue);
@@ -128,6 +129,7 @@ function CadastrarCurso() {
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DatePicker
                     label="Data do Curso - Fim"
+                    inputFormat="dd/MM/yyyy"
                     value={finishdate}
                     onChange={(newValue) => {
                       setFinishDate(newValue);
@@ -177,8 +179,9 @@ function CadastrarCurso() {
                 <Button color="primary" className="endButtons" variant="contained" onClick={() => setOpenEmenta(true)}>Adicionar Ementa</Button>
               </Grid>
             </Grid>
-            <Grid container spacing={5} className="grid">
-              <Grid item>
+            <Grid container spacing={5} className="grid" alignItems="flex-end">
+              <Grid item direction="column">
+                <p>Guia para criar um curso</p>
                 <Button color="primary" className="endButtons" variant="contained" onClick={() => { setOpenGuia(true) }}>Ler guia</Button>
               </Grid>
               <Grid item>
