@@ -36,7 +36,9 @@ function CadastrarCurso() {
   const [openSnack, setOpenSnack] = useState(false);
 
   function handleLogout() {
-    localStorage.setItem('token', '');
+    localStorage.removeItem('idUser');
+    localStorage.removeItem('type');
+    localStorage.removeItem('token');
     history.push('/');
   }
 

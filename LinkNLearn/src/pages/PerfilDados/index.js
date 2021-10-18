@@ -33,7 +33,9 @@ function PerfilDados() {
   const [src, setSrc] = useState('');
 
   function handleLogout() {
-    localStorage.setItem('token', '');
+    localStorage.removeItem('idUser');
+    localStorage.removeItem('type');
+    localStorage.removeItem('token');
     history.push('/');
   }
 

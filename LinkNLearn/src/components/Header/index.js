@@ -30,6 +30,7 @@ function Header() {
   const [snackBarSeverity, setSnackBarSeverity] = useState('success');
 
   const [name, setName] = useState('');
+  const [cpf, setCpf] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -110,7 +111,7 @@ function Header() {
             last_name: lastName,
             email: email,
             password: password,
-            cpf: "",
+            cpf: cpf,
             birthDate: new Date(),
             gender: "",
             pictureProfile: "",
@@ -119,8 +120,16 @@ function Header() {
             setLoading(false);
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('type', 'aluno');
-            history.push('/perfil');
-          }).catch(err => setLoading(false));
+            setSnackBarMessage('Sua conta foi criada com sucesso!');
+            setSnackBarSeverity('success');
+            setOpenSnackBar(true);
+            setIsNew(false);
+          }).catch(err => {
+            setLoading(false);
+            setSnackBarMessage('Houve um erro. Tente novamente mais tarde.');
+            setSnackBarSeverity('error');
+            setOpenSnackBar(true);
+          });
         } else {
           setLoading(true);
           await axios.post(`${process.env.REACT_APP_URL}/teacher/create`, {
@@ -128,7 +137,7 @@ function Header() {
             last_name: lastName,
             email: email,
             password: password,
-            cpf: "",
+            cpf: cpf,
             birthDate: new Date(),
             gender: "",
             pictureProfile: "",
@@ -142,16 +151,30 @@ function Header() {
             setLoading(false);
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('type', 'professor');
-            history.push('/perfil');
-          }).catch(err => setLoading(false));
+            setSnackBarMessage('Sua conta foi criada com sucesso!');
+            setSnackBarSeverity('success');
+            setOpenSnackBar(true);
+            setIsNew(false);
+          }).catch(err => {
+            setLoading(false);
+            setSnackBarMessage('Houve um erro. Tente novamente mais tarde.');
+            setSnackBarSeverity('error');
+            setOpenSnackBar(true);
+          });
         }
       }
     }
   }
 
   function handleLogout() {
-    localStorage.setItem('token', '');
-    history.push('/');
+    localStorage.removeItem('idUser');
+    localStorage.removeItem('type');
+    localStorage.removeItem('token');
+    if (history.location.pathname === '/') {
+      window.location.reload();
+    } else {
+      history.push('/');
+    }
   }
 
   return (
@@ -259,6 +282,7 @@ function Header() {
             }
             {forgot && <p style={{ fontWeight: 500, marginBottom: '.5em' }}>Digite seu email abaixo para recuperar sua senha.</p>}
             <TextField label="Email" variant="outlined" color="primary" required style={{ width: '50%' }} type="email" onChange={e => setEmail(e.target.value)} />
+            {isNew && <TextField label="CPF" variant="outlined" color="primary" required style={{ width: '50%' }} onChange={e => setCpf(e.target.value)} />}
             {!forgot && <TextField label="Senha" variant="outlined" color="primary" required style={{ width: '50%' }} type="password" onChange={e => setPassword(e.target.value)}
             />}
             {!hiddenError && <p style={{ color: 'red', fontSize: '1.2em' }}>Email ou senha incorretos</p>}
