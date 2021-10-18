@@ -48,10 +48,8 @@ function PerfilDados() {
       setName(profileResponse.data[0].name);
       setLastName(profileResponse.data[0].last_name);
       setEmail(profileResponse.data[0].email);
-      setPhone(profileResponse.data[0].contact); //TODO dj ainda precisa criar campo contact lá no model
       setGender(profileResponse.data[0].gender);
       setBirth(profileResponse.data[0].birthDate);
-      // setRg(profileResponse.data[0].rg); TODO dj implementar
       setEducationLevel(profileResponse.data[0].educationLevel);
       setCpf(profileResponse.data[0].cpf);
     } else {
@@ -72,8 +70,11 @@ function PerfilDados() {
       setCpf(profileResponse.data[0].cpf);
       setPassword(profileResponse.data[0].password);
       setBiography(profileResponse.data[0].biography);
-      setPictureProfile(profileResponse.data[0].pictureProfile);
     }
+    const config = { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } };
+    await axios.get(`${process.env.REACT_APP_URL}/student/upload/profile`, config).then(res => {
+      setPictureProfile(res.data);
+    }).catch(err => { console.log(err) });
     setLoading(false);
   }
 
@@ -124,19 +125,18 @@ function PerfilDados() {
 
   async function handleImageChange(e) {
     const [file] = e.target.files;
-    if (file && (file.type === 'image/jpeg' || file.type === 'image/png')) {
+    if (file && file.type === 'image/jpeg') {
 
       const config = { headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${localStorage.getItem('token')}` } };
       let fd = new FormData();
       fd.append('photo', file);
-      fd.append('id_student', localStorage.getItem('idUser'));
-      setPictureProfile(fd);
+      fd.append('id_student', JSON.stringify(localStorage.getItem('idUser')));
       setSrc(URL.createObjectURL(file));
-      setOpenSnackPhoto(true);
       await axios.post(`${process.env.REACT_APP_URL}/student/upload/profile`, fd, config);
+      setOpenSnackPhoto(true);
 
     } else {
-      alert('Formato de arquivo inválido');
+      alert('Formato de arquivo inválido. Por favor insira um arquivo no formato .jpeg');
     }
   }
 
@@ -175,7 +175,7 @@ function PerfilDados() {
                   </Grid>
                   <Grid container className="grid">
                     <label>
-                      <input type="file" accept="image/*" style={{ display: 'none' }} onChange={handleImageChange} />
+                      <input type="file" accept="image/jpeg" style={{ display: 'none' }} onChange={handleImageChange} />
                       <Button variant="contained" component="span" color="primary">
                         Escolher Foto
                       </Button>
