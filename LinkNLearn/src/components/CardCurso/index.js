@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container } from './styles.js';
 import Placeholder from '../../assets/images/placeholder.jpg';
 
@@ -6,12 +6,27 @@ import { CardContent } from '@material-ui/core';
 import { Card, Grid } from '@material-ui/core';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 
 function CardCurso(props) {
   const history = useHistory();
+
+  const [thumb, setThumb] = useState(Placeholder);
+
   function handleView() {
     history.push({ pathname: `/curso/${props.info.title}-${props.info.id_course}`, state: { info: props.info } });
   }
+
+  async function loadThumb() {
+    const config = { headers: { CourseId: props.info.id_course } };
+    await axios.get(`${process.env.REACT_APP_URL}/course/upload/thumbnail`, config).then(res => {
+      setThumb(res.data)
+    }).catch(err => { });
+  }
+
+  useEffect(() => {
+    loadThumb()
+  }, [])
 
   return (
     <Container onClick={handleView}>
@@ -34,7 +49,7 @@ function CardCurso(props) {
               </Grid>
             </Grid>
             <Grid item container md={4} justifyContent="flex-end" style={{ padding: 0 }}>
-              <img src={Placeholder} alt="coming soon" />
+              <img src={thumb || Placeholder} alt="coming soon" />
             </Grid>
           </Grid>
         </CardContent>

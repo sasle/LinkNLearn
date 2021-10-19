@@ -31,8 +31,10 @@ function CadastrarCurso() {
   const [maxStudents, setMaxStudents] = useState(0);
   const [price, setPrice] = useState(0);
   const [platform, setPlatform] = useState('');
-  const [logoCourse, setLogoCourse] = useState('logo.png');
+  const [logoCourse, setLogoCourse] = useState('');
   const [hours, setHours] = useState("");
+  const [src, setSrc] = useState('');
+
 
   const [openSnack, setOpenSnack] = useState(false);
 
@@ -63,11 +65,27 @@ function CadastrarCurso() {
         hours: hours
       }, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-      })
+      }).then(async (res) => {
+        const config = { headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${localStorage.getItem('token')}`, CourseId: res.data.id_course } };
+        await axios.post(`${process.env.REACT_APP_URL}/course/upload/thumbnail`, logoCourse, config);
+      }).catch(err => { alert('Houve um erro no upload de imagem. Verifique se ela é do formato .jpeg.') })
 
       setOpenSnack(true);
     }
     catch (err) {
+      alert('Houve um erro. Tente novamente mais tarde.');
+    }
+  }
+
+  async function handleImageChange(e) {
+    const [file] = e.target.files;
+    if (file && file.type === 'image/jpeg') {
+      let fd = new FormData();
+      fd.append('photo', file);
+      setSrc(URL.createObjectURL(file));
+      setLogoCourse(fd);
+    } else {
+      alert('Formato de arquivo inválido. Por favor insira um arquivo no formato .jpeg');
     }
   }
 
@@ -99,9 +117,19 @@ function CadastrarCurso() {
           </Grid>
         </header>
         <Section>
-          <div>
-            <img src={Placeholder} alt="foto de perfil" />
-          </div>
+          <Grid container className="grid">
+            <div>
+              <img src={src || logoCourse || Placeholder} alt="foto de perfil" />
+            </div>
+          </Grid>
+          <Grid container className="grid">
+            <label>
+              <input type="file" accept="image/jpeg" style={{ display: 'none' }} onChange={handleImageChange} />
+              <Button variant="contained" component="span" color="primary">
+                Escolher Foto
+              </Button>
+            </label>
+          </Grid>
           <form onSubmit={postCurso}>
             <Grid container spacing={5} className="grid">
               <Grid item>

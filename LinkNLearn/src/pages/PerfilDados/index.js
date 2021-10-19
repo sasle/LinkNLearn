@@ -132,7 +132,6 @@ function PerfilDados() {
       const config = { headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${localStorage.getItem('token')}` } };
       let fd = new FormData();
       fd.append('photo', file);
-      fd.append('id_student', JSON.stringify(localStorage.getItem('idUser')));
       setSrc(URL.createObjectURL(file));
       await axios.post(`${process.env.REACT_APP_URL}/student/upload/profile`, fd, config);
       setOpenSnackPhoto(true);
