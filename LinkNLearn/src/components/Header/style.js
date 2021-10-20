@@ -13,7 +13,7 @@ export const HeaderComponent = styled.header`
         float: right;
     }
 
-    img {
+    .logo {
         width: 70%;
     }
 

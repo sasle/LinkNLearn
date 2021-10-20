@@ -3,15 +3,16 @@ import { CartContext } from '../../context/CartContext';
 import axios from 'axios';
 import { Link, useHistory } from 'react-router-dom';
 import Logo from '../../assets/images/logo.png';
+import Placeholder from '../../assets/images/placeholder.jpg';
 import { HeaderComponent } from './style.js';
 
-import { Button, Dialog, Grid, DialogTitle, DialogContent, RadioGroup, FormControlLabel, Radio, Tooltip, IconButton, CircularProgress, Badge, Snackbar } from '@material-ui/core';
+import { Button, Dialog, Grid, DialogTitle, DialogContent, RadioGroup, FormControlLabel, Radio, Tooltip, IconButton, CircularProgress, Badge, Snackbar, Avatar } from '@material-ui/core';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Search from '@material-ui/icons/Search';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import CloseIcon from '@material-ui/icons/Close';
 import TextField from '@material-ui/core/TextField'
-import { AccountCircle, ArrowBack, ExitToApp } from '@material-ui/icons';
+import { ArrowBack, ExitToApp } from '@material-ui/icons';
 import { Alert } from '@material-ui/lab';
 
 
@@ -29,6 +30,7 @@ function Header() {
   const [snackBarMessage, setSnackBarMessage] = useState('Enviamos um email com instruções para recuperar sua senha.');
   const [snackBarSeverity, setSnackBarSeverity] = useState('success');
 
+  const [avatar, setAvatar] = useState(Placeholder);
   const [name, setName] = useState('');
   const [cpf, setCpf] = useState('');
   const [lastName, setLastName] = useState('');
@@ -177,12 +179,28 @@ function Header() {
     }
   }
 
+  async function loadAvatar() {
+    const config = {
+      headers: {
+        userid: localStorage.getItem('idUser')
+      }
+    };
+    await axios.get(`${process.env.REACT_APP_URL}/user/upload/avatar`, config).then(res => {
+      setAvatar(res.data)
+    }).catch(err => { });
+  }
+
+
+  useEffect(() => {
+    loadAvatar();
+  }, []);
+
   return (
     <HeaderComponent>
       <Grid container alignItems="center" justifyContent="space-between">
         <Grid item container xs={12} sm={4} md={2} alignItems="flex-start">
           <Link to='/'>
-            <img src={Logo} alt="Link & Learn logo" />
+            <img src={Logo} alt="Link &amp; Learn logo" className="logo" />
           </Link>
         </Grid>
         <Grid item xs={false} sm={4} md={5}>
@@ -239,7 +257,7 @@ function Header() {
               <Grid item>
                 <Tooltip title="Perfil">
                   <IconButton color="primary" onClick={() => history.push('/perfil')}>
-                    <AccountCircle />
+                    <Avatar alt="avatar" src={avatar || Placeholder} style={{ width: '100%!important' }} />
                   </IconButton>
                 </Tooltip>
               </Grid>
