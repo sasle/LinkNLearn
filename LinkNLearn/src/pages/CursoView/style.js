@@ -42,7 +42,7 @@ export const Section = styled.section`
         }
 
         img {
-            min-width:100%;
+            max-width: 15vw;
             border-radius: 5px;
         }
 

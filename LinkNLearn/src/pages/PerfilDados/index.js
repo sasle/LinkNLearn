@@ -73,8 +73,8 @@ function PerfilDados() {
       setPassword(profileResponse.data[0].password);
       setBiography(profileResponse.data[0].biography);
     }
-    const config = { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } };
-    await axios.get(`${process.env.REACT_APP_URL}/student/upload/profile`, config).then(res => {
+    const config = { headers: { Authorization: `Bearer ${localStorage.getItem('token')}`, userid: localStorage.getItem('idUser') } };
+    await axios.get(`${process.env.REACT_APP_URL}/user/upload/avatar`, config).then(res => {
       setPictureProfile(res.data);
     }).catch(err => { console.log(err) });
     setLoading(false);
@@ -133,7 +133,7 @@ function PerfilDados() {
       let fd = new FormData();
       fd.append('photo', file);
       setSrc(URL.createObjectURL(file));
-      await axios.post(`${process.env.REACT_APP_URL}/student/upload/profile`, fd, config);
+      await axios.post(`${process.env.REACT_APP_URL}/user/upload/avatar`, fd, config);
       setOpenSnackPhoto(true);
 
     } else {

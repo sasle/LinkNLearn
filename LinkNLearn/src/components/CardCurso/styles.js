@@ -40,7 +40,7 @@ export const Container = styled.div`
 
     img {
         max-width: 8vw;
-    max-height: 13vh;
+        max-height: 100%;
     }
     .MuiCardContent-root:last-child {
         padding-bottom: 16px;

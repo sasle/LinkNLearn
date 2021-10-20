@@ -20,6 +20,7 @@ function ProfessorPublicView() {
 
   const [info, setInfo] = useState();
   const [courses, setCourses] = useState();
+  const [avatar, setAvatar] = useState(Placeholder);
 
   const loadProfile = useCallback(async () => {
     const profileResponse = await axios.post(`${process.env.REACT_APP_URL}/teacher/getById`, {
@@ -43,9 +44,20 @@ function ProfessorPublicView() {
     setCourses(coursesResponse.data);
   }, [params.id, info]);
 
+  async function loadAvatar() {
+    if (info && info[0]) {
+      const config = { headers: { userid: info[0].id_teacher } };
+      await axios.get(`${process.env.REACT_APP_URL}/user/upload/avatar`, config).then(res => {
+        setAvatar(res.data)
+      }).catch(err => { });
+    }
+  }
+
+
   useEffect(() => {
     loadProfile();
     loadCourses();
+    loadAvatar();
   }, [loadProfile, loadCourses]);
 
 
@@ -59,7 +71,7 @@ function ProfessorPublicView() {
         </Grid>
         <Section>
           <Grid container justifyContent="center">
-            <img src={Placeholder} alt="Imagem professor" />
+            <img src={avatar || Placeholder} alt="Imagem professor" />
           </Grid>
           <Grid container className="box" direction="column">
             <h1>Informações do professor:</h1>

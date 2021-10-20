@@ -18,6 +18,7 @@ function CursoView() {
   const history = useHistory();
   const info = useState(history.location.state.info);
   const [feedbacks, setFeedbacks] = useState([]);
+  const [thumb, setThumb] = useState(Placeholder);
 
   async function loadFeedbacks() {
     const feedbacksResponse = await axios.post(`${process.env.REACT_APP_URL}/course/listAllFeedback`, {
@@ -27,8 +28,16 @@ function CursoView() {
     setFeedbacks(feedbacksResponse.data);
   }
 
+  async function loadThumb() {
+    const config = { headers: { CourseId: info[0].id_course } };
+    await axios.get(`${process.env.REACT_APP_URL}/course/upload/thumbnail`, config).then(res => {
+      setThumb(res.data)
+    }).catch(err => { });
+  }
+
   useEffect(() => {
     loadFeedbacks();
+    loadThumb()
   }, [])
 
   const [open, setOpen] = useState(false);
@@ -46,7 +55,7 @@ function CursoView() {
             <Grid item container className="infoBox" justifyContent="space-evenly">
               <Grid item container spacing={3}>
                 <Grid item md={3}>
-                  <img src={Placeholder} alt="Placeholder" className="sasuke" />
+                  <img src={thumb || Placeholder} alt="Placeholder" className="sasuke" />
                 </Grid>
                 <Grid item md={9}>
                   <div style={{ minHeight: '65%', height: '65%' }}>

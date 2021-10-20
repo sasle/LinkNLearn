@@ -47,33 +47,36 @@ function CadastrarCurso() {
 
   async function postCurso(e) {
     e.preventDefault();
-    //ta dando erro -> insert or update on table "courses" violates foreign key constraint "FK_c9ae211023098e9b7bb44f5b473"
-    try {
-      await axios.post(`${process.env.REACT_APP_URL}/courses/create`, {
-        idTeacher: "26538c42-dffe-429f-bde6-5f4902489179",
-        title: title,
-        description: description,
-        level: level,
-        startDate: startDate,
-        finishDate: finishdate,
-        period: period,
-        classDate: classdate,
-        maxStudent: parseInt(maxStudents),
-        price: parseFloat(price),
-        platform: platform,
-        logoCourse: logoCourse,
-        hours: hours
-      }, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-      }).then(async (res) => {
-        const config = { headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${localStorage.getItem('token')}`, CourseId: res.data.id_course } };
-        await axios.post(`${process.env.REACT_APP_URL}/course/upload/thumbnail`, logoCourse, config);
-      }).catch(err => { alert('Houve um erro no upload de imagem. Verifique se ela é do formato .jpeg.') })
+    if (logoCourse === '') {
+      alert('Por favor insira uma imagem para o curso.');
+    } else {
+      try {
+        await axios.post(`${process.env.REACT_APP_URL}/courses/create`, {
+          idTeacher: "26538c42-dffe-429f-bde6-5f4902489179",
+          title: title,
+          description: description,
+          level: level,
+          startDate: startDate,
+          finishDate: finishdate,
+          period: period,
+          classDate: classdate,
+          maxStudent: parseInt(maxStudents),
+          price: parseFloat(price),
+          platform: platform,
+          logoCourse: logoCourse,
+          hours: hours
+        }, {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        }).then(async (res) => {
+          const config = { headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${localStorage.getItem('token')}`, CourseId: res.data.id_course } };
+          await axios.post(`${process.env.REACT_APP_URL}/course/upload/thumbnail`, logoCourse, config);
+        }).catch(err => { alert('Houve um erro no upload de imagem. Verifique se ela é do formato .jpeg.') })
 
-      setOpenSnack(true);
-    }
-    catch (err) {
-      alert('Houve um erro. Tente novamente mais tarde.');
+        setOpenSnack(true);
+      }
+      catch (err) {
+        alert('Houve um erro. Tente novamente mais tarde.');
+      }
     }
   }
 
