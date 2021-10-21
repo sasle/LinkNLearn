@@ -5,8 +5,9 @@ import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 
 import { Link, useHistory } from 'react-router-dom';
-import { Button, Dialog, Grid, DialogTitle, DialogContent } from '@material-ui/core';
+import { Button, Dialog, Grid, DialogTitle, DialogContent, TextField, FormControl, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import CloseIcon from '@material-ui/icons/Close';
 import Placeholder from '../../assets/images/placeholder.jpg';
@@ -17,12 +18,21 @@ import { format, parseISO } from 'date-fns';
 function CursoView() {
   const history = useHistory();
   const info = useState(history.location.state.info);
+
+  const [open, setOpen] = useState(false);
+  const [openFeedback, setOpenFeedback] = useState(false);
+
   const [feedbacks, setFeedbacks] = useState([]);
   const [thumb, setThumb] = useState(Placeholder);
 
+
+  const [feedbackText, setFeedbackText] = useState('');
+  const [classificacao, setClassificacao] = useState();
+
+
   async function loadFeedbacks() {
     const feedbacksResponse = await axios.post(`${process.env.REACT_APP_URL}/course/listAllFeedback`, {
-      course: info.id,
+      course: info[0].id_course,
     });
 
     setFeedbacks(feedbacksResponse.data);
@@ -40,7 +50,20 @@ function CursoView() {
     loadThumb()
   }, [])
 
-  const [open, setOpen] = useState(false);
+  async function handleFeedbackSubmit() {
+    const feedback = {
+      course: info[0].id_course,
+      classification: classificacao,
+      description: feedbackText
+    }
+
+    await axios.post(`${process.env.REACT_APP_URL}/course/feedback`, feedback, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+    });
+    loadFeedbacks();
+    setOpenFeedback(false);
+  }
+
 
   return (
     <Container>
@@ -167,11 +190,11 @@ function CursoView() {
               <Grid item className="feedback">
                 <h1 className="title">Feedback do curso</h1>
                 {feedbacks.map(feedback => (
-                  <CardAlunoFeedback key={feedback.student.id_student} description={feedback.description} grade={feedback.classification} name={feedback.student.name} lastName={feedback.student.last_name} />
+                  <CardAlunoFeedback key={feedback.student.id_student} id={feedback.student.id_student} description={feedback.description} grade={feedback.classification} name={feedback.student.name} lastName={feedback.student.last_name} />
                 ))}
                 {feedbacks.length === 0 && <p>Nenhum feedback</p>}
-                <Button color="primary" variant="contained">
-                  Ver mais resultados
+                <Button color="primary" variant="contained" onClick={() => setOpenFeedback(true)}>
+                  Adicionar feedback
                 </Button>
               </Grid>
             </Grid>
@@ -185,6 +208,26 @@ function CursoView() {
           <h1 style={{ fontSize: '1.5em', color: '#4c86d3', fontWeight: 700 }}>
             Curso adicionado ao carrinho!
           </h1>
+        </DialogContent>
+      </Dialog>
+      <Dialog open={openFeedback} fullWidth maxWidth="lg">
+        <DialogTitle><CloseIcon onClick={() => setOpenFeedback(false)} style={{ float: 'right', cursor: 'pointer' }} /></DialogTitle>
+        <DialogContent style={{ textAlign: 'center', paddingBottom: '3em' }}>
+          <h1 style={{ fontSize: '1.5em', color: '#4c86d3', fontWeight: 700, marginBottom: "1.2em" }}>Feedback do curso "{info[0].title}"</h1>
+          <TextField label="Feedback" multiline minRows={2} onChange={e => setFeedbackText(e.target.value)} style={{ width: '100%', marginBottom: '1.5em' }} />
+          <FormControl style={{ width: '100%', alignItems: 'center' }}>
+            <label style={{ fontSize: '1.1em', color: '#4c86d3', fontWeight: 700, marginBottom: "0.7em" }}>Classificação</label>
+            <RadioGroup row aria-label="classificacao" value={classificacao} onClick={e => setClassificacao(e.target.value)} style={{ marginBottom: '2em' }}>
+              <FormControlLabel value="1" checked={classificacao > 0} control={<Radio icon={<StarBorderIcon fontSize="large" color="primary" />} checkedIcon={<StarIcon fontSize="large" color="primary" />} />} />
+              <FormControlLabel value="2" checked={classificacao > 1} control={<Radio icon={<StarBorderIcon fontSize="large" color="primary" />} checkedIcon={<StarIcon fontSize="large" color="primary" />} />} />
+              <FormControlLabel value="3" checked={classificacao > 2} control={<Radio icon={<StarBorderIcon fontSize="large" color="primary" />} checkedIcon={<StarIcon fontSize="large" color="primary" />} />} />
+              <FormControlLabel value="4" checked={classificacao > 3} control={<Radio icon={<StarBorderIcon fontSize="large" color="primary" />} checkedIcon={<StarIcon fontSize="large" color="primary" />} />} />
+              <FormControlLabel value="5" checked={classificacao > 4} control={<Radio icon={<StarBorderIcon fontSize="large" color="primary" />} checkedIcon={<StarIcon fontSize="large" color="primary" />} />} />
+            </RadioGroup>
+          </FormControl>
+          <Button color="primary" variant="contained" onClick={handleFeedbackSubmit} style={{ width: '25%' }}>
+            Enviar
+          </Button>
         </DialogContent>
       </Dialog>
     </Container>

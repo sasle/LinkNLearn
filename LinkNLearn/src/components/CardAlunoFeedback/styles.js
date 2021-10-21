@@ -5,6 +5,7 @@ export const Container = styled.div`
     line-height: 2em;
     
     .cardContainer {
+        margin: 3em 0;
         background-color: rgba(215, 196, 183, 0.6);
 
         .imgCustomContainer {
@@ -34,6 +35,7 @@ export const Container = styled.div`
     }
 
     img {
-        min-width: fit-content;
+        max-width: 8vw;
+        max-height: 100%;
     }
 `;

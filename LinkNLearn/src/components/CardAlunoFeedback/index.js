@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from './styles.js';
-import Aluno1 from '../../assets/images/aluno1.png';
+import Placeholder from '../../assets/images/placeholder.jpg';
 
 import { CardContent } from '@material-ui/core';
 import { Card, Grid } from '@material-ui/core';
@@ -9,10 +9,11 @@ import axios from 'axios';
 
 function CardAlunoFeedback(props) {
 
-  const [avatar, setAvatar] = useState(Aluno1);
+  const [avatar, setAvatar] = useState(Placeholder);
+  console.log(props.id);
 
   async function loadAvatar() {
-    const config = { headers: { userid: props.id_student } };
+    const config = { headers: { userid: props.id } };
     await axios.get(`${process.env.REACT_APP_URL}/user/upload/avatar`, config).then(res => {
       setAvatar(res.data)
     }).catch(err => { });
@@ -29,7 +30,7 @@ function CardAlunoFeedback(props) {
         <CardContent style={{ paddingBottom: 0 }}>
           <Grid container spacing={4}>
             <Grid item container md={4} className="imgCustomContainer">
-              <img src={avatar || Aluno1} alt="coming soon" />
+              <img src={avatar || Placeholder} alt="coming soon" />
             </Grid>
             <Grid item container md={8} alignItems="baseline" style={{ minWidth: '80%' }}>
               <Grid item container direction="column">

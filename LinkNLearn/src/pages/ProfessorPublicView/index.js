@@ -9,7 +9,6 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import CloseIcon from '@material-ui/icons/Close';
 import Placeholder from '../../assets/images/placeholder.jpg';
-import CardAlunoFeedback from '../../components/CardAlunoFeedback/index.js';
 import CardCurso from '../../components/CardCurso';
 import axios from 'axios';
 

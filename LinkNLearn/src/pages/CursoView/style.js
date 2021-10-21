@@ -143,7 +143,7 @@ export const Section = styled.section`
         }
 
         button {
-            width: 100%;
+            width: 50%;
             margin-top: 1em;
             text-align: center;
         }
