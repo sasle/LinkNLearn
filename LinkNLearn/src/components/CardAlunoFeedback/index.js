@@ -10,7 +10,6 @@ import axios from 'axios';
 function CardAlunoFeedback(props) {
 
   const [avatar, setAvatar] = useState(Placeholder);
-  console.log(props.id);
 
   async function loadAvatar() {
     const config = { headers: { userid: props.id } };

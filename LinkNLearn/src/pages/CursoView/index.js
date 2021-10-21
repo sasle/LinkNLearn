@@ -5,7 +5,7 @@ import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 
 import { Link, useHistory } from 'react-router-dom';
-import { Button, Dialog, Grid, DialogTitle, DialogContent, TextField, FormControl, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
+import { Button, Dialog, Grid, DialogTitle, DialogContent, TextField, FormControl, RadioGroup, FormControlLabel, Radio, Snackbar } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
@@ -20,6 +20,8 @@ function CursoView() {
   const info = useState(history.location.state.info);
 
   const [open, setOpen] = useState(false);
+  const [openSnack, setOpenSnack] = useState(false);
+  const [alreadyPosted, setAlreadyPosted] = useState(false);
   const [openFeedback, setOpenFeedback] = useState(false);
 
   const [feedbacks, setFeedbacks] = useState([]);
@@ -34,6 +36,12 @@ function CursoView() {
     const feedbacksResponse = await axios.post(`${process.env.REACT_APP_URL}/course/listAllFeedback`, {
       course: info[0].id_course,
     });
+
+    feedbacksResponse.data.map((feedback) => {
+      if (feedback.student.id_student === localStorage.getItem('idUser')) {
+        setAlreadyPosted(true);
+      }
+    })
 
     setFeedbacks(feedbacksResponse.data);
   }
@@ -62,6 +70,7 @@ function CursoView() {
     });
     loadFeedbacks();
     setOpenFeedback(false);
+    setOpenSnack(true);
   }
 
 
@@ -193,9 +202,12 @@ function CursoView() {
                   <CardAlunoFeedback key={feedback.student.id_student} id={feedback.student.id_student} description={feedback.description} grade={feedback.classification} name={feedback.student.name} lastName={feedback.student.last_name} />
                 ))}
                 {feedbacks.length === 0 && <p>Nenhum feedback</p>}
-                <Button color="primary" variant="contained" onClick={() => setOpenFeedback(true)}>
-                  Adicionar feedback
-                </Button>
+                {
+                  !alreadyPosted &&
+                  <Button color="primary" variant="contained" onClick={() => setOpenFeedback(true)}>
+                    Adicionar feedback
+                  </Button>
+                }
               </Grid>
             </Grid>
           </Grid>
@@ -230,6 +242,12 @@ function CursoView() {
           </Button>
         </DialogContent>
       </Dialog>
+      <Snackbar
+        open={openSnack}
+        autoHideDuration={3000}
+        onClose={() => setOpenSnack(false)}
+        message="Feedback salvo!"
+      />
     </Container>
   );
 }
