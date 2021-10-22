@@ -30,6 +30,7 @@ function CursoView() {
 
   const [feedbackText, setFeedbackText] = useState('');
   const [classificacao, setClassificacao] = useState();
+  const [grade, setGrade] = useState(0);
 
 
   async function loadFeedbacks() {
@@ -37,13 +38,17 @@ function CursoView() {
       course: info[0].id_course,
     });
 
+    var sum = 0;
     feedbacksResponse.data.map((feedback) => {
       if (feedback.student.id_student === localStorage.getItem('idUser')) {
         setAlreadyPosted(true);
       }
-    })
+
+      sum += parseInt(feedback.classification);
+    });
 
     setFeedbacks(feedbacksResponse.data);
+    setGrade(sum / feedbacksResponse.data.length);
   }
 
   async function loadThumb() {
@@ -103,10 +108,13 @@ function CursoView() {
                   <Grid item container direction="column">
                     <Grid item container justifyContent="space-between" style={{ marginTop: '1em', marginBottom: '1em' }}>
                       <p style={{ fontWeight: 700 }}>R$ {info[0].price}</p>
-                      <span className="nota">
-                        <StarBorderIcon />
-                        <p>{info[0].nota}</p>
-                      </span>
+                      {
+                        feedbacks.length !== 0 &&
+                        <span className="nota">
+                          <StarBorderIcon />
+                          <p>{grade.toFixed(1)}</p>
+                        </span>
+                      }
                     </Grid>
                     <Grid item>
                       <span className="professorInfo">

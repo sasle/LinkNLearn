@@ -12,6 +12,7 @@ function CardCurso(props) {
   const history = useHistory();
 
   const [thumb, setThumb] = useState(Placeholder);
+  const [grade, setGrade] = useState(0);
 
   function handleView() {
     history.push({ pathname: `/curso/${props.info.title}-${props.info.id_course}`, state: { info: props.info } });
@@ -24,8 +25,24 @@ function CardCurso(props) {
     }).catch(err => { });
   }
 
+  async function loadGrade() {
+    await axios.post(`${process.env.REACT_APP_URL}/course/listAllFeedback`, {
+      course: props.info.id_course
+    }).then(res => {
+      var sum = 0;
+      if (res.data.length > 0) {
+        res.data.map(item => {
+          sum += parseInt(item.classification);
+        })
+        setGrade(sum / res.data.length);
+      }
+    }).catch(err => { });
+
+  }
+
   useEffect(() => {
-    loadThumb()
+    loadThumb();
+    loadGrade();
   }, [])
 
   return (
@@ -42,10 +59,12 @@ function CardCurso(props) {
               <Grid item container justifyContent="space-between">
                 <p className="preco">R${props.info.price}</p>
                 <p className="nivel">Nível: {props.info.level}</p>
-                <span>
-                  <StarBorderIcon fontSize="large" />
-                  <p className="nota">{props.info.nota}</p>
-                </span>
+                {grade !== 0 &&
+                  <span>
+                    <StarBorderIcon fontSize="large" />
+                    <p className="nota">{grade.toFixed(1)}</p>
+                  </span>
+                }
               </Grid>
             </Grid>
             <Grid item container md={4} justifyContent="flex-end" style={{ padding: 0 }}>
