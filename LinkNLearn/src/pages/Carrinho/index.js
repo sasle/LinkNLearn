@@ -20,7 +20,7 @@ function Carrinho(props) {
 
   var price = 0;
   cart[0].map(item => {
-    price += item.preco;
+    price += parseFloat(item.price);
   })
 
   function handleFinish() {
@@ -63,7 +63,7 @@ function Carrinho(props) {
               </Grid>
               <Grid container className="box padding" justify="space-between" alignItems="center">
                 <Grid item>
-                  <h1 className="total">Total: R${price}</h1>
+                  <h1 className="total">Total: R$ {price.toFixed(2)}</h1>
                 </Grid>
                 <Grid item>
                   <Button color="primary" variant="contained" className="finish" onClick={handleFinish}>Finalizar Pedido</Button>
