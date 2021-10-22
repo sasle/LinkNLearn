@@ -211,7 +211,7 @@ function CursoView() {
                 ))}
                 {feedbacks.length === 0 && <p>Nenhum feedback</p>}
                 {
-                  !alreadyPosted &&
+                  !alreadyPosted && localStorage.getItem('idUser') &&
                   <Button color="primary" variant="contained" onClick={() => setOpenFeedback(true)}>
                     Adicionar feedback
                   </Button>
