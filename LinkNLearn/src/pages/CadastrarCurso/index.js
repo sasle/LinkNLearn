@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Container, Section } from './style.js';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
-import { Button, Dialog, DialogContent, DialogTitle, Grid, InputLabel, MenuItem, Select, Snackbar, TextField } from '@material-ui/core';
+import { Button, Dialog, DialogContent, DialogTitle, FormControl, Grid, InputLabel, MenuItem, Select, Snackbar, TextField } from '@material-ui/core';
 
 import { Link, useHistory } from 'react-router-dom';
 import Placeholder from '../../assets/images/placeholder.jpg';
@@ -151,6 +151,7 @@ function CadastrarCurso() {
                       setStartDate(newValue);
                     }}
                     renderInput={(params) => <TextField {...params} />}
+                    minDate={new Date()}
                   />
                 </LocalizationProvider>
               </Grid>
@@ -171,10 +172,35 @@ function CadastrarCurso() {
             </Grid>
             <Grid container spacing={5} className="grid">
               <Grid item>
-                <TextField label="Nível" required onChange={e => setLevel(e.target.value)} />
+                <FormControl>
+                  <InputLabel>Nível</InputLabel>
+                  <Select
+                    native
+                    value={level}
+                    onChange={e => setLevel(e.target.value)}
+                  >
+                    <option aria-label="None" value="" />
+                    <option value="Iniciante">Iniciante</option>
+                    <option value="Intermediário">Intermediário</option>
+                    <option value="Avançado">Avançado</option>
+                  </Select>
+                </FormControl>
               </Grid>
               <Grid item>
-                <TextField label="Plataforma" required onChange={e => setPlatform(e.target.value)} />
+                <FormControl>
+                  <InputLabel>Plataforma</InputLabel>
+                  <Select
+                    native
+                    value={platform}
+                    onChange={e => setPlatform(e.target.value)}
+                  >
+                    <option aria-label="None" value="" />
+                    <option value="Zoom">Zoom</option>
+                    <option value="Teams">Teams</option>
+                    <option value="Google Meet">Google Meet</option>
+                    <option value="Discord">Discord</option>
+                  </Select>
+                </FormControl>
               </Grid>
             </Grid>
             <Grid container spacing={5} className="grid">
@@ -182,7 +208,19 @@ function CadastrarCurso() {
                 <TextField label="Descrição" required onChange={e => setDescription(e.target.value)} />
               </Grid>
               <Grid item>
-                <TextField label="Período" required onChange={e => setPeriod(e.target.value)} />
+                <FormControl>
+                  <InputLabel>Período</InputLabel>
+                  <Select
+                    native
+                    value={period}
+                    onChange={e => setPeriod(e.target.value)}
+                  >
+                    <option aria-label="None" value="" />
+                    <option value="Matutino">Matutino</option>
+                    <option value="Vespertino">Vespertino</option>
+                    <option value="Noturno">Noturno</option>
+                  </Select>
+                </FormControl>
               </Grid>
             </Grid>
             <Grid container spacing={5} className="grid">
