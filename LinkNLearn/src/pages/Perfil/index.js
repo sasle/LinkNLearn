@@ -25,7 +25,11 @@ function Perfil() {
   }
 
   async function loadPlanos() {
-    const planosResponse = await axios.get(`${process.env.REACT_APP_URL}/plan/listAll`);
+    const planosResponse = await axios.post(`${process.env.REACT_APP_URL}/teacher/getById`, {
+      userId: localStorage.getItem('idUser')
+    }, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+    });
     setPlanos(planosResponse.data);
   }
 
@@ -118,32 +122,31 @@ function Perfil() {
             </header>
             <Section>
               <Grid container className="cursos" direction="column">
-                <h1 className="title">Planos</h1>
+                <h1 className="title">Meu plano</h1>
                 <Grid item container justifyContent="center" spacing={3} className="plansGrid">
-                  {
-                    planos.map(plano => (
-                      <Grid key={plano.id_plan} item md={4}>
-                        <Card variant="outlined" onClick={() => { setOpen(true); setPlanoEscolhido(plano) }}>
-                          <CardContent>
-                            <h1>{plano.title}</h1>
-                            <h3>{plano.price}</h3>
-                            <p>{plano.description}</p>
-                          </CardContent>
-                        </Card>
-                      </Grid>
-                    ))
-                  }
+                  <Grid key={planos[0].plan.id_plan} item md={4}>
+                    <Card variant="outlined">
+                      <CardContent>
+                        <h1>{planos[0].plan.title}</h1>
+                        <h3>{planos[0].plan.price}</h3>
+                        <p>{planos[0].plan.description}</p>
+                      </CardContent>
+                    </Card>
+                  </Grid>
                 </Grid>
                 {courses !== undefined &&
-                  <Grid item container className="box" spacing={3}>
-                    {
-                      courses.map(course => (
-                        <Grid item key={course.id_course} className="card">
-                          <CardCurso info={course} />
-                        </Grid>
-                      ))
-                    }
-                  </Grid>
+                  <>
+                    <h1 className="title">Meus cursos</h1>
+                    <Grid item container className="box" spacing={3}>
+                      {
+                        courses.map(course => (
+                          <Grid item key={course.id_course} className="card">
+                            <CardCurso info={course} />
+                          </Grid>
+                        ))
+                      }
+                    </Grid>
+                  </>
                 }
               </Grid>
             </Section>
