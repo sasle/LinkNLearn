@@ -179,34 +179,6 @@ function CursoView() {
                 </span>
               </Grid>
             </Grid>
-            <Grid item className="infoBox">
-              <Grid item className="ementa">
-                <h1>Ementa</h1>
-                <ul>
-                  <li>a</li>
-                  <li>b</li>
-                  <li>c</li>
-                  <li>d</li>
-                  <li>e</li>
-                  <li>f</li>
-                  <li>g</li>
-                  <li>h</li>
-                </ul>
-              </Grid>
-            </Grid>
-            <Grid item className="infoBox">
-              <Grid item className="requisitos">
-                <h1>Requisitos</h1>
-                <h2>Institucional</h2>
-                <ul>
-                  <li>a</li>
-                </ul>
-                <h2>Computador</h2>
-                <ul>
-                  <li>a</li>
-                </ul>
-              </Grid>
-            </Grid>
             <hr />
             <Grid item style={{ width: '50%' }}>
               <Grid item className="feedback">

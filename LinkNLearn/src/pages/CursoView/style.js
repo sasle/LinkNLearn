@@ -103,26 +103,6 @@ export const Section = styled.section`
                 font-weight: 700;
             }
         }
-        
-        .ementa {
-            ul {
-                margin-left: 1.2em;
-            }
-            
-            li {
-                font-weight: 700;
-            }
-        }
-
-        .requisitos {
-            ul {
-                margin-left: 1.2em;
-            }
-            
-            li {
-                font-weight: 500;
-            }
-        }
     }
 
     hr {

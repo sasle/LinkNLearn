@@ -44,10 +44,12 @@ export const Section = styled.section`
 
         p{
             font-weight: 700;
+            text-align: center;
+            margin-bottom: 1em;
         }
 
         .endButtons {
-            width: 15vw;
+            width: 20vw;
             max-height: 4vh;
         }
 

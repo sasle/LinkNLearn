@@ -13,7 +13,7 @@ function Perfil() {
 
   const history = useHistory();
   const [open, setOpen] = useState(false);
-  const [planos, setPlanos] = useState([]);
+  const [plano, setPlano] = useState([]);
   const [planoEscolhido, setPlanoEscolhido] = useState({});
   const [courses, setCourses] = useState();
 
@@ -30,7 +30,7 @@ function Perfil() {
     }, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     });
-    setPlanos(planosResponse.data);
+    setPlano(planosResponse.data[0].plan);
   }
 
   async function loadCourses() {
@@ -124,12 +124,12 @@ function Perfil() {
               <Grid container className="cursos" direction="column">
                 <h1 className="title">Meu plano</h1>
                 <Grid item container justifyContent="center" spacing={3} className="plansGrid">
-                  <Grid key={planos[0].plan.id_plan} item md={4}>
+                  <Grid key={plano.id_plan} item md={4}>
                     <Card variant="outlined">
                       <CardContent>
-                        <h1>{planos[0].plan.title}</h1>
-                        <h3>{planos[0].plan.price}</h3>
-                        <p>{planos[0].plan.description}</p>
+                        <h1>{plano.title}</h1>
+                        <h3>{plano.price}</h3>
+                        <p>{plano.description}</p>
                       </CardContent>
                     </Card>
                   </Grid>
