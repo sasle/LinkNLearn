@@ -9,6 +9,7 @@ export const Container = styled.div`
         background-color: #FFF000;
         margin: 0 auto;
         width: 25vw;
+        height: 14vh;
     }
 
     .cardContainer:hover {
@@ -39,8 +40,8 @@ export const Container = styled.div`
     }
 
     img {
-        max-width: 8vw;
-        max-height: 100%;
+        width: 100%;
+        object-fit: cover;
     }
     .MuiCardContent-root:last-child {
         padding-bottom: 16px;

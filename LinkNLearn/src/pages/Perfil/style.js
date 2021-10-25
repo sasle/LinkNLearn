@@ -106,6 +106,10 @@ export const Section = styled.section`
                 box-shadow: 0px 0px 15px 0px rgb(0 0 0 / 50%);
                 cursor: pointer;
             }
+
+            .MuiPaper-outlined {
+                border: 2px solid #3577CC;
+            }
         }
     }
 

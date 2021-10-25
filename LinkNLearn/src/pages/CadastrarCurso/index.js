@@ -28,6 +28,7 @@ function CadastrarCurso() {
   const [finishdate, setFinishDate] = useState(new Date());
   const [period, setPeriod] = useState('');
   const [classdate, setClassDate] = useState('');
+  const [minStudents, setMinStudents] = useState(0);
   const [maxStudents, setMaxStudents] = useState(0);
   const [price, setPrice] = useState(0);
   const [platform, setPlatform] = useState('');
@@ -60,6 +61,7 @@ function CadastrarCurso() {
           finishDate: finishdate,
           period: period,
           classDate: classdate,
+          minStudents: parseInt(minStudents),
           maxStudent: parseInt(maxStudents),
           price: parseFloat(price),
           platform: platform,
@@ -146,7 +148,7 @@ function CadastrarCurso() {
               <Grid item>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DatePicker
-                    label="Data do Curso - Início"
+                    label="Data do curso - início"
                     inputFormat="dd/MM/yyyy"
                     value={startDate}
                     onChange={(newValue) => {
@@ -159,13 +161,14 @@ function CadastrarCurso() {
               <Grid item>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DatePicker
-                    label="Data do Curso - Fim"
+                    label="Data do curso - fim"
                     inputFormat="dd/MM/yyyy"
                     value={finishdate}
                     onChange={(newValue) => {
                       setFinishDate(newValue);
                     }}
                     renderInput={(params) => <TextField {...params} />}
+                    minDate={startDate}
                   />
                 </LocalizationProvider>
               </Grid>
@@ -188,7 +191,7 @@ function CadastrarCurso() {
             </Grid>
             <Grid container spacing={5} className="grid">
               <Grid item>
-                <TextField label="Total de Horas" type="number" required onChange={e => setHours(e.target.value)} />
+                <TextField label="Total de horas" type="number" required onChange={e => setHours(e.target.value)} />
               </Grid>
               <Grid item>
                 <TextField label="Dias de aula" type="number" required onChange={e => setClassDate(e.target.value)} />
@@ -196,10 +199,10 @@ function CadastrarCurso() {
             </Grid>
             <Grid container spacing={5} className="grid">
               <Grid item>
-                <TextField label="Número de vagas" type="number" required onChange={e => setMaxStudents(e.target.value)} />
+                <TextField label="Mínimo de vagas" type="number" required onChange={e => setMinStudents(e.target.value)} />
               </Grid>
               <Grid item>
-                <TextField label="Total de horas" type="number" required onChange={e => setHours(e.target.value)} />
+                <TextField label="Máximo de vagas" type="number" required onChange={e => setMaxStudents(e.target.value)} />
               </Grid>
             </Grid>
             <Grid container spacing={5} className="grid">

@@ -30,12 +30,21 @@ function Perfil() {
   }
 
   async function loadCourses() {
-    const coursesResponse = await axios.post(`${process.env.REACT_APP_URL}/student/listCourses`, {
-      userId: localStorage.getItem('idUser')
-    }, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-    });
-    setCourses(coursesResponse.data);
+    if (localStorage.getItem('type') === 'aluno') {
+      const coursesResponse = await axios.post(`${process.env.REACT_APP_URL}/student/listCourses`, {
+        userId: localStorage.getItem('idUser')
+      }, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+      setCourses(coursesResponse.data);
+    } else {
+      const coursesResponse = await axios.post(`${process.env.REACT_APP_URL}/teacher/courses`, {
+        teacher: localStorage.getItem('idUser')
+      }, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+      setCourses(coursesResponse.data);
+    }
   }
 
   useEffect(() => {
@@ -110,14 +119,11 @@ function Perfil() {
             <Section>
               <Grid container className="cursos" direction="column">
                 <h1 className="title">Planos</h1>
-                <Grid item container className="box">
-                  <h2>Cursos dos planos a partir do Nível 10, serão os primeiros a serem vistos em suas respectivas categorias                 </h2>
-                </Grid>
                 <Grid item container justifyContent="center" spacing={3} className="plansGrid">
                   {
                     planos.map(plano => (
                       <Grid key={plano.id_plan} item md={4}>
-                        <Card onClick={() => { setOpen(true); setPlanoEscolhido(plano) }}>
+                        <Card variant="outlined" onClick={() => { setOpen(true); setPlanoEscolhido(plano) }}>
                           <CardContent>
                             <h1>{plano.title}</h1>
                             <h3>{plano.price}</h3>
@@ -128,15 +134,17 @@ function Perfil() {
                     ))
                   }
                 </Grid>
-                <Grid item container className="box" spacing={3}>
-                  {courses !== undefined &&
-                    courses.map(course => (
-                      <Grid item key={course.course.id_course} className="card">
-                        <CardCurso info={course.course} />
-                      </Grid>
-                    ))
-                  }
-                </Grid>
+                {courses !== undefined &&
+                  <Grid item container className="box" spacing={3}>
+                    {
+                      courses.map(course => (
+                        <Grid item key={course.id_course} className="card">
+                          <CardCurso info={course} />
+                        </Grid>
+                      ))
+                    }
+                  </Grid>
+                }
               </Grid>
             </Section>
           </main>

@@ -136,7 +136,12 @@ function CursoView() {
                     }>Adicionar ao carrinho</Button>
                   </Grid>
                   <Grid item>
-                    <Button color="primary" variant="contained" className="actionButtons">Finalizar Compra</Button>
+                    <Button color="primary" variant="contained" className="actionButtons" onClick={() => {
+                      setOpen(true);
+                      let cart = CartContext._currentValue;
+                      cart.push(info[0]);
+                    }
+                    }>Finalizar Compra</Button>
                   </Grid>
                 </Grid>
               </Grid>
