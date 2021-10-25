@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Container, Section } from './style.js';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
-import { Button, Card, CardContent, Dialog, DialogContent, DialogTitle, Grid } from '@material-ui/core';
+import { Button, Card, CardContent, Dialog, DialogContent, DialogTitle, Grid, Tooltip } from '@material-ui/core';
 import { Link, useHistory } from 'react-router-dom';
 import CardCurso from '../../components/CardCurso/index.js';
 import CloseIcon from '@material-ui/icons/Close';
@@ -110,11 +110,13 @@ function Perfil() {
                     <Button color="primary" variant="contained">Meus cursos</Button>
                   </Link>
                 </Grid>
-                <Grid item>
-                  <Link to='/cadastrar-curso'>
-                    <Button color="primary" variant="contained">Cadastrar curso</Button>
-                  </Link>
-                </Grid>
+                <Tooltip title={courses && courses.length >= 1 ? "Você já esgotou sua quantidade de cursos. Contrate um novo plano ou entre em contato com nossa equipe para mais informações." : ""}>
+                  <Grid item>
+                    <Link to={courses && courses.length <= 1 ? '/cadastrar-curso' : '#'}>
+                      <Button color="primary" variant="contained" disabled={courses && courses.length >= 1}>Cadastrar curso</Button>
+                    </Link>
+                  </Grid>
+                </Tooltip>
                 <Grid item>
                   <Button color="primary" variant="contained" onClick={handleLogout}>Log out</Button>
                 </Grid>
@@ -128,13 +130,13 @@ function Perfil() {
                     <Card variant="outlined">
                       <CardContent>
                         <h1>{plano.title}</h1>
-                        <h3>{plano.price}</h3>
+                        <h3>R${plano.price}</h3>
                         <p>{plano.description}</p>
                       </CardContent>
                     </Card>
                   </Grid>
                 </Grid>
-                {courses !== undefined &&
+                {courses && courses !== undefined &&
                   <>
                     <h1 className="title">Meus cursos</h1>
                     <Grid item container className="box" spacing={3}>
