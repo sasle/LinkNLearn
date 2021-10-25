@@ -10,6 +10,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import axios from 'axios';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { DatePicker, LocalizationProvider } from '@mui/lab';
+import TeacherSubheaderButtons from '../../components/TeacherSubheaderButtons/index.js';
 
 
 function CadastrarCurso() {
@@ -96,26 +97,7 @@ function CadastrarCurso() {
       <main className="mainAluno">
         <header>
           <h1>Cadastrar Curso</h1>
-          <Grid container justifyContent="center" spacing={3}>
-            <Grid item>
-              <Link to='/perfil/dados'>
-                <Button color="primary" variant="contained">Meus dados</Button>
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link to='/perfil'>
-                <Button color="primary" variant="contained">Meus cursos</Button>
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link to='/cadastrar-curso'>
-                <Button color="primary" variant="contained">Cadastrar curso</Button>
-              </Link>
-            </Grid>
-            <Grid item>
-              <Button color="primary" variant="contained" onClick={handleLogout}>Log out</Button>
-            </Grid>
-          </Grid>
+          <TeacherSubheaderButtons />
         </header>
         <Section>
           <Grid container className="grid">
