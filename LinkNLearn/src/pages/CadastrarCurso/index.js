@@ -29,57 +29,54 @@ function CadastrarCurso() {
   const [maxStudents, setMaxStudents] = useState(0);
   const [price, setPrice] = useState(0);
   const [platform, setPlatform] = useState('');
+  const [link, setLink] = useState('');
   const [logoCourse, setLogoCourse] = useState('');
   const [hours, setHours] = useState("");
   const [src, setSrc] = useState('');
 
-
   const [openSnack, setOpenSnack] = useState(false);
-
-  function handleLogout() {
-    localStorage.removeItem('idUser');
-    localStorage.removeItem('type');
-    localStorage.removeItem('token');
-    history.push('/');
-  }
 
   async function postCurso(e) {
     e.preventDefault();
-    if (logoCourse === '') {
-      alert('Por favor insira uma imagem para o curso.');
-    } else {
-      try {
-        await axios.post(`${process.env.REACT_APP_URL}/courses/create`, {
-          idTeacher: "26538c42-dffe-429f-bde6-5f4902489179",
-          title: title,
-          description: description,
-          level: level,
-          startDate: startDate,
-          finishDate: finishdate,
-          period: period,
-          classDate: classdate,
-          minStudents: parseInt(minStudents),
-          maxStudent: parseInt(maxStudents),
-          price: parseFloat(price),
-          platform: platform,
-          logoCourse: logoCourse,
-          hours: hours
-        }, {
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-        }).then(async (res) => {
-          const config = { headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${localStorage.getItem('token')}`, CourseId: res.data.id_course } };
-          await axios.post(`${process.env.REACT_APP_URL}/course/upload/thumbnail`, logoCourse, config);
-        }).catch(err => { alert('Houve um erro no upload de imagem. Verifique se ela é do formato .jpeg.') })
+    if (maxStudents < minStudents) {
+      alert('O número máximo de estudantes não pode ser menor que o número mínimo.');
+    } else
+      if (logoCourse === '') {
+        alert('Por favor insira uma imagem para o curso.');
+      } else {
+        try {
+          await axios.post(`${process.env.REACT_APP_URL}/courses/create`, {
+            idTeacher: "26538c42-dffe-429f-bde6-5f4902489179",
+            title: title,
+            description: description,
+            level: level,
+            startDate: startDate,
+            finishDate: finishdate,
+            period: period,
+            classDate: classdate,
+            minStudents: parseInt(minStudents),
+            maxStudent: parseInt(maxStudents),
+            price: parseFloat(price),
+            platform: platform,
+            link: link,
+            logoCourse: logoCourse,
+            hours: hours
+          }, {
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+          }).then(async (res) => {
+            const config = { headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${localStorage.getItem('token')}`, CourseId: res.data.id_course } };
+            await axios.post(`${process.env.REACT_APP_URL}/course/upload/thumbnail`, logoCourse, config);
+          }).catch(err => { alert('Houve um erro no upload de imagem. Verifique se ela é do formato .jpeg.') })
 
-        setOpenSnack(true);
-        setTimeout(() => {
-          history.push('/perfil');
-        }, 500)
+          setOpenSnack(true);
+          setTimeout(() => {
+            history.push('/perfil');
+          }, 500)
+        }
+        catch (err) {
+          alert('Houve um erro. Tente novamente mais tarde.');
+        }
       }
-      catch (err) {
-        alert('Houve um erro. Tente novamente mais tarde.');
-      }
-    }
   }
 
   async function handleImageChange(e) {
@@ -190,6 +187,11 @@ function CadastrarCurso() {
             </Grid>
             <Grid container spacing={5} className="grid">
               <Grid item>
+                <TextField label="Link" required onChange={e => setLink(e.target.value)} style={{ width: '32vw' }} />
+              </Grid>
+            </Grid>
+            <Grid container spacing={5} className="grid">
+              <Grid item>
                 <TextField label="Descrição" required onChange={e => setDescription(e.target.value)} />
               </Grid>
               <Grid item>
@@ -197,6 +199,7 @@ function CadastrarCurso() {
                   <InputLabel>Período</InputLabel>
                   <Select
                     native
+                    required
                     value={period}
                     onChange={e => setPeriod(e.target.value)}
                   >

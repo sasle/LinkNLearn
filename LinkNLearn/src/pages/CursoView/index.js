@@ -152,7 +152,9 @@ function CursoView() {
                   </Grid>
                 </Grid>
                 <Grid item container md={9} spacing={5} justifyContent="space-evenly">
+
                   {
+                    !isCanceled &&
                     info[0].teacher.id_teacher === localStorage.getItem('idUser') &&
                     <Grid item md={4}>
                       <Button disabled={isCanceled} color="secondary" variant="contained" className="actionButtons" onClick={() => setOpenCancelCourse(true)}>Cancelar curso</Button>
