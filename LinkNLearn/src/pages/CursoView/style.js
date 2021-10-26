@@ -39,6 +39,12 @@ export const Section = styled.section`
                 font-weight: 700;
                 padding-bottom: 0.5em;
             }
+
+            .canceled {
+                color: red;
+                font-style: italic;
+                margin: .5em 0;
+            }
         }
 
         img {

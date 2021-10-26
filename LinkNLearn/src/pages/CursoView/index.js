@@ -5,7 +5,7 @@ import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 
 import { Link, useHistory } from 'react-router-dom';
-import { Button, Dialog, Grid, DialogTitle, DialogContent, TextField, FormControl, RadioGroup, FormControlLabel, Radio, Snackbar } from '@material-ui/core';
+import { Button, Dialog, Grid, DialogTitle, DialogContent, TextField, FormControl, RadioGroup, FormControlLabel, Radio, Snackbar, DialogContentText, DialogActions } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
@@ -23,6 +23,9 @@ function CursoView() {
   const [openSnack, setOpenSnack] = useState(false);
   const [alreadyPosted, setAlreadyPosted] = useState(false);
   const [openFeedback, setOpenFeedback] = useState(false);
+  const [openCancelSuccess, setOpenCancelSuccess] = useState(false);
+  const [openCancelCourse, setOpenCancelCourse] = useState(false);
+  const [isCanceled, setIsCanceled] = useState(info[0].status === 'Cancelado' ? true : false);
 
   const [feedbacks, setFeedbacks] = useState([]);
   const [thumb, setThumb] = useState(Placeholder);
@@ -77,31 +80,23 @@ function CursoView() {
     setOpenSnack(true);
   }
 
-  console.log(info[0].status)
+  console.log(info[0]);
   //TODO nao ta atualizando status...
 
   async function handleCancelCourse() {
     await axios.put(`${process.env.REACT_APP_URL}/courses/update`, {
-      classDate: info[0].classDate,
-      description: info[0].description,
-      finishDate: info[0].finishDate,
-      hours: info[0].hours,
       id_course: info[0].id_course,
-      level: info[0].level,
-      logocourse: info[0].logocourse,
-      maxStudent: info[0].maxStudent,
-      minStudent: info[0].minStudent,
-      period: info[0].period,
-      platform: info[0].platform,
-      price: info[0].price,
-      startDate: info[0].startDate,
-      status: 'Cancelado',
-      title: info[0].title,
+      id_teacher: info[0].id_teacher,
+      status: "Cancelado",
     },
       {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
-    // setOpenCancelCourse(true);
+    setOpenCancelCourse(false);
+    setOpenCancelSuccess(true);
+    setTimeout(() => {
+      history.push('/perfil');
+    }, 1500)
   }
 
 
@@ -109,9 +104,12 @@ function CursoView() {
     <Container>
       <Header />
       <main className="main">
-        <Grid container justifyContent="center" className="title">
+        <Grid container justifyContent="center" className="title" alignItems="center">
           <ArrowBackIcon onClick={() => history.goBack()} style={{ cursor: 'pointer' }} fontSize="large" />
-          {info[0].title}
+          <span style={{ display: 'flex', gap: '0.5em' }}>
+            {info[0].title}
+            {isCanceled && <p style={{ color: "red", fontStyle: "italic", fontWeight: 400 }}>(cancelado)</p>}
+          </span>
         </Grid>
         <Section>
           <Grid container direction="column" alignItems="center">
@@ -124,6 +122,7 @@ function CursoView() {
                   <div style={{ minHeight: '65%', height: '65%' }}>
                     <span className="courseDesc">
                       <p>Descrição do curso</p>
+                      {isCanceled && <p className="canceled">Este curso foi cancelado. Todos os alunos que o haviam comprado foram reembolsados com créditos.</p>}
                       <p>{info[0].description}</p>
                     </span>
                   </div>
@@ -156,25 +155,31 @@ function CursoView() {
                   {
                     info[0].teacher.id_teacher === localStorage.getItem('idUser') &&
                     <Grid item md={4}>
-                      <Button color="secondary" variant="contained" className="actionButtons" onClick={handleCancelCourse}>Cancelar curso</Button>
+                      <Button disabled={isCanceled} color="secondary" variant="contained" className="actionButtons" onClick={() => setOpenCancelCourse(true)}>Cancelar curso</Button>
                     </Grid>
                   }
-                  <Grid item md={4}>
-                    <Button color="primary" variant="contained" className="actionButtons" onClick={() => {
-                      setOpen(true);
-                      let cart = CartContext._currentValue;
-                      cart.push(info[0]);
-                    }
-                    }>Adicionar ao carrinho</Button>
-                  </Grid>
-                  <Grid item md={4}>
-                    <Button color="primary" variant="contained" className="actionButtons" onClick={() => {
-                      setOpen(true);
-                      let cart = CartContext._currentValue;
-                      cart.push(info[0]);
-                    }
-                    }>Finalizar Compra</Button>
-                  </Grid>
+                  {
+                    !isCanceled &&
+                    <Grid item md={4}>
+                      <Button color="primary" variant="contained" className="actionButtons" onClick={() => {
+                        setOpen(true);
+                        let cart = CartContext._currentValue;
+                        cart.push(info[0]);
+                      }
+                      }>Adicionar ao carrinho</Button>
+                    </Grid>
+                  }
+                  {
+                    !isCanceled &&
+                    <Grid item md={4}>
+                      <Button color="primary" variant="contained" className="actionButtons" onClick={() => {
+                        setOpen(true);
+                        let cart = CartContext._currentValue;
+                        cart.push(info[0]);
+                      }
+                      }>Finalizar Compra</Button>
+                    </Grid>
+                  }
                 </Grid>
               </Grid>
             </Grid>
@@ -265,6 +270,31 @@ function CursoView() {
         onClose={() => setOpenSnack(false)}
         message="Feedback salvo!"
       />
+      <Snackbar
+        open={openCancelSuccess}
+        autoHideDuration={1500}
+        onClose={() => setOpenCancelSuccess(false)}
+        message="Curso cancelado com sucesso!"
+      />
+      <Dialog
+        open={openCancelCourse}
+        onClose={() => setOpenCancelCourse(false)}
+      >
+        <DialogTitle>
+          Deseja mesmo Cancelar o curso?
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Tem certeza de que deseja cancelar o curso? Ao cancelar o curso, todos os alunos que estiverem inscritos no curso serão desinscritos e receberão créditos em compensação.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button variant="outlined" onClick={() => setOpenCancelCourse(false)}>Cancelar</Button>
+          <Button color="primary" onClick={handleCancelCourse} autoFocus>
+            Confirmar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Container >
   );
 }

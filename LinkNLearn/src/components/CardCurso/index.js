@@ -13,6 +13,7 @@ function CardCurso(props) {
 
   const [thumb, setThumb] = useState(Placeholder);
   const [grade, setGrade] = useState(0);
+  const [isCanceled, setIsCanceled] = useState(props.info.status === 'Cancelado' ? true : false);
 
   function handleView() {
     history.push({ pathname: `/curso/${props.info.title}-${props.info.id_course}`, state: { info: props.info } });
@@ -52,7 +53,10 @@ function CardCurso(props) {
           <Grid container spacing={4}>
             <Grid item container md={8} alignItems="baseline">
               <Grid item container direction="column">
-                <h1>{props.info.title}</h1>
+                <span style={{ marginTop: 0, gap: '.2em' }}>
+                  <h1>{props.info.title}</h1>
+                  {isCanceled && <p style={{ color: 'red', fontStyle: 'italic' }}>(cancelado)</p>}
+                </span>
                 <p>{props.info.resumo}</p>
                 <p className="professor">{props.info.teacher.name}</p>
               </Grid>
