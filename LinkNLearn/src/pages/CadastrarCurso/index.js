@@ -72,6 +72,9 @@ function CadastrarCurso() {
         }).catch(err => { alert('Houve um erro no upload de imagem. Verifique se ela é do formato .jpeg.') })
 
         setOpenSnack(true);
+        setTimeout(() => {
+          history.push('/perfil');
+        }, 500)
       }
       catch (err) {
         alert('Houve um erro. Tente novamente mais tarde.');
