@@ -17,6 +17,7 @@ function Perfil() {
   const [plano, setPlano] = useState([]);
   const [planoEscolhido, setPlanoEscolhido] = useState({});
   const [courses, setCourses] = useState();
+  const [credits, setCredits] = useState(0);
 
   function handleLogout() {
     localStorage.removeItem('idUser');
@@ -52,8 +53,18 @@ function Perfil() {
     }
   }
 
+  async function loadCredits() {
+    const creditsResponse = await axios.post(`${process.env.REACT_APP_URL}/student/getById`, {
+      id_student: localStorage.getItem('idUser')
+    }, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+    });
+    setCredits(creditsResponse.data[0].credit);
+  }
+
   useEffect(() => {
-    loadPlanos();
+    localStorage.getItem('type') === 'professor' && loadPlanos();
+    localStorage.getItem('type') === 'aluno' && loadCredits();
     loadCourses();
   }, [])
 
@@ -83,16 +94,24 @@ function Perfil() {
             </header>
             <Section>
               <Grid container className="cursos" direction="column">
+                <h1 className="title">Meus Créditos</h1>
+                <h2 className="subtitle" style={{ fontSize: '1.7em' }}>{credits}</h2>
+              </Grid>
+              <Grid container className="cursos" direction="column">
                 <h1 className="title">Meus Cursos</h1>
-                <Grid item container className="box" spacing={3}>
-                  {courses !== undefined &&
-                    courses.map(course => (
-                      <Grid item key={course.course.id_course} className="card">
-                        <CardCurso info={course.course} />
-                      </Grid>
-                    ))
-                  }
-                </Grid>
+                {courses !== undefined && courses.length >= 1 ?
+                  <Grid item container className="box" spacing={3}>
+                    {
+                      courses.map(course => (
+                        <Grid item key={course.course.id_course} className="card">
+                          <CardCurso info={course.course} />
+                        </Grid>
+                      ))
+                    }
+                  </Grid>
+                  :
+                  <h2 className="subtitle">Nenhum curso encontrado</h2>
+                }
               </Grid>
             </Section>
           </main>
@@ -116,7 +135,7 @@ function Perfil() {
                     </Card>
                   </Grid>
                 </Grid>
-                {courses && courses !== undefined &&
+                {courses && courses !== undefined && courses.length >= 1 ?
                   <>
                     <h1 className="title">Meus cursos</h1>
                     <Grid item container className="box" spacing={3}>
@@ -129,6 +148,8 @@ function Perfil() {
                       }
                     </Grid>
                   </>
+                  :
+                  <h2 className="subtitle">Nenhum curso encontrado</h2>
                 }
               </Grid>
             </Section>

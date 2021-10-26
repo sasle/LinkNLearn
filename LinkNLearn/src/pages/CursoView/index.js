@@ -27,7 +27,6 @@ function CursoView() {
   const [feedbacks, setFeedbacks] = useState([]);
   const [thumb, setThumb] = useState(Placeholder);
 
-
   const [feedbackText, setFeedbackText] = useState('');
   const [classificacao, setClassificacao] = useState();
   const [grade, setGrade] = useState(0);
@@ -76,6 +75,33 @@ function CursoView() {
     loadFeedbacks();
     setOpenFeedback(false);
     setOpenSnack(true);
+  }
+
+  console.log(info[0].status)
+  //TODO nao ta atualizando status...
+
+  async function handleCancelCourse() {
+    await axios.put(`${process.env.REACT_APP_URL}/courses/update`, {
+      classDate: info[0].classDate,
+      description: info[0].description,
+      finishDate: info[0].finishDate,
+      hours: info[0].hours,
+      id_course: info[0].id_course,
+      level: info[0].level,
+      logocourse: info[0].logocourse,
+      maxStudent: info[0].maxStudent,
+      minStudent: info[0].minStudent,
+      period: info[0].period,
+      platform: info[0].platform,
+      price: info[0].price,
+      startDate: info[0].startDate,
+      status: 'Cancelado',
+      title: info[0].title,
+    },
+      {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+    // setOpenCancelCourse(true);
   }
 
 
@@ -127,7 +153,13 @@ function CursoView() {
                   </Grid>
                 </Grid>
                 <Grid item container md={9} spacing={5} justifyContent="space-evenly">
-                  <Grid item>
+                  {
+                    info[0].teacher.id_teacher === localStorage.getItem('idUser') &&
+                    <Grid item md={4}>
+                      <Button color="secondary" variant="contained" className="actionButtons" onClick={handleCancelCourse}>Cancelar curso</Button>
+                    </Grid>
+                  }
+                  <Grid item md={4}>
                     <Button color="primary" variant="contained" className="actionButtons" onClick={() => {
                       setOpen(true);
                       let cart = CartContext._currentValue;
@@ -135,7 +167,7 @@ function CursoView() {
                     }
                     }>Adicionar ao carrinho</Button>
                   </Grid>
-                  <Grid item>
+                  <Grid item md={4}>
                     <Button color="primary" variant="contained" className="actionButtons" onClick={() => {
                       setOpen(true);
                       let cart = CartContext._currentValue;
@@ -233,7 +265,7 @@ function CursoView() {
         onClose={() => setOpenSnack(false)}
         message="Feedback salvo!"
       />
-    </Container>
+    </Container >
   );
 }
 

@@ -39,6 +39,12 @@ export const Section = styled.section`
             color: #4c86d3;
         }
 
+        .subtitle {
+            text-align: center;
+            font-weight: 400;
+            font-size: 1.2em;
+        }
+
         .box {
             overflow: auto;
             max-height: 50vh;
