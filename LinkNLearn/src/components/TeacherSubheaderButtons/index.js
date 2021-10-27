@@ -7,6 +7,27 @@ function TeacherSubheaderButtons() {
     const history = useHistory();
 
     const [courses, setCourses] = useState();
+    const [planoEscolhido, setPlanoEscolhido] = useState({});
+
+
+    var maxCourses = 0;
+
+    if (planoEscolhido.title === 'Plano Gratuito') {
+        maxCourses = 1;
+    } else if (planoEscolhido.title === 'Plano Intermediário') {
+        maxCourses = 2;
+    } else {
+        maxCourses = 5;
+    }
+
+    async function loadPlanos() {
+        const selectedPlan = await axios.post(`${process.env.REACT_APP_URL}/teacher/getById`, {
+            userId: localStorage.getItem('idUser')
+        }, {
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        })
+        setPlanoEscolhido(selectedPlan.data[0].plan);
+    }
 
 
     async function loadCourses() {
@@ -19,6 +40,7 @@ function TeacherSubheaderButtons() {
     }
 
     useEffect(() => {
+        loadPlanos();
         loadCourses();
     }, [])
 
@@ -45,10 +67,10 @@ function TeacherSubheaderButtons() {
                     <Button color="primary" variant="contained">Meus cursos</Button>
                 </Link>
             </Grid>
-            <Tooltip title={courses && courses.length >= 1 ? "Você já esgotou sua quantidade de cursos. Contrate um novo plano ou entre em contato com nossa equipe para mais informações." : ""}>
+            <Tooltip title={courses && courses.length >= maxCourses ? "Você já esgotou sua quantidade de cursos. Contrate um novo plano ou entre em contato com nossa equipe para mais informações." : ""}>
                 <Grid item>
-                    <Link to={courses && courses.length < 1 ? '/cadastrar-curso' : '#'}>
-                        <Button color="primary" variant="contained" disabled={courses && courses.length >= 1}>Cadastrar curso</Button>
+                    <Link to={courses && courses.length < maxCourses ? '/cadastrar-curso' : '#'}>
+                        <Button color="primary" variant="contained" disabled={courses && courses.length >= maxCourses}>Cadastrar curso</Button>
                     </Link>
                 </Grid>
             </Tooltip>

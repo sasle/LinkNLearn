@@ -14,8 +14,10 @@ function Perfil() {
 
   const history = useHistory();
   const [open, setOpen] = useState(false);
-  const [plano, setPlano] = useState([]);
+  const [teacher, setTeacher] = useState({});
+  const [allPlans, setAllPlans] = useState([]);
   const [planoEscolhido, setPlanoEscolhido] = useState({});
+  const [planoSelecionado, setPlanoSelecionado] = useState({});
   const [courses, setCourses] = useState();
   const [credits, setCredits] = useState(0);
 
@@ -27,12 +29,17 @@ function Perfil() {
   }
 
   async function loadPlanos() {
-    const planosResponse = await axios.post(`${process.env.REACT_APP_URL}/teacher/getById`, {
-      userId: localStorage.getItem('idUser')
-    }, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-    });
-    setPlano(planosResponse.data[0].plan);
+    const [allPlans, selectedPlan] = await Promise.all([
+      await axios.get(`${process.env.REACT_APP_URL}/plan/listAll`),
+      await axios.post(`${process.env.REACT_APP_URL}/teacher/getById`, {
+        userId: localStorage.getItem('idUser')
+      }, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      })
+    ]);
+    setAllPlans(allPlans.data);
+    setTeacher(selectedPlan.data[0]);
+    setPlanoEscolhido(selectedPlan.data[0].plan);
   }
 
   async function loadCourses() {
@@ -67,6 +74,15 @@ function Perfil() {
     localStorage.getItem('type') === 'aluno' && loadCredits();
     loadCourses();
   }, [])
+
+  async function handleChangePlan() {
+    await axios.put(`${process.env.REACT_APP_URL}/teacher/update-plan`, {
+      plan: planoSelecionado.id_plan,
+    }, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+    });
+    window.location.reload();
+  }
 
   return (
     <Container>
@@ -125,15 +141,24 @@ function Perfil() {
               <Grid container className="cursos" direction="column">
                 <h1 className="title">Meu plano</h1>
                 <Grid item container justifyContent="center" spacing={3} className="plansGrid">
-                  <Grid key={plano.id_plan} item md={4}>
-                    <Card variant="outlined">
-                      <CardContent>
-                        <h1>{plano.title}</h1>
-                        <h3>R${plano.price}</h3>
-                        <p>{plano.description}</p>
-                      </CardContent>
-                    </Card>
-                  </Grid>
+                  {
+                    allPlans.map(plan => (
+                      <Grid key={plan.id_plan} item md={4}>
+                        <Card variant="outlined" style={{ backgroundColor: plan.id_plan === planoEscolhido.id_plan ? '#cce2ff' : 'white', cursor: plan.id_plan === planoEscolhido.id_plan ? "auto" : "pointer" }} onClick={() => {
+                          if (plan.id_plan !== planoEscolhido.id_plan) {
+                            setPlanoSelecionado(plan);
+                            setOpen(true);
+                          }
+                        }}>
+                          <CardContent>
+                            <h1>{plan.title}</h1>
+                            <h3>R${plan.price}</h3>
+                            <p>{plan.description}</p>
+                          </CardContent>
+                        </Card>
+                      </Grid>
+                    ))
+                  }
                 </Grid>
                 {courses && courses !== undefined && courses.length >= 1 ?
                   <>
@@ -165,9 +190,9 @@ function Perfil() {
         </DialogTitle>
         <DialogContent style={{ textAlign: 'center', paddingBottom: '3em' }}>
           <h1 style={{ fontSize: '1.5em', color: '#4c86d3', padding: '2em 0', fontWeight: 700 }}>
-            Confirmação de compra do plano {planoEscolhido.title}
+            Confirmação de compra do plano {planoSelecionado.title}
           </h1>
-          <Button color="primary" variant="contained" onClick={() => setOpen(false)} style={{ width: '25%' }}>Comprar</Button>
+          <Button color="primary" variant="contained" onClick={handleChangePlan} style={{ width: '25%' }}>Comprar</Button>
         </DialogContent>
       </Dialog>
     </Container >
