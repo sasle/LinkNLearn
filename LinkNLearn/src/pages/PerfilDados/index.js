@@ -229,7 +229,23 @@ function PerfilDados() {
                   </Grid>
                   <Grid container spacing={5} className="grid">
                     <Grid item>
-                      <TextField label="Nível de Educação" defaultValue={educationLevel} onChange={e => setEducationLevel(e.target.value)} />
+                      <FormControl>
+                        <InputLabel>Nível de Educação</InputLabel>
+                        <Select
+                          native
+                          value={educationLevel}
+                          onChange={e => setEducationLevel(e.target.value)}
+                        >
+                          <option aria-label="None" value="" />
+                          <option value="Ensino Fundamental Incompleto">Ensino Fundamental Incompleto</option>
+                          <option value="Ensino Fundamental Completo">Ensino Fundamental Completo</option>
+                          <option value="Ensino Médio Incompleto">Ensino Médio Incompleto</option>
+                          <option value="Ensino Médio Completo">Ensino Médio Completo</option>
+                          <option value="Ensino Superior Incompleto">Ensino Superior Incompleto</option>
+                          <option value="Ensino Superior Completo">Ensino Superior Completo</option>
+                          <option value="Pós-Graduação">Pós-Graduação</option>
+                        </Select>
+                      </FormControl>
                     </Grid>
                     <Grid item>
                       <TextField label="CPF" defaultValue={cpf} onChange={e => setCpf(e.target.value)} />
