@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { CartContext } from '../../context/CartContext';
 import axios from 'axios';
 import { Link, useHistory } from 'react-router-dom';
 import Logo from '../../assets/images/logo.png';
@@ -19,7 +18,7 @@ import { Alert } from '@material-ui/lab';
 function Header() {
   const history = useHistory();
 
-  const cart = CartContext._currentValue;
+  const [cart, setCart] = useState([]);
 
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -55,12 +54,14 @@ function Header() {
     e.preventDefault();
 
     if (forgot) {
+      setLoading(true);
       try {
         await axios.post(`${process.env.REACT_APP_URL}/student/forgot-password`, {
           email: email,
         });
         setSnackBarMessage('Enviamos um email com instruções para recuperar sua senha.');
         setSnackBarSeverity('success');
+        setLoading(false);
         setForgot(false);
         setOpenSnackBar(true);
       } catch {
@@ -190,8 +191,18 @@ function Header() {
     }).catch(err => { });
   }
 
+  async function loadCart() {
+    const cartResponse = await axios.post(`${process.env.REACT_APP_URL}/course/buy/listAll`, {
+      userId: localStorage.getItem('idUser')
+    }, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+    })
+
+    setCart(cartResponse.data.courses);
+  }
 
   useEffect(() => {
+    loadCart();
     loadAvatar();
   }, []);
 

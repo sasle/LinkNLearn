@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Section } from './style.js';
-import { CartContext } from '../../context/CartContext';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 
@@ -10,23 +9,46 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import CardCurso from '../../components/CardCurso/index.js';
+import axios from 'axios';
 
 
 function Carrinho(props) {
   const history = useHistory();
 
   const [open, setOpen] = useState(false);
-  const [cart, setCart] = useState([CartContext._currentValue]);
+  const [cart, setCart] = useState([]);
+  const [purchase, setPurchase] = useState('');
+  const [price, setPrice] = useState(0);
 
-  var price = 0;
-  cart[0].map(item => {
-    price += parseFloat(item.price);
-  })
-
-  function handleFinish() {
-    //gerar boleto etc.
+  async function handleFinish() {
+    await axios.put(`${process.env.REACT_APP_URL}/course/buy/finish`, {
+      userId: localStorage.getItem('idUser'),
+      purchase: purchase[0].id_purchase
+    }, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+    })
     setOpen(true);
   }
+
+  async function loadCart() {
+    const cartResponse = await axios.post(`${process.env.REACT_APP_URL}/course/buy/listAll`, {
+      userId: localStorage.getItem('idUser')
+    }, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+    })
+    setPurchase(cartResponse.data.purchases);
+    setCart(cartResponse.data.courses);
+    var total = 0;
+    cartResponse.data.courses.map(item => {
+      total += parseFloat(item.price);
+    })
+    setPrice(total);
+  }
+
+  useEffect(() => {
+    loadCart();
+  }, []);
+
 
   return (
     <Container>
@@ -38,20 +60,20 @@ function Carrinho(props) {
         </Grid>
         <Section>
           {
-            cart[0].length === 0 && <p style={{ fontWeight: 700, color: "#4c86d3", textAlign: 'center', fontSize: 'larger', marginTop: '10%' }}>Não há nenhum curso no carrinho ainda.</p>
+            cart.length === 0 && <p style={{ fontWeight: 700, color: "#4c86d3", textAlign: 'center', fontSize: 'larger', marginTop: '10%' }}>Não há nenhum curso no carrinho ainda.</p>
           }
-          {cart[0].length > 0 &&
+          {cart.length > 0 &&
             <>
               <Grid container className="box">
                 <Grid item container direction="column" spacing={3}>
                   {
-                    cart[0].map(item => (
+                    cart.map(item => (
                       <Grid item container alignItems="center" spacing={5}>
                         <Grid item md={2} style={{ textAlign: 'center' }}>
-                          <Button color="secondary" variant="contained" onClick={() => {
+                          {/* <Button color="secondary" variant="contained" onClick={() => {
                             cart[0].splice(cart[0].findIndex(x => x.id_course === item.id_course), 1);
-                            setCart([CartContext._currentValue])
-                          }}><DeleteIcon />Remover</Button>
+                            // setCart([CartContext._currentValue])
+                          }}><DeleteIcon />Remover</Button> */}
                         </Grid>
                         <Grid item md={10}>
                           <CardCurso info={item} />
@@ -78,7 +100,7 @@ function Carrinho(props) {
         <DialogContent style={{ textAlign: 'center', paddingBottom: '3em' }}>
           <h1 style={{ width: '50%', fontSize: '1.5em', color: '#4c86d3', margin: '0 auto', padding: '2em 0' }}>
             Pedido realizado com sucesso!
-            Em poucos minutos você receberá o boleto por e-mail para finalização da compra.
+            Você receberá um e-mail com os detalhes do pedido. Boa sorte!
           </h1>
           <Link to='/'>
             <Button color="primary" variant="contained">Voltar para tela inicial</Button>

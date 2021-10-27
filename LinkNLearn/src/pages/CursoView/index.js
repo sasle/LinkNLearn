@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { CartContext } from '../../context/CartContext';
 import { Container, Section } from './style.js';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
@@ -80,9 +79,6 @@ function CursoView() {
     setOpenSnack(true);
   }
 
-  console.log(info[0]);
-  //TODO nao ta atualizando status...
-
   async function handleCancelCourse() {
     await axios.put(`${process.env.REACT_APP_URL}/courses/update`, {
       id_course: info[0].id_course,
@@ -96,6 +92,19 @@ function CursoView() {
     setOpenCancelSuccess(true);
     setTimeout(() => {
       history.push('/perfil');
+    }, 1500)
+  }
+
+  async function handleInsertInCart() {
+    await axios.post(`${process.env.REACT_APP_URL}/course/buy/create-cart`, {
+      course: info[0].id_course,
+    },
+      {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+    setOpen(true);
+    setTimeout(() => {
+      history.push('/carrinho');
     }, 1500)
   }
 
@@ -163,23 +172,13 @@ function CursoView() {
                   {
                     !isCanceled &&
                     <Grid item md={4}>
-                      <Button color="primary" variant="contained" className="actionButtons" onClick={() => {
-                        setOpen(true);
-                        let cart = CartContext._currentValue;
-                        cart.push(info[0]);
-                      }
-                      }>Adicionar ao carrinho</Button>
+                      <Button color="primary" variant="contained" className="actionButtons" onClick={handleInsertInCart}>Adicionar ao carrinho</Button>
                     </Grid>
                   }
                   {
                     !isCanceled &&
                     <Grid item md={4}>
-                      <Button color="primary" variant="contained" className="actionButtons" onClick={() => {
-                        setOpen(true);
-                        let cart = CartContext._currentValue;
-                        cart.push(info[0]);
-                      }
-                      }>Finalizar Compra</Button>
+                      <Button color="primary" variant="contained" className="actionButtons" onClick={handleInsertInCart}>Finalizar Compra</Button>
                     </Grid>
                   }
                 </Grid>
