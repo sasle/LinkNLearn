@@ -26,41 +26,17 @@ function Home() {
   const [snackBar, setSnackBar] = useState((location.state && location.state.snackbar) || false);
 
   const [cursos, setCursos] = useState([]);
+  const [categorias, setCategorias] = useState([]);
 
   async function loadCursos() {
     const cursosResponse = await axios.get(`${process.env.REACT_APP_URL}/courses/listAll`);
     setCursos(cursosResponse.data);
   }
 
-  var categorias = [
-    {
-      titulo: "Frontend",
-    },
-    {
-      titulo: "UX",
-    },
-    {
-      titulo: "Mobile",
-    },
-    {
-      titulo: "Backend",
-    },
-    {
-      titulo: "Frontend",
-    },
-    {
-      titulo: "UX",
-    },
-    {
-      titulo: "Backend",
-    },
-    {
-      titulo: "Backend",
-    },
-    {
-      titulo: "Backend",
-    }
-  ]
+  async function loadCategorias() {
+    const categoriasResponse = await axios.get(`${process.env.REACT_APP_URL}/category/listAll`);
+    setCategorias(categoriasResponse.data);
+  }
 
   const dupla = cursos.reduce(function (rows, key, index) {
     return (index % 2 === 0 ? rows.push([key])
@@ -74,6 +50,7 @@ function Home() {
 
   useEffect(() => {
     loadCursos();
+    loadCategorias();
   }, [])
 
   return (
@@ -151,12 +128,12 @@ function Home() {
               dupla.map((arrayDupla, i) => <CarouselItemCurso key={i} dupla={arrayDupla} />)
             }
           </Carousel>
-          <h1 className="headerPrincipaisCategorias">Principais Categorias</h1>
+          {/* <h1 className="headerPrincipaisCategorias">Principais Categorias</h1>
           <Carousel indicators={false} navButtonsAlwaysVisible>
             {
               quarteto.map((arrayQuarteto, i) => <CarouselItemCategoriaUmaLinha key={i} categorias={arrayQuarteto} />)
             }
-          </Carousel>
+          </Carousel> */}
           <h1 className="headerPrincipaisCategorias">Formas de pagamento</h1>
           <div className="boleto">
             <img src={Boleto} alt="Boleto" />

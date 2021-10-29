@@ -13,6 +13,7 @@ import axios from 'axios';
 function NossosCursos() {
 
   const [cursos, setCursos] = useState([]);
+  // const [categorias, setCategorias] = useState([]);
 
   async function loadCursos() {
     const cursosResponse = await axios.get(`${process.env.REACT_APP_URL}/courses/listAll`);
@@ -24,43 +25,19 @@ function NossosCursos() {
       : rows[rows.length - 1].push(key)) && rows;
   }, []);
 
-  var categorias = [
-    {
-      titulo: "Frontend",
-    },
-    {
-      titulo: "UX",
-    },
-    {
-      titulo: "Mobile",
-    },
-    {
-      titulo: "Backend",
-    },
-    {
-      titulo: "Frontend",
-    },
-    {
-      titulo: "UX",
-    },
-    {
-      titulo: "Backend",
-    },
-    {
-      titulo: "Backend",
-    },
-    {
-      titulo: "Backend",
-    }
-  ];
+  // async function loadCategorias() {
+  //   const categoriasResponse = await axios.get(`${process.env.REACT_APP_URL}/category/listAll`);
+  //   setCategorias(categoriasResponse.data);
+  // }
 
-  const octeto = categorias.reduce(function (rows, key, index) {
-    return (index % 8 === 0 ? rows.push([key])
-      : rows[rows.length - 1].push(key)) && rows;
-  }, []);
+  // const octeto = categorias.reduce(function (rows, key, index) {
+  //   return (index % 8 === 0 ? rows.push([key])
+  //     : rows[rows.length - 1].push(key)) && rows;
+  // }, []);
 
   useEffect(() => {
     loadCursos();
+    // loadCategorias();
   }, [])
 
   return (
@@ -75,7 +52,7 @@ function NossosCursos() {
               dupla.map((arrayDupla, i) => <CarouselItemCurso key={i} dupla={arrayDupla} />)
             }
           </Carousel>
-          <h2 className="subtitle">Categorias</h2>
+          {/* <h2 className="subtitle">Categorias</h2>
           <div className="selecioneContainer">
             <h3 className="selecione">Selecione uma categoria e encontre os melhores cursos</h3>
           </div>
@@ -83,7 +60,7 @@ function NossosCursos() {
             {
               octeto.map((arrayOcteto, i) => <CarouselItemCategoriaDuasLinhas key={i} categorias={arrayOcteto} />)
             }
-          </Carousel>
+          </Carousel> */}
         </Section>
       </main>
       <Footer />
