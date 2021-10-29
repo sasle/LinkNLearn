@@ -153,7 +153,7 @@ function CursoView() {
                     <Grid item>
                       <span className="professorInfo">
                         <p>Professor(a):</p>
-                        <Link to={`/professor/${info[0].teacher.id_teacher}`}>
+                        <Link to={{ pathname: `/professor/${info[0].teacher.id_teacher}`, state: { info: info[0] } }}>
                           <p>{info[0].teacher.name} {info[0].teacher.last_name}</p>
                         </Link>
                       </span>

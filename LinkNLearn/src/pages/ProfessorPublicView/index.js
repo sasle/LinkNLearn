@@ -15,37 +15,22 @@ import axios from 'axios';
 function ProfessorPublicView() {
   const history = useHistory();
 
-  const params = useParams();
-
-  const [info, setInfo] = useState();
+  const [info] = useState(history.location.state.info);
   const [courses, setCourses] = useState();
   const [avatar, setAvatar] = useState(Placeholder);
 
-  const loadProfile = useCallback(async () => {
-    const profileResponse = await axios.post(`${process.env.REACT_APP_URL}/teacher/getById`, {
-      id_teacher: params.id
-    }, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-    });
-    setInfo(profileResponse.data);
-  }, [params.id]);
-
   const loadCourses = useCallback(async () => {
     const coursesResponse = await axios.post(`${process.env.REACT_APP_URL}/teacher/courses`, {
-      teacher: params.id
+      teacher: info.teacher.id_teacher
     }, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     });
-    coursesResponse.data.map(course => {
-      course.teacher = (info && info[0]) ? info[0] : {};
-      return course;
-    });
     setCourses(coursesResponse.data);
-  }, [params.id, info]);
+  }, [info]);
 
   async function loadAvatar() {
-    if (info && info[0]) {
-      const config = { headers: { userid: info[0].id_teacher } };
+    if (info) {
+      const config = { headers: { userid: info.teacher.id_teacher } };
       await axios.get(`${process.env.REACT_APP_URL}/user/upload/avatar`, config).then(res => {
         setAvatar(res.data)
       }).catch(err => { });
@@ -54,10 +39,9 @@ function ProfessorPublicView() {
 
 
   useEffect(() => {
-    loadProfile();
     loadCourses();
     loadAvatar();
-  }, [loadProfile, loadCourses]);
+  }, []);
 
 
   return (
@@ -66,7 +50,7 @@ function ProfessorPublicView() {
       <main className="main">
         <Grid container justifyContent="center" className="title">
           <ArrowBackIcon onClick={() => history.goBack()} style={{ cursor: 'pointer' }} fontSize="large" />
-          <h1>Perfil de {info && info[0].name} {info && info[0].last_name}</h1>
+          <h1>Perfil de {info && info.teacher.name} {info && info.teacher.last_name}</h1>
         </Grid>
         <Section>
           <Grid container justifyContent="center">
@@ -75,19 +59,19 @@ function ProfessorPublicView() {
           <Grid container className="box" direction="column">
             <h1>Informações do professor:</h1>
             <span>
-              <p>Nome: {info && info[0].name} {info && info[0].last_name}</p>
+              <p>Nome: {info && info.teacher.name} {info && info.teacher.last_name}</p>
               <p style={{ marginTop: '1em' }}>Sobre:</p>
-              <p style={{ lineBreak: 'anywhere', fontWeight: 500 }}>{(info && info[0].biography) || '-'}</p>
+              <p style={{ lineBreak: 'anywhere', fontWeight: 500 }}>{(info && info.teacher.biography) || '-'}</p>
             </span>
           </Grid>
           <Grid container className="contact">
             <Grid item md={6} container direction="column" alignItems="center">
               <h3>Email</h3>
-              <p>{(info && info[0].email) || '-'}</p>
+              <p>{(info && info.teacher.email) || '-'}</p>
             </Grid>
             <Grid item md={6} container direction="column" alignItems="center">
               <h3>Linkedin</h3>
-              <a href={(info && info[0].linkedin) || '#'} target="_blank" rel="noopener noreferrer">{(info && info[0].linkedin) || '-'}</a>
+              <a href={(info && info.teacher.linkedin) || '#'} target="_blank" rel="noopener noreferrer">{(info && info.teacher.linkedin) || '-'}</a>
             </Grid>
           </Grid>
           <Grid container className="cursos" direction="column">

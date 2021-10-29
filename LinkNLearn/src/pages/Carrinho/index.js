@@ -45,6 +45,15 @@ function Carrinho(props) {
     setPrice(total);
   }
 
+  async function handleRemoveFromCart(id_course) {
+    await axios.delete(`${process.env.REACT_APP_URL}/course/buy/delete-item`, {
+      id_course: id_course
+    }, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+    })
+    loadCart();
+  }
+
   useEffect(() => {
     loadCart();
   }, []);
@@ -70,10 +79,7 @@ function Carrinho(props) {
                     cart.map(item => (
                       <Grid item container alignItems="center" spacing={5}>
                         <Grid item md={2} style={{ textAlign: 'center' }}>
-                          {/* <Button color="secondary" variant="contained" onClick={() => {
-                            cart[0].splice(cart[0].findIndex(x => x.id_course === item.id_course), 1);
-                            // setCart([CartContext._currentValue])
-                          }}><DeleteIcon />Remover</Button> */}
+                          <Button color="secondary" variant="contained" onClick={() => handleRemoveFromCart(item.id_course)}><DeleteIcon />Remover</Button>
                         </Grid>
                         <Grid item md={10}>
                           <CardCurso info={item} />

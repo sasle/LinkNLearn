@@ -42,10 +42,7 @@ function Footer() {
               <h2 className="title">Fale conosco</h2>
             </Grid>
             <Grid item>
-              <p>link&amp;learn@hotmail.com</p>
-            </Grid>
-            <Grid item>
-              <p>Telefone: xxxx-xxxx</p>
+              <p>linknlearn@gmail.com</p>
             </Grid>
           </Grid>
         </Grid>

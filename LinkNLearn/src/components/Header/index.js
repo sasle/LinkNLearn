@@ -149,7 +149,7 @@ function Header() {
             portifolio: "",
             contact: "",
             pix: "",
-            plan: "1c2cbebc-5783-4d0e-8772-925459b6df1b"
+            plan: "f4b3affd-0a6c-4e2b-83da-210250b14890"
           }).then(response => {
             setLoading(false);
             localStorage.setItem('token', response.data.token);

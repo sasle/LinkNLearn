@@ -8,8 +8,8 @@ export const Container = styled.div`
     .cardContainer {
         background-color: #FFF000;
         margin: 0 auto;
-        width: 25vw;
-        height: 14vh;
+        width: 35vw;
+        height: 16vh;
     }
 
     .cardContainer:hover {
@@ -17,7 +17,9 @@ export const Container = styled.div`
     }
 
     h1 {
+        width: 100%;
         font-weight: 700;
+        font-size: .8em;
     }
     
     .professor {
