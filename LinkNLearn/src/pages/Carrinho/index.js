@@ -4,7 +4,7 @@ import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 
 import { Link, useHistory } from 'react-router-dom';
-import { Button, Dialog, DialogContent, Grid } from '@material-ui/core';
+import { Button, Dialog, DialogContent, Grid, Snackbar } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import DeleteIcon from '@material-ui/icons/Delete';
 
@@ -16,6 +16,8 @@ function Carrinho(props) {
   const history = useHistory();
 
   const [open, setOpen] = useState(false);
+  const [openSnackDelete, setOpenSnackDelete] = useState(false);
+
   const [cart, setCart] = useState([]);
   const [purchase, setPurchase] = useState('');
   const [price, setPrice] = useState(0);
@@ -46,12 +48,15 @@ function Carrinho(props) {
   }
 
   async function handleRemoveFromCart(id_course) {
-    await axios.delete(`${process.env.REACT_APP_URL}/course/buy/delete-item`, {
+    await axios.post(`${process.env.REACT_APP_URL}/course/buy/delete-item`, {
       id_course: id_course
     }, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     })
-    loadCart();
+    setOpenSnackDelete(true);
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000)
   }
 
   useEffect(() => {
@@ -113,6 +118,12 @@ function Carrinho(props) {
           </Link>
         </DialogContent>
       </Dialog>
+      <Snackbar
+        open={openSnackDelete}
+        autoHideDuration={1000}
+        onClose={() => setOpenSnackDelete(false)}
+        message="Curso removido do carrinho com sucesso!"
+      />
     </Container >
   );
 }

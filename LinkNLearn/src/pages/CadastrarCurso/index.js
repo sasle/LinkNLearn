@@ -105,13 +105,17 @@ function CadastrarCurso() {
               <img src={src || logoCourse || Placeholder} alt="foto de perfil" />
             </div>
           </Grid>
-          <Grid container className="grid">
+          <Grid container className="grid" direction="column" alignItems="center" spacing={5}>
             <label>
               <input type="file" accept="image/jpeg" style={{ display: 'none' }} onChange={handleImageChange} />
               <Button variant="contained" component="span" color="primary">
                 Escolher Foto
               </Button>
             </label>
+            <Grid item direction="column">
+              <p>Guia para criar um curso</p>
+              <Button color="primary" className="endButtons" variant="contained" onClick={() => { setOpenGuia(true) }}>Ler guia</Button>
+            </Grid>
           </Grid>
           <form onSubmit={postCurso}>
             <Grid container spacing={5} className="grid">
@@ -228,10 +232,6 @@ function CadastrarCurso() {
               </Grid>
             </Grid>
             <Grid container spacing={5} className="grid" alignItems="flex-end" direction="column">
-              <Grid item direction="column">
-                <p>Guia para criar um curso</p>
-                <Button color="primary" className="endButtons" variant="contained" onClick={() => { setOpenGuia(true) }}>Ler guia</Button>
-              </Grid>
               <Grid item>
                 <Button color="primary" className="endButtons" variant="contained" type="submit">Cadastrar curso</Button>
               </Grid>
